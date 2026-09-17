@@ -60,7 +60,13 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess }) {
     try {
       const data = await login(username.trim(), password.trim());
       if (data && data.access_token) {
-        onLoginSuccess && onLoginSuccess(data);
+        const enrichedData = {
+          ...data,
+          district: data.district || (username.includes('lucknow') ? 'Lucknow' : 'Pune'),
+          state: data.state || (username.includes('lucknow') ? 'Uttar Pradesh' : 'Maharashtra'),
+          constituency: data.constituency || `${data.district || (username.includes('lucknow') ? 'Lucknow' : 'Pune')} Lok Sabha`,
+        };
+        onLoginSuccess && onLoginSuccess(enrichedData);
         onClose();
       } else {
         setError('Login failed. Please check your credentials.');

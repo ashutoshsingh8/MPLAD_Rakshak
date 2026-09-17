@@ -44,7 +44,11 @@ import {
 } from '../../mock/mpDashboardData';
 import { getProjects } from '../../services/api';
 
-export default function MPDashboard({ onExitToPublic, onLogout }) {
+export default function MPDashboard({ onExitToPublic, onLogout, currentUser }) {
+  const userDistrict = currentUser?.district || (currentUser?.username?.includes('lucknow') ? 'Lucknow' : 'Pune');
+  const userState = currentUser?.state || (currentUser?.username?.includes('lucknow') ? 'Uttar Pradesh' : 'Maharashtra');
+  const constituencyName = currentUser?.constituency || `${userDistrict} Lok Sabha Constituency`;
+
   const [activeTab, setActiveTab] = useState(() => {
     if (typeof window !== 'undefined') {
       const hash = window.location.hash.replace('#', '');
@@ -578,14 +582,27 @@ export default function MPDashboard({ onExitToPublic, onLogout }) {
             <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="text-lg font-bold text-slate-900 uppercase">
-                    Pune Lok Sabha Constituency GIS Map
+                  <h2 className="text-lg font-bold text-slate-900 uppercase flex items-center gap-2">
+                    <MapPin className="w-5 h-5 text-teal-600" />
+                    <span>{constituencyName} GIS Map</span>
                   </h2>
-                  <p className="text-xs text-slate-500">Geo-tagged infrastructure assets and ground progress markers</p>
+                  <p className="text-xs text-slate-500">
+                    Auto-focused on your elected jurisdiction ({userDistrict}, {userState}) with ground progress markers
+                  </p>
                 </div>
+                <span className="text-xs font-bold px-3 py-1 bg-teal-50 text-teal-800 rounded-full border border-teal-200 flex items-center gap-1.5 shadow-2xs">
+                  <MapPin className="w-3.5 h-3.5 text-teal-600" />
+                  Elected Constituency: {userDistrict}
+                </span>
               </div>
-              <div className="h-96 rounded-xl overflow-hidden border border-slate-200">
-                <GISMapViewer projects={liveProjects} />
+              <div className="h-[520px] rounded-xl overflow-hidden border border-slate-200 shadow-inner">
+                <GISMapViewer
+                  projects={liveProjects}
+                  focusDistrict={userDistrict}
+                  focusState={userState}
+                  userRole="MP"
+                  height="520px"
+                />
               </div>
             </div>
           )}

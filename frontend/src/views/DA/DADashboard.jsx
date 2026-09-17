@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   ChevronDown,
   Clock,
@@ -10,6 +10,7 @@ import {
   Layers,
   ArrowRight,
   Filter,
+  MapPin,
 } from 'lucide-react';
 
 import DAHeader from '../../components/DA/DAHeader';
@@ -21,10 +22,31 @@ import BOQDiffTable from '../../components/DA/BOQDiffTable';
 import EXIFInspectorModal from '../../components/DA/EXIFInspectorModal';
 import CartelizationRadar from '../../components/DA/CartelizationRadar';
 import DuplicateAssetMap from '../../components/DA/DuplicateAssetMap';
+import GISMapViewer from '../../components/GISMapViewer';
 
 import { daUrgentKPIs, daOfficerProfile } from '../../mock/daDashboardData';
+import { getProjects } from '../../services/api';
 
-export default function DADashboard({ onExitToPublic, onLogout }) {
+export default function DADashboard({ onExitToPublic, onLogout, currentUser }) {
+  const userDistrict = currentUser?.district || (currentUser?.username?.includes('lucknow') ? 'Lucknow' : 'Pune');
+  const userState = currentUser?.state || (currentUser?.username?.includes('lucknow') ? 'Uttar Pradesh' : 'Maharashtra');
+
+  const [mapSubTab, setMapSubTab] = useState('gis');
+  const [daProjects, setDaProjects] = useState([]);
+
+  useEffect(() => {
+    loadDaProjects();
+  }, []);
+
+  const loadDaProjects = async () => {
+    try {
+      const res = await getProjects({ page_size: 50 });
+      if (res && res.projects) setDaProjects(res.projects);
+    } catch (e) {
+      console.error('Failed to load DA projects:', e);
+    }
+  };
+
   // Navigation tab state
   const [activeTab, setActiveTab] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -312,9 +334,67 @@ export default function DADashboard({ onExitToPublic, onLogout }) {
               />
             </div>
           ) : activeTab === 'maps' ? (
-            /* Full Local Maps GIS Radar */
+            /* Full Local Maps GIS Radar & District Infrastructure */
             <div className="space-y-6">
-              <DuplicateAssetMap />
+              <div className="bg-white rounded-2xl border border-slate-200 p-6 space-y-4 shadow-xs">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 gap-2">
+                  <div>
+                    <h3 className="text-base font-black uppercase text-slate-900 flex items-center gap-2">
+                      <MapPin className="w-5 h-5 text-teal-600" />
+                      <span>{userDistrict} District Geo-Spatial & Proximity Radar</span>
+                    </h3>
+                    <p className="text-xs text-slate-500">
+                      Auto-zoomed to assigned jurisdiction ({userDistrict}, {userState}) with ground works & 50m statutory buffer check
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="px-3 py-1 rounded-full bg-teal-50 text-teal-800 border border-teal-200 text-xs font-bold shadow-2xs flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-teal-500" />
+                      Assigned District: {userDistrict}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Sub-Tab Selector */}
+                <div className="flex gap-2 border-b border-slate-200 pb-2">
+                  <button
+                    onClick={() => setMapSubTab('gis')}
+                    className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
+                      mapSubTab === 'gis'
+                        ? 'bg-slate-900 text-white shadow-xs'
+                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                    }`}
+                  >
+                    <Layers className="w-3.5 h-3.5" />
+                    <span>District GIS Infrastructure Map</span>
+                  </button>
+                  <button
+                    onClick={() => setMapSubTab('radar')}
+                    className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
+                      mapSubTab === 'radar'
+                        ? 'bg-slate-900 text-white shadow-xs'
+                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                    }`}
+                  >
+                    <AlertTriangle className="w-3.5 h-3.5 text-red-500" />
+                    <span>Duplicate Asset Proximity Radar</span>
+                  </button>
+                </div>
+
+                {mapSubTab === 'gis' ? (
+                  <div className="rounded-xl overflow-hidden border border-slate-200 shadow-inner">
+                    <GISMapViewer
+                      projects={daProjects}
+                      focusDistrict={userDistrict}
+                      focusState={userState}
+                      userRole="DISTRICT_AUTHORITY"
+                      height="540px"
+                    />
+                  </div>
+                ) : (
+                  <DuplicateAssetMap district={userDistrict} />
+                )}
+              </div>
             </div>
           ) : activeTab === 'inspections' ? (
             /* Site Inspections & Photo Verifications Queue */
@@ -373,7 +453,7 @@ export default function DADashboard({ onExitToPublic, onLogout }) {
               {/* Row 3: Live Anomaly Radar (Split View) */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <CartelizationRadar />
-                <DuplicateAssetMap />
+                <DuplicateAssetMap district={userDistrict} />
               </div>
             </div>
           )}

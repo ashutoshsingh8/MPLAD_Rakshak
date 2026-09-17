@@ -53,11 +53,10 @@ export default function Sidebar({ activeTab, onTabChange, alertCount = 3 }) {
             <button
               key={item.id}
               onClick={() => onTabChange(item.id)}
-              className={`w-full flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer text-left ${
-                isActive
+              className={`w-full flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer text-left ${isActive
                   ? 'bg-white/15 text-white shadow-inner font-semibold border-l-4 border-amber-400 pl-3'
                   : 'text-slate-200 hover:text-white hover:bg-white/10'
-              }`}
+                }`}
             >
               <div className="flex items-center gap-3">
                 <Icon className={`w-5 h-5 shrink-0 ${isActive ? 'text-amber-300' : 'text-slate-300'}`} />

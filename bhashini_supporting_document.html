@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MPLAD Rakshak — Bhashini NLTM Integration Proposal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: A4;
+      margin: 16mm 14mm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #ffffff;
+      color: #0f172a;
+      line-height: 1.55;
+      font-size: 13px;
+      padding: 30px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    @media screen {
+      body {
+        background: #f1f5f9;
+        padding: 40px 20px;
+      }
+      .page-container {
+        background: #ffffff;
+        padding: 45px 50px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        border: 1px solid #e2e8f0;
+      }
+    }
+    /* Header Block */
+    .gov-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #0f2e52;
+      padding-bottom: 18px;
+      margin-bottom: 24px;
+    }
+    .gov-title h1 {
+      font-size: 22px;
+      font-weight: 800;
+      color: #0f2e52;
+      text-transform: uppercase;
+      letter-spacing: -0.5px;
+    }
+    .gov-title p {
+      font-size: 12px;
+      font-weight: 600;
+      color: #0d9488;
+      margin-top: 3px;
+    }
+    .badge-box {
+      text-align: right;
+      font-size: 11px;
+      color: #475569;
+    }
+    .badge-box strong {
+      color: #0f172a;
+      display: block;
+      font-size: 12px;
+    }
+    .meta-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 24px;
+      font-size: 11.5px;
+    }
+    .meta-strip div span {
+      display: block;
+      font-size: 10px;
+      color: #64748b;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    .meta-strip div strong {
+      color: #0f2e52;
+      font-size: 12px;
+    }
+    h2 {
+      font-size: 15px;
+      font-weight: 800;
+      color: #0f2e52;
+      text-transform: uppercase;
+      border-left: 4px solid #0d9488;
+      padding-left: 10px;
+      margin-top: 24px;
+      margin-bottom: 12px;
+      letter-spacing: -0.2px;
+    }
+    p {
+      margin-bottom: 10px;
+      color: #334155;
+      text-align: justify;
+    }
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0 20px 0;
+      font-size: 12px;
+    }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    th {
+      background: #0f2e52;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    tr:nth-child(even) {
+      background: #f8fafc;
+    }
+    /* Architecture Diagram Box */
+    .diagram-box {
+      background: #f0fdfa;
+      border: 1px dashed #0d9488;
+      border-radius: 8px;
+      padding: 16px;
+      margin: 16px 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      line-height: 1.6;
+      color: #0f3742;
+    }
+    /* Feature Cards */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin: 16px 0;
+    }
+    .feature-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 14px;
+      background: #ffffff;
+    }
+    .feature-card h3 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #0f2e52;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .feature-card p {
+      font-size: 11.5px;
+      color: #475569;
+      margin-bottom: 0;
+      line-height: 1.45;
+    }
+    .tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #ccfbf1;
+      color: #0f766e;
+      margin-top: 6px;
+    }
+    .callout {
+      background: #eff6ff;
+      border-left: 4px solid #3b82f6;
+      padding: 12px 16px;
+      border-radius: 0 8px 8px 0;
+      margin: 16px 0;
+      font-size: 12px;
+      color: #1e3a8a;
+    }
+    .footer {
+      border-top: 1px solid #e2e8f0;
+      padding-top: 14px;
+      margin-top: 30px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 10.5px;
+      color: #64748b;
+    }
+    @media print {
+      body {
+        padding: 0;
+        background: transparent;
+      }
+      .page-container {
+        padding: 0;
+        border: none;
+        box-shadow: none;
+      }
+      .no-print {
+        display: none !important;
+      }
+    }
+    .print-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #0f2e52;
+      color: #ffffff;
+      border: none;
+      padding: 12px 22px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 14px;
+      box-shadow: 0 8px 20px rgba(15, 46, 82, 0.3);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 100;
+    }
+    .print-btn:hover {
+      background: #0d9488;
+    }
+  </style>
+</head>
+<body>
+
+  <button class="print-btn no-print" onclick="window.print()">
+    🖨️ Download / Save as PDF
+  </button>
+
+  <div class="page-container">
+    <!-- Header -->
+    <div class="gov-banner">
+      <div class="gov-title">
+        <h1>MPLAD RAKSHAK</h1>
+        <p>Bhashini (NLTM) Integration & Technical Use Case Specification</p>
+      </div>
+      <div class="badge-box">
+        <strong>Smart India Hackathon</strong>
+        <span>Problem Statement: 26102</span><br>
+        <span>Ministry of Statistics & PI (MoSPI)</span>
+      </div>
+    </div>
+
+    <!-- Metadata Strip -->
+    <div class="meta-strip">
+      <div>
+        <span>Application Domain</span>
+        <strong>e-Governance & Public Administration</strong>
+      </div>
+      <div>
+        <span>Target Beneficiaries</span>
+        <strong>140 Cr Citizens across 543 LS Constituencies</strong>
+      </div>
+      <div>
+        <span>Bhashini Services</span>
+        <strong>NMT (IndicTrans2), ASR, TTS</strong>
+      </div>
+      <div>
+        <span>Coverage</span>
+        <strong>All 22 Scheduled Indian Languages + RTL</strong>
+      </div>
+    </div>
+
+    <!-- Section 1 -->
+    <h2>1. Executive Summary & Problem Justification</h2>
+    <p>
+      The <strong>Member of Parliament Local Area Development Scheme (MPLADS)</strong> enables MPs to recommend developmental infrastructure projects with annual disbursements exceeding <strong>₹4,000+ Crores</strong>. While intended to fulfill critical grassroots public needs, public scrutiny and social audits are severely restricted because official project records, sanction orders, bills of quantities (BOQ), and statutory guidelines are published almost exclusively in English or standardized Hindi.
+    </p>
+    <p>
+      This creates a stark digital divide: rural citizens and non-Hindi/non-English speaking populations in southern, eastern, northeastern, and rural western constituencies cannot verify how public funds are spent in their own villages. Furthermore, lower literacy rates prevent rural citizens from submitting typed grievances regarding stalled or duplicate infrastructure works.
+    </p>
+    <div class="callout">
+      <strong>Core Objective:</strong> Integrate the <strong>Bhashini National Language Translation Mission (MeitY)</strong> into <strong>MPLAD Rakshak</strong> to democratize civic oversight by delivering real-time, zero-latency access in all <strong>22 Scheduled Indian Languages</strong> alongside voice-first citizen reporting.
+    </div>
+
+    <!-- Section 2 -->
+    <h2>2. Bhashini Services Integration Matrix</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Bhashini Service</th>
+          <th>Underlying AI Engine</th>
+          <th>Implementation in MPLAD Rakshak</th>
+          <th>Citizen & Administrative Impact</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Neural Machine Translation (NMT)</strong></td>
+          <td>IndicTrans2 (Text-to-Text)</td>
+          <td>Dynamic translation of public project titles, implementing agencies, sanctioned costs, progress milestones, and MoSPI statutory rules.</td>
+          <td>Enables citizens across 28 States and 8 UTs to inspect their local civic works in their mother tongue without language barriers.</td>
+        </tr>
+        <tr>
+          <td><strong>Automatic Speech Recognition (ASR)</strong></td>
+          <td>IndicWav2Vec / Whisper Indic (Speech-to-Text)</td>
+          <td>Voice-based citizen grievance and whistleblower intake. Non-literate citizens can speak into their phone to report ghost or substandard works.</td>
+          <td>Allows voice-first reporting in local dialects; auto-transcribes and links complaints to GPS coordinates and project UIDs.</td>
+        </tr>
+        <tr>
+          <td><strong>Text to Speech (TTS)</strong></td>
+          <td>IndicTTS (Speech Synthesis)</td>
+          <td>Voice readouts of project status, fund allocations, entitlement guidelines, and AI compliance assistant answers.</td>
+          <td>Ensures full digital accessibility for visually impaired citizens and rural populations with limited reading literacy.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Section 3 -->
+    <h2>3. System Architecture & Bhashini Data Flow</h2>
+    <div class="diagram-box">
+[Citizen / MP in Regional State] (Hindi, Marathi, Bengali, Tamil, Telugu, Urdu, etc.)
+       │
+       ├── (1. Text UI & Project Data) ──> [Bhashini NMT API (IndicTrans2)] ──> [Localized React Portal]
+       │
+       ├── (2. Spoken Voice Grievance) ──> [Bhashini ASR API] ──> [Transcribed Text + GPS Tag]
+       │                                                                  │
+       │                                                                  ▼
+       │                                                      [FastAPI Anti-Fraud Engine]
+       │                                                      • 500m Duplicate Asset Radar
+       │                                                      • Forensic EXIF Photo Inspector
+       │                                                      • 45-Day Statutory SLA Monitor
+       │                                                                  │
+       └── (3. AI Guidelines Assistant) ──> [Qdrant Vector DB] ──> [Bhashini IndicTTS] ──> Audio Out
+    </div>
+
+    <!-- Section 4 -->
+    <h2>4. Detailed Use Cases</h2>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h3>1. Multi-Lingual GIS Civic Map</h3>
+        <p>
+          Citizens can view interactive constituency maps. All project marker popups, budgets in Indian numbering (Lakh/Crore), and agency names adapt instantly to their chosen language.
+        </p>
+        <span class="tag">Bhashini NMT (22 Languages + RTL)</span>
+      </div>
+
+      <div class="feature-card">
+        <h3>2. Voice-First Grievance & Whistleblower Engine</h3>
+        <p>
+          A farmer or resident can tap the microphone icon, describe that a community center or solar light was never constructed, and Bhashini converts speech into structured audit records.
+        </p>
+        <span class="tag">Bhashini ASR (Dialect Resilient)</span>
+      </div>
+
+      <div class="feature-card">
+        <h3>3. AI Guidelines RAG Assistant</h3>
+        <p>
+          Citizens and local Panchayat representatives can ask queries like: <em>"Can MPLADS funds be used for private hospital road repair?"</em> The bot answers with legal citations and reads aloud.
+        </p>
+        <span class="tag">Bhashini TTS + Qdrant Vector Search</span>
+      </div>
+
+      <div class="feature-card">
+        <h3>4. Regional Alerts for MPs & DMs</h3>
+        <p>
+          Automated translation of statutory notices (such as 45-day SLA breach escalations and CPWD Schedule of Rates inflation warnings) into local administrative languages for district officials.
+        </p>
+        <span class="tag">Bhashini NMT & Email/SMS Alerts</span>
+      </div>
+    </div>
+
+    <!-- Section 5 -->
+    <h2>5. Technical Feasibility & Prototype Readiness</h2>
+    <p>
+      The core architecture of <strong>MPLAD Rakshak</strong> is already fully functional, including containerized microservices (FastAPI, MySQL 8.0, Qdrant Vector DB), interactive GIS constituency mapping (React-Leaflet), and forensic computer vision engines. Integrating Bhashini APIs requires minimal turnaround as our frontend is built with modular <code>react-i18next</code> bindings and client-side locale caching.
+    </p>
+
+    <!-- Section 6 -->
+    <h2>6. Security, Privacy & Compliance</h2>
+    <ul>
+      <li><strong>DPDP Act 2023 Compliance:</strong> All citizen voice grievances are processed with anonymized identifiers to protect whistleblower identity.</li>
+      <li><strong>Data Sovereignity:</strong> All API communication takes place over HTTPS strictly within Indian sovereign cloud infrastructure in compliance with MeitY guidelines.</li>
+      <li><strong>Estimated Usage:</strong> Initial deployment anticipates ~5,000–10,000 NMT calls/month and ~1,000 ASR/TTS requests per parliamentary constituency during peak audit phases.</li>
+    </ul>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div>Submitted for Bhashini (NLTM) Partner & PI Approval • Government of India</div>
+      <div>Project: MPLAD Rakshak | Team: The Lolalgorithms (SIH 2024 / 2026)</div>
+    </div>
+  </div>
+
+</body>
+</html>

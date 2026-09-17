@@ -8,7 +8,7 @@ export default function DAHeader({ onExitToPublic, onLogout, onRefresh, isRefres
   const [notificationsOpen, setNotificationsOpen] = useState(false);
 
   return (
-    <header className="bg-[#1f7a6b] text-white px-4 sm:px-6 py-2.5 flex items-center justify-between shadow-sm border-b border-[#186054] sticky top-0 z-40">
+    <header className="bg-[#1f7a6b] text-white px-4 sm:px-6 py-2.5 flex items-center justify-between shadow-sm border-b border-[#186054] sticky top-0 z-50">
       {/* Left: State Seal & District Authority Title */}
       <div className="flex items-center gap-3">
         {/* MPLAD Rakshak Official Logo */}
@@ -61,7 +61,7 @@ export default function DAHeader({ onExitToPublic, onLogout, onRefresh, isRefres
 
           {/* Notifications Dropdown */}
           {notificationsOpen && (
-            <div className="absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-xl border border-slate-200 text-slate-800 p-3 z-50 animate-fade-in space-y-2">
+            <div className="absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-xl border border-slate-200 text-slate-800 p-3 z-[60] animate-fade-in space-y-2">
               <div className="flex items-center justify-between border-b border-slate-100 pb-2">
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-700">Action Alerts</span>
                 <span className="text-[10px] bg-red-100 text-red-700 px-1.5 py-0.5 rounded font-bold">3 Urgent</span>
@@ -122,7 +122,7 @@ export default function DAHeader({ onExitToPublic, onLogout, onRefresh, isRefres
           </button>
 
           {dropdownOpen && (
-            <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-slate-200 text-slate-800 py-2 z-50 animate-fade-in text-xs">
+            <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-slate-200 text-slate-800 py-2 z-[60] animate-fade-in text-xs">
               <div className="px-4 py-2 border-b border-slate-100">
                 <p className="font-bold text-slate-900">{daOfficerProfile.name}</p>
                 <p className="text-[11px] text-slate-500">{daOfficerProfile.designation}</p>

@@ -8,7 +8,7 @@ export default function ContractorHeader({ onExitToPublic, onLogout, onRefresh, 
   const [notificationsOpen, setNotificationsOpen] = useState(false);
 
   return (
-    <header className="bg-[#d96b1b] text-white px-4 sm:px-6 py-2.5 flex items-center justify-between shadow-sm border-b border-[#b8540d] sticky top-0 z-40">
+    <header className="bg-[#d96b1b] text-white px-4 sm:px-6 py-2.5 flex items-center justify-between shadow-sm border-b border-[#b8540d] sticky top-0 z-50">
       {/* Left: State Seal & Portal Title */}
       <div className="flex items-center gap-3">
         {/* MPLAD Rakshak Official Logo */}
@@ -59,7 +59,7 @@ export default function ContractorHeader({ onExitToPublic, onLogout, onRefresh, 
           </button>
 
           {notificationsOpen && (
-            <div className="absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-xl border border-slate-200 text-slate-800 p-3 z-50 text-xs space-y-2">
+            <div className="absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-xl border border-slate-200 text-slate-800 p-3 z-[60] text-xs space-y-2">
               <div className="flex items-center justify-between border-b border-slate-100 pb-2">
                 <span className="font-bold text-slate-800 uppercase tracking-wider text-[11px]">
                   Authority Notifications
@@ -121,7 +121,7 @@ export default function ContractorHeader({ onExitToPublic, onLogout, onRefresh, 
           </button>
 
           {dropdownOpen && (
-            <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-slate-200 text-slate-800 py-2 z-50 text-xs font-medium">
+            <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-slate-200 text-slate-800 py-2 z-[60] text-xs font-medium">
               <div className="px-4 py-2 border-b border-slate-100">
                 <p className="font-bold text-slate-900">{contractorProfile.companyName}</p>
                 <p className="text-[11px] text-slate-500">{contractorProfile.directorRole}</p>

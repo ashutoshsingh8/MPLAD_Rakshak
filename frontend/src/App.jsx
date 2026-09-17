@@ -66,6 +66,8 @@ export default function App() {
           username: 'mp_pune',
           role: 'MP',
           full_name: 'Shri Vijay Patil',
+          district: 'Pune',
+          state: 'Maharashtra',
           constituency: 'Pune (Maharashtra)',
           access_token: 'demo-token-mp',
         };
@@ -75,6 +77,9 @@ export default function App() {
           username: 'da_pune',
           role: 'DISTRICT_AUTHORITY',
           full_name: 'Smt. Priya Sharma, IAS',
+          district: 'Pune',
+          state: 'Maharashtra',
+          constituency: 'Pune',
           designation: 'District Magistrate & Collector (Pune)',
           access_token: 'demo-token-da',
         };
@@ -126,8 +131,14 @@ export default function App() {
   };
 
   const handleLoginSuccess = (userData) => {
-    setAuthenticatedUser(userData);
-    localStorage.setItem('mplad_user', JSON.stringify(userData));
+    const enrichedUser = {
+      ...userData,
+      district: userData.district || (userData.username?.includes('lucknow') ? 'Lucknow' : 'Pune'),
+      state: userData.state || (userData.username?.includes('lucknow') ? 'Uttar Pradesh' : 'Maharashtra'),
+      constituency: userData.constituency || `${userData.district || (userData.username?.includes('lucknow') ? 'Lucknow' : 'Pune')} Lok Sabha`,
+    };
+    setAuthenticatedUser(enrichedUser);
+    localStorage.setItem('mplad_user', JSON.stringify(enrichedUser));
     setShowRoleDashboard(true);
   };
 
@@ -358,7 +369,7 @@ export default function App() {
               </button>
             </div>
 
-            <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-md">
+            <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-md relative z-0 isolate">
               <GISMapViewer projects={allProjects} height="560px" />
             </div>
           </div>

@@ -63,7 +63,7 @@ export default function MinistryDashboard({ onExitToPublic, onLogout, currentUse
   return (
     <div className="min-h-screen bg-[#f1f5f9] text-slate-800 flex flex-col select-none font-sans">
       {/* ── Top Blue Header Bar Matching Screenshot ─────────── */}
-      <header className="bg-[#2f6ea6] text-white px-4 sm:px-6 py-2.5 shadow-md flex items-center justify-between sticky top-0 z-40">
+      <header className="bg-[#2f6ea6] text-white px-4 sm:px-6 py-2.5 shadow-md flex items-center justify-between sticky top-0 z-50">
         {/* Left: Ashoka Emblem + Title */}
         <div className="flex items-center gap-3">
           {/* MPLAD Rakshak Official Logo */}

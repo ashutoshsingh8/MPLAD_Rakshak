@@ -138,6 +138,8 @@ def login(request: LoginRequest, db: Session = Depends(get_db)):
         role=user.role.value,
         username=user.username,
         full_name=user.full_name,
+        district=user.district,
+        state=user.state,
     )
 
 

@@ -69,6 +69,8 @@ class LoginResponse(BaseModel):
     role: UserRoleEnum
     username: str
     full_name: str
+    district: Optional[str] = None
+    state: Optional[str] = None
 
 
 class UserResponse(BaseModel):

@@ -1,9 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MapPin, AlertTriangle, Layers, Navigation } from 'lucide-react';
-import { MapContainer, TileLayer, Marker, Popup, Circle } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Circle, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { mockDuplicateAssets } from '../../mock/daDashboardData';
+import { getDistrictCoordinates } from '../GISMapViewer';
+
+function MapCenterController({ coords }) {
+  const map = useMap();
+  useEffect(() => {
+    if (coords) {
+      map.setView([coords.lat, coords.lng], coords.zoom || 13);
+    }
+  }, [coords, map]);
+  return null;
+}
 
 const collisionPin = new L.DivIcon({
   className: 'collision-pin',
@@ -25,17 +36,19 @@ const INDIA_BOUNDS = [
   [37.5, 97.5],
 ];
 
-export default function DuplicateAssetMap() {
+export default function DuplicateAssetMap({ district = 'Pune' }) {
+  const geo = getDistrictCoordinates(district) || { lat: 18.5204, lng: 73.8567, zoom: 13 };
+
   return (
     <div className="bg-white rounded-2xl border border-slate-200 p-6 space-y-4 shadow-xs">
       <div className="flex items-center justify-between border-b border-slate-100 pb-3">
         <div>
           <h3 className="text-sm font-black text-slate-900 uppercase tracking-wide flex items-center gap-2">
             <MapPin className="w-4 h-4 text-red-600" />
-            <span>Duplicate Asset Proximity Radar</span>
+            <span>Duplicate Asset Proximity Radar — {district} Jurisdiction</span>
           </h3>
           <p className="text-xs text-slate-500">
-            Automated detection of overlapping infrastructure within 50m statutory buffer zone
+            Automated detection of overlapping infrastructure within 50m statutory buffer zone in {district}
           </p>
         </div>
         <span className="px-2 py-0.5 rounded-full bg-red-100 text-red-800 text-[10px] font-bold">
@@ -44,10 +57,10 @@ export default function DuplicateAssetMap() {
       </div>
 
       {/* Map Container */}
-      <div className="h-64 rounded-xl overflow-hidden border border-slate-200 relative shadow-inner">
+      <div className="h-64 rounded-xl overflow-hidden border border-slate-200 relative z-0 isolate shadow-inner">
         <MapContainer
-          center={[18.5204, 73.8567]}
-          zoom={13}
+          center={[geo.lat, geo.lng]}
+          zoom={geo.zoom || 13}
           minZoom={5}
           maxZoom={19}
           maxBounds={INDIA_BOUNDS}
@@ -61,6 +74,7 @@ export default function DuplicateAssetMap() {
             noWrap={true}
             bounds={INDIA_BOUNDS}
           />
+          <MapCenterController coords={geo} />
 
           {mockDuplicateAssets.map((asset) => (
             <div key={asset.id}>
@@ -97,7 +111,7 @@ export default function DuplicateAssetMap() {
         </MapContainer>
 
         {/* Legend */}
-        <div className="absolute bottom-2 left-2 bg-white/95 backdrop-blur-xs p-2 rounded-lg text-[10px] space-y-1 border border-slate-200 z-400 shadow-sm">
+        <div className="absolute bottom-2 left-2 bg-white/95 backdrop-blur-xs p-2 rounded-lg text-[10px] space-y-1 border border-slate-200 z-10 shadow-sm">
           <div className="flex items-center gap-1.5 font-bold text-slate-700">
             <span className="w-2.5 h-2.5 rounded-full bg-red-600" />
             <span>Red Marker: Proposed Site with Nearby Asset</span>

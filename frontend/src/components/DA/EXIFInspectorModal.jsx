@@ -181,7 +181,7 @@ export default function EXIFInspectorModal({ projectId, onClose, onAuthorize, on
               </div>
 
               {/* Mini Map */}
-              <div className="h-52 rounded-xl overflow-hidden border border-slate-200 relative">
+              <div className="h-52 rounded-xl overflow-hidden border border-slate-200 relative z-0 isolate">
                 <MapContainer
                   center={[18.5331, 73.8680]}
                   zoom={12}
@@ -237,7 +237,7 @@ export default function EXIFInspectorModal({ projectId, onClose, onAuthorize, on
                   />
                 </MapContainer>
 
-                <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-xs p-2 rounded-lg text-[10px] space-y-1 shadow-sm border border-slate-200 z-400">
+                <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-xs p-2 rounded-lg text-[10px] space-y-1 shadow-sm border border-slate-200 z-10">
                   <div className="flex items-center gap-1.5">
                     <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 inline-block" />
                     <span>Official Sanctioned Site</span>

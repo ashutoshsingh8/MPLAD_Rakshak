@@ -173,27 +173,147 @@
   }
 }
 
-/* ── Leaflet Map Override ─────────────────────────────── */
+/* ── Leaflet Map Override & Stacking Isolation ──────── */
+/* Isolate Leaflet internal layers so map controls, popups, and tiles NEVER bleed above sticky headers, navbars, or modals */
 .leaflet-container {
-  background: #0F172A !important;
+  background: #f1f5f9 !important;
   border-radius: 0.75rem;
+  font-family: inherit;
+  isolation: isolate !important;
+  z-index: 0 !important;
+}
+
+.leaflet-pane {
+  z-index: 2 !important;
+}
+
+.leaflet-tile-pane {
+  z-index: 2 !important;
+}
+
+.leaflet-overlay-pane {
+  z-index: 3 !important;
+}
+
+.leaflet-marker-pane {
+  z-index: 4 !important;
+}
+
+.leaflet-tooltip-pane {
+  z-index: 5 !important;
+}
+
+.leaflet-popup-pane {
+  z-index: 6 !important;
+}
+
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 7 !important;
+}
+
+.leaflet-control {
+  z-index: 8 !important;
 }
 
 .leaflet-control-zoom a {
-  background: #1E293B !important;
-  color: #E2E8F0 !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+.leaflet-control-zoom a:hover {
+  background: #f8fafc !important;
+  color: #0f172a !important;
 }
 
+/* Base popup styling */
 .leaflet-popup-content-wrapper {
-  background: #1E293B !important;
-  color: #E2E8F0 !important;
-  border-radius: 0.75rem !important;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border-radius: 0.875rem !important;
+  box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.18), 0 8px 10px -6px rgba(15, 23, 42, 0.1) !important;
+  border: 1px solid #e2e8f0 !important;
 }
 
 .leaflet-popup-tip {
-  background: #1E293B !important;
+  background: #ffffff !important;
+}
+
+/* ── Landscape GIS Map Popup ────────────────────────── */
+.leaflet-popup.gis-landscape-popup {
+  margin-bottom: 20px !important;
+}
+
+.leaflet-popup.gis-landscape-popup .leaflet-popup-content-wrapper {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border-radius: 16px !important;
+  padding: 0 !important;
+  box-shadow: 0 25px 35px -10px rgba(15, 23, 42, 0.28), 0 10px 15px -5px rgba(15, 23, 42, 0.12) !important;
+  border: 1px solid #cbd5e1 !important;
+  overflow: hidden !important;
+  width: 480px !important;
+  max-width: calc(100vw - 36px) !important;
+}
+
+.leaflet-popup.gis-landscape-popup .leaflet-popup-content {
+  margin: 0 !important;
+  line-height: 1.4 !important;
+  width: auto !important;
+}
+
+.leaflet-popup.gis-landscape-popup .leaflet-popup-tip {
+  background: #ffffff !important;
+}
+
+.leaflet-popup.gis-landscape-popup .leaflet-popup-close-button {
+  top: 10px !important;
+  right: 10px !important;
+  color: #64748b !important;
+  width: 26px !important;
+  height: 26px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 9999px !important;
+  background: #f1f5f9 !important;
+  font-size: 16px !important;
+  font-weight: bold !important;
+  line-height: 1 !important;
+  z-index: 30 !important;
+  transition: all 0.15s ease !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+.leaflet-popup.gis-landscape-popup .leaflet-popup-close-button:hover {
+  color: #0f172a !important;
+  background: #e2e8f0 !important;
+  transform: scale(1.05);
+}
+
+/* Tooltip on marker hover */
+.leaflet-tooltip.gis-marker-tooltip {
+  background: #0f172a !important;
+  color: #f8fafc !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 8px !important;
+  padding: 6px 10px !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5) !important;
+  font-family: inherit !important;
+  pointer-events: none !important;
+}
+
+.leaflet-tooltip-top.gis-marker-tooltip::before {
+  border-top-color: #0f172a !important;
+}
+.leaflet-tooltip-bottom.gis-marker-tooltip::before {
+  border-bottom-color: #0f172a !important;
+}
+.leaflet-tooltip-left.gis-marker-tooltip::before {
+  border-left-color: #0f172a !important;
+}
+.leaflet-tooltip-right.gis-marker-tooltip::before {
+  border-right-color: #0f172a !important;
 }
 
 /* ── Public Portal Tokens & Government Styling ─────── */

@@ -13,7 +13,7 @@ export default function MPHeader({ onExitToPublic, onLogout, onSearch }) {
   };
 
   return (
-    <header className="bg-[#0c455b] text-white px-4 sm:px-6 py-3 shadow-md flex items-center justify-between sticky top-0 z-40 border-b border-[#155a75]/50 select-none">
+    <header className="bg-[#0c455b] text-white px-4 sm:px-6 py-3 shadow-md flex items-center justify-between sticky top-0 z-50 border-b border-[#155a75]/50 select-none">
       {/* ── Left: Parliament / Sansad Emblem & Title ───────── */}
       <div className="flex items-center gap-3">
         {/* MPLAD Rakshak Official Logo */}
@@ -83,7 +83,7 @@ export default function MPHeader({ onExitToPublic, onLogout, onSearch }) {
 
           {/* Profile Dropdown Menu */}
           {dropdownOpen && (
-            <div className="absolute right-0 mt-2 w-60 bg-white rounded-xl shadow-2xl border border-slate-200 p-3 text-slate-800 z-50 text-xs space-y-2">
+            <div className="absolute right-0 mt-2 w-60 bg-white rounded-xl shadow-2xl border border-slate-200 p-3 text-slate-800 z-[60] text-xs space-y-2">
               <div className="p-2 bg-teal-50 rounded-lg border border-teal-100">
                 <div className="font-bold text-teal-950">{mockMpProfile.name}</div>
                 <div className="text-[10px] text-teal-700">{mockMpProfile.role}</div>
