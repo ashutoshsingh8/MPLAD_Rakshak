@@ -1,0 +1,66 @@
+{
+  "nav": {
+    "home": "મુખ્ય પૃષ્ઠ",
+    "projects": "પ્રોજેક્ટ્સ (શોધ)",
+    "map": "ભૌગોલિક નકશો",
+    "guidelines": "માર્ગદર્શિકા",
+    "about": "અમારા વિશે",
+    "contact": "સંપર્ક",
+    "login": "લૉગિન",
+    "logout": "લૉગ આઉટ",
+    "dashboard": "અધિકારી ડેશબોર્ડ",
+    "language": "ભાષા",
+    "select_language": "ભાષા પસંદ કરો"
+  },
+  "status": {
+    "completed": "પૂર્ણ",
+    "in_progress": "પ્રગતિમાં છે",
+    "flagged": "ઓડિટ સમીક્ષા હેઠળ",
+    "sanctioned": "મંજૂર",
+    "recommended": "ભલામણ કરેલ"
+  },
+  "map": {
+    "title": "ભૌગોલિક ઈન્ફ્રાસ્ટ્રક્ચર નકશો",
+    "subtitle": "ચકાસાયેલ નાગરિક કાર્યો અને સંપત્તિ દર્શાવતો ઇન્ટરેક્ટિવ GIS નકશો",
+    "back_home": "મુખ્ય પૃષ્ઠ પર પાછા જાઓ",
+    "status_key": "સ્થિતિ સંકેત",
+    "project_id": "આઈડી",
+    "project_title": "પ્રોજેક્ટ શીર્ષક",
+    "location": "સ્થાન",
+    "sanctioned": "મંજૂર રકમ",
+    "progress": "ભૌતિક પ્રગતિ",
+    "agency": "કાર્યકારી એજન્સી",
+    "compliance_flag": "ચેતવણી: નિરીક્ષણ અને ઓડિટ સમીક્ષા માટે ચિહ્નિત.",
+    "view_details": "સંપૂર્ણ વિગતો જુઓ",
+    "refocus": "ફરીથી ફોકસ કરો",
+    "all_india": "અખિલ ભારત",
+    "show_all": "બધા કાર્યો બતાવો",
+    "showing_only": "માત્ર દર્શાવે છે",
+    "elected_constituency": "ચૂંટાયેલ મતવિસ્તાર",
+    "assigned_jurisdiction": "સોંપેલ અધિકારક્ષેત્ર"
+  },
+  "portal": {
+    "hero_title": "નાણાકીય ટ્રાન્સફર અને નાગરિક ઓડિટ",
+    "hero_subtitle": "સાંસદ સ્થાનિક વિસ્તાર વિકાસ યોજના (MPLADS) ફંડનું પારદર્શક ટ્રેકિંગ",
+    "search_placeholder": "પ્રોજેક્ટ નામ, મતવિસ્તાર અથવા જિલ્લા દ્વારા શોધો...",
+    "search_btn": "શોધો",
+    "all_sectors": "બધા ક્ષેત્રો",
+    "all_statuses": "બધી સ્થિતિ",
+    "all_states": "બધા રાજ્યો",
+    "all_districts": "બધા જિલ્લાઓ",
+    "sanctioned_cost": "મંજૂર ખર્ચ",
+    "physical_progress": "ભૌતિક પ્રગતિ",
+    "view_more": "વધુ વિગતો જુઓ",
+    "guidelines_title": "MPLADS માર્ગદર્શિકા અને AI સહાયક",
+    "guidelines_subtitle": "Google Gemini અને Qdrant વેક્ટર શોધ દ્વારા સંચાલિત",
+    "ask_question": "MPLADS માર્ગદર્શિકા વિશે પ્રશ્ન પૂછો...",
+    "ask_btn": "સહાયકને પૂછો"
+  },
+  "common": {
+    "lakh": "લાખ",
+    "crore": "કરોડ",
+    "rupee": "₹",
+    "national_portal": "ભારત સરકાર",
+    "transparency_system": "જાહેર પારદર્શિતા અને નિર્ણય સહાય પ્રણાલી"
+  }
+}

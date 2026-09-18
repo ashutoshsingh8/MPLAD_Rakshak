@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { MapContainer, TileLayer, CircleMarker, Popup, Tooltip, useMap } from 'react-leaflet';
 
 const STATUS_CONFIG = {
@@ -151,6 +152,7 @@ export default function GISMapViewer({
   focusState = null,
   userRole = null,
 }) {
+  const { t } = useTranslation();
   const [viewMode, setViewMode] = useState(() => (focusDistrict ? 'constituency' : 'national'));
   const [filterDistrictOnly, setFilterDistrictOnly] = useState(false);
   const [mapInstance, setMapInstance] = useState(null);
@@ -199,6 +201,18 @@ export default function GISMapViewer({
     }
   };
 
+  const getStatusTranslation = (label) => {
+    switch (label) {
+      case 'Completed': return t('status.completed', 'Completed');
+      case 'In Progress': return t('status.in_progress', 'In Progress');
+      case 'Flagged Alert':
+      case 'Flagged Review': return t('status.flagged', 'Under Audit');
+      case 'Sanctioned': return t('status.sanctioned', 'Sanctioned');
+      case 'Recommended': return t('status.recommended', 'Recommended');
+      default: return label;
+    }
+  };
+
   return (
     <div className="rounded-2xl overflow-hidden relative z-0 isolate shadow-md border border-slate-200" style={{ height }}>
       {/* ── Top Left: Constituency / District Focus Control (When MP or DA is logged in) ── */}
@@ -207,7 +221,7 @@ export default function GISMapViewer({
           <div className="flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-teal-500 animate-pulse" />
             <span className="text-[10px] uppercase font-extrabold tracking-wider text-slate-500">
-              {userRole === 'MP' ? 'Elected Constituency:' : 'Assigned Jurisdiction:'}
+              {userRole === 'MP' ? t('map.elected_constituency', 'Elected Constituency') + ':' : t('map.assigned_jurisdiction', 'Assigned Jurisdiction') + ':'}
             </span>
             <span className="text-xs font-black text-slate-900 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
               {focusDistrict}
@@ -225,7 +239,7 @@ export default function GISMapViewer({
               }`}
               title={`Zoom and focus map on ${focusDistrict}`}
             >
-              <span>🎯 Refocus {focusDistrict}</span>
+              <span>🎯 {t('map.refocus', 'Refocus')} {focusDistrict}</span>
             </button>
 
             <button
@@ -238,7 +252,7 @@ export default function GISMapViewer({
               }`}
               title="Zoom out to All-India View"
             >
-              <span>🇮🇳 All India</span>
+              <span>🇮🇳 {t('map.all_india', 'All India')}</span>
             </button>
 
             {districtProjectCount > 0 && (
@@ -252,7 +266,7 @@ export default function GISMapViewer({
                 }`}
                 title="Filter markers to only constituency projects"
               >
-                {filterDistrictOnly ? `Showing: ${focusDistrict} Only (${districtProjectCount})` : 'Show All Works'}
+                {filterDistrictOnly ? `${t('map.showing_only', 'Showing')}: ${focusDistrict} (${districtProjectCount})` : t('map.show_all', 'Show All Works')}
               </button>
             )}
           </div>
@@ -261,11 +275,13 @@ export default function GISMapViewer({
 
       {/* Legend */}
       <div className="absolute top-3 right-3 z-20 bg-white/95 backdrop-blur-xs p-2.5 rounded-xl border border-slate-200 shadow-md flex flex-col gap-1.5">
-        <div className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-0.5">Status Key</div>
+        <div className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-0.5">
+          {t('map.status_key', 'STATUS KEY')}
+        </div>
         {RISK_LEGEND.map((item) => (
           <div key={item.label} className="flex items-center gap-2 text-xs font-semibold text-slate-700">
             <div className="w-2.5 h-2.5 rounded-full shrink-0 shadow-2xs" style={{ backgroundColor: item.color }} />
-            <span>{item.label}</span>
+            <span>{getStatusTranslation(item.label)}</span>
           </div>
         ))}
       </div>
@@ -357,7 +373,7 @@ export default function GISMapViewer({
                     <div className="flex items-center justify-between gap-3 pr-8 pb-1.5 border-b border-slate-100">
                       <div className="flex items-center gap-2 flex-wrap">
                         <span className="inline-flex items-center gap-1.5 font-mono text-xs font-bold px-2.5 py-1 rounded-md bg-slate-100 text-slate-800 border border-slate-200 shadow-2xs whitespace-nowrap">
-                          <span className="text-slate-400 font-sans font-medium text-[10px]">ID:</span>
+                          <span className="text-slate-400 font-sans font-medium text-[10px]">{t('map.project_id', 'ID')}:</span>
                           <span className="tracking-wide">{projectId}</span>
                         </span>
 
@@ -378,7 +394,7 @@ export default function GISMapViewer({
                         className={`inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-full border whitespace-nowrap shrink-0 shadow-2xs ${statusInfo.badgeBg}`}
                       >
                         <span className={`w-2 h-2 rounded-full ${statusInfo.dotBg}`} />
-                        <span>{statusInfo.label}</span>
+                        <span>{getStatusTranslation(statusInfo.label)}</span>
                       </span>
                     </div>
 
@@ -387,7 +403,9 @@ export default function GISMapViewer({
                       {/* Left: Title & Agency & Compliance Alert (7 cols) */}
                       <div className="col-span-7 space-y-2">
                         <div>
-                          <div className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Project Title</div>
+                          <div className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
+                            {t('map.project_title', 'Project Title')}
+                          </div>
                           <h4 className="text-sm font-bold text-slate-950 leading-snug tracking-tight line-clamp-3 mt-0.5">
                             {project.title}
                           </h4>
@@ -395,7 +413,7 @@ export default function GISMapViewer({
 
                         {project.implementing_agency && (
                           <div className="text-[11px] text-slate-600 flex items-center gap-1.5 bg-slate-50 px-2.5 py-1.5 rounded-lg border border-slate-200/70">
-                            <span className="text-slate-400 font-medium shrink-0">🏢 Agency:</span>
+                            <span className="text-slate-400 font-medium shrink-0">🏢 {t('map.agency', 'Agency')}:</span>
                             <span className="font-bold text-slate-800 truncate">
                               {project.implementing_agency}
                             </span>
@@ -406,7 +424,7 @@ export default function GISMapViewer({
                           <div className="p-2 rounded-lg bg-rose-50 border border-rose-200 text-rose-800 text-[11px] flex items-start gap-1.5 leading-tight">
                             <span className="text-rose-600 shrink-0 font-bold">⚠️</span>
                             <div>
-                              <span className="font-bold">Compliance Flag:</span> Marked for inspection and audit review.
+                              {t('map.compliance_flag', 'Compliance Flag: Marked for inspection and audit review.')}
                             </div>
                           </div>
                         )}
@@ -417,7 +435,7 @@ export default function GISMapViewer({
                         {/* Location Box */}
                         <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-200/80">
                           <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider flex items-center gap-1 mb-0.5">
-                            <span>📍</span> Location
+                            <span>📍</span> {t('map.location', 'Location')}
                           </div>
                           <div
                             className="font-bold text-slate-900 text-xs truncate"
@@ -433,7 +451,7 @@ export default function GISMapViewer({
                         {/* Sanctioned Budget Box */}
                         <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-200/80">
                           <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider flex items-center gap-1 mb-0.5">
-                            <span>💰</span> Sanctioned
+                            <span>💰</span> {t('map.sanctioned', 'Sanctioned')}
                           </div>
                           <div className="font-extrabold text-slate-950 text-xs">
                             {formatCurrency(project.sanctioned_amount || 0)}
@@ -451,7 +469,7 @@ export default function GISMapViewer({
                     {project.physical_progress_percent !== undefined && (
                       <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-200/80 space-y-1">
                         <div className="flex items-center justify-between text-xs">
-                          <span className="font-semibold text-slate-600 text-[11px]">Physical Progress</span>
+                          <span className="font-semibold text-slate-600 text-[11px]">{t('map.progress', 'Physical Progress')}</span>
                           <span className="font-bold text-slate-900 text-[11px]">
                             {project.physical_progress_percent}%
                           </span>
@@ -478,7 +496,7 @@ export default function GISMapViewer({
                         }}
                         className="w-full text-center py-2 px-3 rounded-xl text-xs font-bold bg-slate-900 hover:bg-slate-800 text-white transition shadow-xs flex items-center justify-center gap-1.5 cursor-pointer"
                       >
-                        <span>View Full Project Details</span>
+                        <span>{t('map.view_details', 'View Full Project Details')}</span>
                         <span>&rarr;</span>
                       </button>
                     )}

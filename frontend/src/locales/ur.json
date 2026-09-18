@@ -1,0 +1,66 @@
+{
+  "nav": {
+    "home": "صفحہ اول",
+    "projects": "منصوبے (تلاش)",
+    "map": "جغرافیائی نقشہ",
+    "guidelines": "ہدایات",
+    "about": "ہمارے بارے میں",
+    "contact": "رابطہ کریں",
+    "login": "لاگ ان",
+    "logout": "لاگ آؤٹ",
+    "dashboard": "ڈیش بورڈ",
+    "language": "زبان",
+    "select_language": "زبان منتخب کریں"
+  },
+  "status": {
+    "completed": "مکمل",
+    "in_progress": "جاری ہے",
+    "flagged": "آڈٹ کے تحت",
+    "sanctioned": "منظور شدہ",
+    "recommended": "تجویز کردہ"
+  },
+  "map": {
+    "title": "جغرافیائی بنیادی ڈھانچے کا نقشہ",
+    "subtitle": "تصدیق شدہ عوامی کاموں کا انٹرایکٹو GIS نقشہ",
+    "back_home": "صفحہ اول پر واپس جائیں",
+    "status_key": "حیثیت کی فہرست",
+    "project_id": "شناختی نمبر",
+    "project_title": "منصوبے کا نام",
+    "location": "مقام",
+    "sanctioned": "منظور شدہ فنڈ",
+    "progress": "کام کی پیش رفت",
+    "agency": "نگراں ادارہ",
+    "compliance_flag": "انتباہ: معائنہ اور آڈٹ کے لیے نشان زد۔",
+    "view_details": "مکمل تفصیلات دیکھیں",
+    "refocus": "دوبارہ فوکس کریں",
+    "all_india": "کل ہند",
+    "show_all": "تمام کام دکھائیں",
+    "showing_only": "صرف دکھایا جا رہا ہے",
+    "elected_constituency": "منتخب حلقہ",
+    "assigned_jurisdiction": "تفویض کردہ دائرہ اختیار"
+  },
+  "portal": {
+    "hero_title": "فنڈز کی منتقلی اور عوامی بنیادی ڈھانچے کا آڈٹ",
+    "hero_subtitle": "ممبر پارلیمنٹ لوکل ایریا ڈیولپمنٹ اسکیم (MPLADS) کی عوامی نگرانی",
+    "search_placeholder": "منصوبے کے نام، حلقہ یا ضلع کے لحاظ سے تلاش کریں...",
+    "search_btn": "تلاش کریں",
+    "all_sectors": "تمام شعبے",
+    "all_statuses": "تمام حالتیں",
+    "all_states": "تمام ریاستیں",
+    "all_districts": "تمام اضلاع",
+    "sanctioned_cost": "منظور شدہ لاگت",
+    "physical_progress": "پیش رفت",
+    "view_more": "مزید تفصیلات",
+    "guidelines_title": "MPLADS رہنمائی اور AI معاون",
+    "guidelines_subtitle": "گوگل جیمنی اور Qdrant ویکٹر سرچ کے ذریعے تقویت یافتہ",
+    "ask_question": "MPLADS رہنما خطوط کے بارے میں سوال پوچھیں...",
+    "ask_btn": "معاون سے پوچھیں"
+  },
+  "common": {
+    "lakh": "لاکھ",
+    "crore": "کروڑ",
+    "rupee": "₹",
+    "national_portal": "حکومت ہند",
+    "transparency_system": "عوامی شفافیت اور فیصلہ سازی کا نظام"
+  }
+}

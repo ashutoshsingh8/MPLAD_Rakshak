@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Menu, X, LogIn, LogOut, LayoutDashboard, ShieldCheck } from 'lucide-react';
+import LanguageSelector from './LanguageSelector';
 import mpladLogo from '../assets/mplad_rakshak_logo.jpeg';
 import mpladText from '../assets/mplad_rakshak_text.jpeg';
 
@@ -11,15 +13,16 @@ export default function PublicNavbar({
   onLogout,
   onOpenDashboard,
 }) {
+  const { t } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
-    { key: 'home', label: 'Home' },
-    { key: 'projects', label: 'Projects (search)' },
-    { key: 'map', label: 'Analytics Map' },
-    { key: 'guidelines', label: 'Guidelines' },
-    { key: 'about', label: 'About' },
-    { key: 'contact', label: 'Contact' },
+    { key: 'home', label: t('nav.home', 'Home') },
+    { key: 'projects', label: t('nav.projects', 'Projects (search)') },
+    { key: 'map', label: t('nav.map', 'Analytics Map') },
+    { key: 'guidelines', label: t('nav.guidelines', 'Guidelines') },
+    { key: 'about', label: t('nav.about', 'About') },
+    { key: 'contact', label: t('nav.contact', 'Contact') },
   ];
 
   return (
@@ -73,8 +76,10 @@ export default function PublicNavbar({
             })}
           </nav>
 
-          {/* Right Action: Login / Authenticated State */}
-          <div className="hidden md:flex items-center gap-3">
+          {/* Right Action: Language Selector & Login */}
+          <div className="hidden md:flex items-center gap-2.5">
+            <LanguageSelector variant="dark" />
+
             {authenticatedUser ? (
               <div className="flex items-center gap-2">
                 <button
@@ -97,31 +102,33 @@ export default function PublicNavbar({
               <button
                 id="navbar-login-button"
                 onClick={onOpenLogin}
-                className={`flex items-center gap-2 px-5 py-1.5 text-sm font-medium rounded-md transition duration-200 shadow-sm cursor-pointer ${
+                className={`flex items-center gap-2 px-4 py-1.5 text-sm font-medium rounded-md transition duration-200 shadow-sm cursor-pointer ${
                   activeTab === 'login'
                     ? 'bg-white text-[#0f2e52] border-2 border-white font-semibold'
                     : 'text-white border-2 border-white/90 hover:bg-white hover:text-[#0f2e52]'
                 }`}
               >
                 <LogIn className="w-4 h-4" />
-                <span>Login</span>
+                <span>{t('nav.login', 'Login')}</span>
               </button>
             )}
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Button & Language Switcher */}
           <div className="flex md:hidden items-center gap-2">
+            <LanguageSelector variant="dark" />
+
             {!authenticatedUser && (
               <button
                 id="mobile-login-button"
                 onClick={onOpenLogin}
-                className={`px-3 py-1 text-xs font-medium rounded transition cursor-pointer ${
+                className={`px-2.5 py-1 text-xs font-medium rounded transition cursor-pointer ${
                   activeTab === 'login'
                     ? 'bg-white text-[#0f2e52] font-semibold'
                     : 'text-white border border-white/80 hover:bg-white hover:text-[#0f2e52]'
                 }`}
               >
-                Login
+                {t('nav.login', 'Login')}
               </button>
             )}
             <button

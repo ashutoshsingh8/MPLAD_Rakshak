@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Search, User, ChevronDown, ArrowLeft, LogOut, Bell, Shield, CheckCircle } from 'lucide-react';
 import { mockMpProfile } from '../../mock/mpDashboardData';
 import mpladLogo from '../../assets/mplad_rakshak_logo.jpeg';
+import LanguageSelector from '../LanguageSelector';
 
 export default function MPHeader({ onExitToPublic, onLogout, onSearch }) {
   const [searchValue, setSearchValue] = useState('');
@@ -64,6 +65,9 @@ export default function MPHeader({ onExitToPublic, onLogout, onSearch }) {
             <span className="hidden sm:inline">Exit to Public Portal</span>
           </button>
         )}
+
+        {/* Multilingual Selector */}
+        <LanguageSelector variant="dark" />
 
         {/* MP Profile Avatar & Dropdown */}
         <div className="relative">

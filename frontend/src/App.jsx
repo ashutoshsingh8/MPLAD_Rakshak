@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import PublicNavbar from './components/PublicNavbar';
 import LoginModal from './components/LoginModal';
 import ReportFraudModal from './components/ReportFraudModal';
@@ -26,6 +27,7 @@ const ROLE_VIEWS = {
 };
 
 export default function App() {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState(() => {
     if (typeof window !== 'undefined') {
       const hash = window.location.hash.replace('#', '');
@@ -355,17 +357,17 @@ export default function App() {
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-2xl font-black text-slate-900 tracking-tight uppercase">
-                  GEO-SPATIAL INFRASTRUCTURE MAP
+                  {t('map.title', 'GEO-SPATIAL INFRASTRUCTURE MAP')}
                 </h2>
                 <p className="text-xs text-slate-500">
-                  Interactive GIS map visualizing verified civic works and asset clustering
+                  {t('map.subtitle', 'Interactive GIS map visualizing verified civic works and asset clustering')}
                 </p>
               </div>
               <button
                 onClick={() => setActiveTab('home')}
-                className="text-xs font-semibold text-teal-700 hover:underline flex items-center gap-1"
+                className="text-xs font-semibold text-teal-700 hover:underline flex items-center gap-1 cursor-pointer"
               >
-                <ArrowLeft className="w-3.5 h-3.5" /> Back to Home
+                <ArrowLeft className="w-3.5 h-3.5" /> {t('map.back_home', 'Back to Home')}
               </button>
             </div>
 
@@ -381,17 +383,17 @@ export default function App() {
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-2xl font-black text-slate-900 tracking-tight uppercase">
-                  MPLADS GUIDELINES & AI ASSISTANT
+                  {t('portal.guidelines_title', 'MPLADS GUIDELINES & AI ASSISTANT')}
                 </h2>
                 <p className="text-xs text-slate-500">
-                  Powered by Google Gemini 3.6 Flash & Qdrant Vector Semantic Search
+                  {t('portal.guidelines_subtitle', 'Powered by Google Gemini 3.6 Flash & Qdrant Vector Semantic Search')}
                 </p>
               </div>
               <button
                 onClick={() => setActiveTab('home')}
-                className="text-xs font-semibold text-teal-700 hover:underline flex items-center gap-1"
+                className="text-xs font-semibold text-teal-700 hover:underline flex items-center gap-1 cursor-pointer"
               >
-                <ArrowLeft className="w-3.5 h-3.5" /> Back to Home
+                <ArrowLeft className="w-3.5 h-3.5" /> {t('map.back_home', 'Back to Home')}
               </button>
             </div>
 

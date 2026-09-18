@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Search, MapPin, IndianRupee, Filter, CheckCircle2, Clock, AlertTriangle,
   FileText, Landmark, Info, MoreHorizontal, BarChart3, BookOpen, HelpCircle,
@@ -101,6 +102,7 @@ export default function PublicPortalHome({
   onNavigateToLogin,
   onOpenFraudReport,
 }) {
+  const { t } = useTranslation();
   const [keyword, setKeyword] = useState('');
   const [selectedState, setSelectedState] = useState('ALL');
   const [selectedDistrict, setSelectedDistrict] = useState('ALL');
@@ -213,25 +215,25 @@ export default function PublicPortalHome({
       case 'COMPLETED':
         return (
           <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200">
-            <CheckCircle2 className="w-3 h-3" /> Completed
+            <CheckCircle2 className="w-3 h-3" /> {t('status.completed', 'Completed')}
           </span>
         );
       case 'IN_PROGRESS':
         return (
           <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-100 text-amber-800 border border-amber-200">
-            <Clock className="w-3 h-3" /> In Progress
+            <Clock className="w-3 h-3" /> {t('status.in_progress', 'In Progress')}
           </span>
         );
       case 'FLAGGED_REVIEW':
         return (
           <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-red-100 text-red-800 border border-red-200">
-            <AlertTriangle className="w-3 h-3" /> Under Audit
+            <AlertTriangle className="w-3 h-3" /> {t('status.flagged', 'Under Audit')}
           </span>
         );
       case 'SANCTIONED':
         return (
           <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-blue-100 text-blue-800 border border-blue-200">
-            <Check className="w-3 h-3" /> Sanctioned
+            <Check className="w-3 h-3" /> {t('status.sanctioned', 'Sanctioned')}
           </span>
         );
       default:
@@ -249,7 +251,7 @@ export default function PublicPortalHome({
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 space-y-6">
         {/* Main Headline from Screenshot */}
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight text-center uppercase py-2">
-          PUBLIC PORTAL HOME
+          {t('portal.public_portal_home', 'PUBLIC PORTAL HOME')}
         </h1>
 
         {/* ── Main Featured Card (PUBLIC SEARCH) ─────────────── */}
@@ -257,7 +259,7 @@ export default function PublicPortalHome({
           {/* Teal Gradient Header matching image */}
           <div className="portal-hero-gradient p-6 sm:p-8 text-white relative">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-center tracking-wide uppercase mb-6 drop-shadow-sm">
-              PUBLIC SEARCH
+              {t('portal.public_search', 'PUBLIC SEARCH')}
             </h2>
 
             {/* Keyword Search Bar */}
@@ -268,7 +270,7 @@ export default function PublicPortalHome({
                   type="text"
                   value={keyword}
                   onChange={(e) => setKeyword(e.target.value)}
-                  placeholder="search project keyword..."
+                  placeholder={t('portal.search_placeholder', 'search project keyword...')}
                   className="w-full px-5 py-3.5 text-sm sm:text-base text-slate-800 placeholder-slate-400 focus:outline-none"
                 />
                 <button
@@ -295,7 +297,7 @@ export default function PublicPortalHome({
                 className="hover:text-white uppercase transition pb-1.5 border-b-2 border-transparent hover:border-white/80 flex items-center gap-1.5 cursor-pointer"
               >
                 <MapPin className="w-3.5 h-3.5 text-amber-300" />
-                <span>ANALYSIS MAP</span>
+                <span>{t('nav.map', 'ANALYSIS MAP')}</span>
               </button>
               <button
                 onClick={() => setActiveSubTab('QUICK SEARCH')}
@@ -306,7 +308,7 @@ export default function PublicPortalHome({
                 }`}
               >
                 <Search className="w-3.5 h-3.5 text-amber-300" />
-                <span>QUICK SEARCH</span>
+                <span>{t('portal.quick_search', 'QUICK SEARCH')}</span>
               </button>
             </div>
 
@@ -400,14 +402,14 @@ export default function PublicPortalHome({
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-4">
               <div>
                 <h3 className="text-lg font-black text-slate-800 tracking-wide uppercase">
-                  FILTER PROJECTS BY YOUR AREA
+                  {t('portal.filter_by_area', 'FILTER PROJECTS BY YOUR AREA')}
                 </h3>
                 <p className="text-xs text-slate-500">
-                  Select your State / UT and District to inspect local community works in your neighborhood
+                  {t('portal.filter_subtitle', 'Select your State / UT and District to inspect local community works in your neighborhood')}
                 </p>
               </div>
               <div className="text-xs font-bold text-[#1c6877] bg-teal-50 px-3 py-1 rounded-full border border-teal-200">
-                {filteredProjects.length} Works Found
+                {filteredProjects.length} {t('portal.works_found', 'Works Found')}
               </div>
             </div>
 
@@ -416,14 +418,14 @@ export default function PublicPortalHome({
               {/* State / UT */}
               <div>
                 <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-1">
-                  State / UT
+                  {t('portal.state_ut', 'State / UT')}
                 </label>
                 <select
                   value={selectedState}
                   onChange={(e) => handleStateChange(e.target.value)}
                   className="w-full px-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-300 rounded-lg text-slate-800 focus:outline-none focus:ring-2 focus:ring-teal-600 transition"
                 >
-                  <option value="ALL">All States / UTs</option>
+                  <option value="ALL">{t('portal.all_states', 'All States / UTs')}</option>
                   <option value="Maharashtra">Maharashtra</option>
                   <option value="Gujarat">Gujarat</option>
                   <option value="Uttar Pradesh">Uttar Pradesh</option>
@@ -434,14 +436,14 @@ export default function PublicPortalHome({
               {/* District */}
               <div>
                 <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-1">
-                  District
+                  {t('portal.district', 'District')}
                 </label>
                 <select
                   value={selectedDistrict}
                   onChange={(e) => setSelectedDistrict(e.target.value)}
                   className="w-full px-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-300 rounded-lg text-slate-800 focus:outline-none focus:ring-2 focus:ring-teal-600 transition"
                 >
-                  <option value="ALL">All Districts</option>
+                  <option value="ALL">{t('portal.all_districts', 'All Districts')}</option>
                   {selectedState !== 'ALL' && stateDistricts[selectedState]
                     ? stateDistricts[selectedState].map((dist) => (
                         <option key={dist} value={dist}>
@@ -507,7 +509,7 @@ export default function PublicPortalHome({
                 <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-3 text-slate-400">
                   <Search className="w-6 h-6" />
                 </div>
-                <h4 className="text-base font-bold text-slate-800">No Projects Found</h4>
+                <h4 className="text-base font-bold text-slate-800">{t('portal.no_projects', 'No Projects Found')}</h4>
                 <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
                   No community works matched your selected filters. Try choosing "All Districts" or clearing the keyword.
                 </p>
@@ -521,7 +523,7 @@ export default function PublicPortalHome({
                   }}
                   className="mt-3 px-4 py-1.5 text-xs font-bold text-teal-700 hover:underline"
                 >
-                  Reset All Filters
+                  {t('portal.reset_filters', 'Reset All Filters')}
                 </button>
               </div>
             ) : (
@@ -558,7 +560,7 @@ export default function PublicPortalHome({
                       <div className="pt-3 border-t border-slate-100 space-y-2">
                         {/* Financials & Progress */}
                         <div className="flex items-center justify-between text-xs">
-                          <span className="text-slate-500">Sanctioned Cost:</span>
+                          <span className="text-slate-500">{t('portal.sanctioned_cost', 'Sanctioned Cost')}:</span>
                           <span className="font-bold text-slate-900">
                             {formatRupees(project.sanctioned_amount)}
                           </span>
@@ -567,7 +569,7 @@ export default function PublicPortalHome({
                         {/* Progress Bar */}
                         <div>
                           <div className="flex items-center justify-between text-[10px] text-slate-500 mb-1">
-                            <span>Physical Progress</span>
+                            <span>{t('portal.physical_progress', 'Physical Progress')}</span>
                             <span className="font-semibold text-slate-700">
                               {project.physical_progress_percent || 0}%
                             </span>
@@ -587,7 +589,7 @@ export default function PublicPortalHome({
                             className="flex-1 py-1.5 px-2 text-center text-xs font-bold text-teal-800 bg-teal-50 hover:bg-teal-100 rounded-lg transition flex items-center justify-center gap-1.5 cursor-pointer border border-teal-200 shadow-2xs"
                           >
                             <Eye className="w-3.5 h-3.5" />
-                            <span>View Public Details</span>
+                            <span>{t('portal.view_public_details', 'View Public Details')}</span>
                           </button>
                           <button
                             onClick={() => onOpenFraudReport && onOpenFraudReport(project)}
@@ -595,7 +597,7 @@ export default function PublicPortalHome({
                             title="Report Fraud / Anomaly on this project"
                           >
                             <ShieldAlert className="w-3.5 h-3.5 text-red-600" />
-                            <span className="hidden sm:inline">Report Fraud</span>
+                            <span className="hidden sm:inline">{t('portal.report_fraud', 'Report Fraud')}</span>
                           </button>
                         </div>
                       </div>

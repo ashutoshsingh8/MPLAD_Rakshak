@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { RotateCw, Bell, ChevronDown, LogOut, ArrowLeft, Shield, AlertTriangle, CheckCircle } from 'lucide-react';
 import { daOfficerProfile } from '../../mock/daDashboardData';
 import mpladLogo from '../../assets/mplad_rakshak_logo.jpeg';
+import LanguageSelector from '../LanguageSelector';
 
 export default function DAHeader({ onExitToPublic, onLogout, onRefresh, isRefreshing }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -97,6 +98,9 @@ export default function DAHeader({ onExitToPublic, onLogout, onRefresh, isRefres
             <span>Exit to Public</span>
           </button>
         )}
+
+        {/* Multilingual Selector */}
+        <LanguageSelector variant="dark" />
 
         {/* Profile Avatar Pill & Dropdown */}
         <div className="relative">
