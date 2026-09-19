@@ -12,6 +12,7 @@ import MPDashboard from './views/MPDashboard';
 import ContractorPortal from './views/ContractorPortal';
 import LoginPage from './views/LoginPage';
 import GISMapViewer from './components/GISMapViewer';
+import mpladLogo from './assets/mplad_rakshak_logo.jpeg';
 
 import { getProjects, queryGuidelines } from './services/api';
 import { getLocalizedState, getLocalizedDistrict } from './utils/geoTranslations';
@@ -616,9 +617,11 @@ export default function App() {
           {/* Col 1: System Branding & Problem Statement */}
           <div className="space-y-4">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-md bg-amber-400/20 border border-amber-400/40 flex items-center justify-center text-amber-300 font-bold text-sm">
-                🛡️
-              </div>
+              <img
+                src={mpladLogo}
+                alt="MPLAD Rakshak Emblem"
+                className="w-9 h-9 object-contain rounded-md bg-white p-0.5 shadow-xs shrink-0"
+              />
               <div>
                 <h3 className="text-base font-bold tracking-tight text-white">MPLAD Rakshak</h3>
                 <p className="text-[11px] text-amber-300 font-medium">AI Fraud & Anomaly Audit Platform</p>
@@ -627,7 +630,7 @@ export default function App() {
             <p className="text-xs text-slate-300 leading-relaxed">
               Autonomous statutory intelligence and forensic anomaly detection system for the Member of Parliament Local Area Development Scheme (MPLADS).
             </p>
-            <div className="p-3 bg-white/5 border border-white/10 rounded-lg space-y-1.5">
+            <div className="space-y-2 pt-1 text-xs">
               <div className="flex items-center justify-between text-[11px]">
                 <span className="text-slate-400">Initiative:</span>
                 <a
@@ -646,10 +649,11 @@ export default function App() {
                   href="https://www.sih.gov.in"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-white font-mono bg-white/10 px-1.5 py-0.5 rounded text-[10px] hover:bg-amber-400/20 hover:text-amber-300 transition"
+                  className="text-slate-200 hover:text-amber-300 font-medium inline-flex items-center gap-1 hover:underline"
                   title="PS 26102: AI-powered system to detect anomalies, fraud, and inefficiencies in MPLAD Scheme"
                 >
                   PS ID 26102 (MoSPI)
+                  <ExternalLink className="w-2.5 h-2.5 text-slate-400" />
                 </a>
               </div>
               <div className="flex items-center justify-between text-[11px]">
@@ -747,153 +751,37 @@ export default function App() {
               </span>
             </div>
             <p className="text-[11px] text-slate-300">
-              Department of Computer Science & Engineering (AI):
+              Department of Computer Science & Engineering:
             </p>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
-              {/* Ashutosh Singh */}
-              <a
-                href="https://github.com/ashutoshsingh8"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-between p-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 hover:border-amber-400/40 transition group"
-              >
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full bg-amber-400/20 flex items-center justify-center text-[11px] font-bold text-amber-300">
-                    AS
-                  </div>
-                  <div>
-                    <span className="text-xs font-semibold text-white group-hover:text-amber-300 block">
-                      Ashutosh Singh
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 pt-1">
+              {[
+                { name: 'Ashutosh Singh', handle: '@ashutoshsingh8', url: 'https://github.com/ashutoshsingh8' },
+                { name: 'Ayush Arya', handle: '@ayusharya', url: 'https://github.com/ayusharya' },
+                { name: 'Amartya Singh', handle: '@AmartyaSingh', url: 'https://github.com/AmartyaSingh' },
+                { name: 'Md. Saklain Khan', handle: '@saklainkhan', url: 'https://github.com/saklainkhan' },
+                { name: 'Akarsh Gupta', handle: '@Akarshxai', url: 'https://github.com/Akarshxai' },
+                { name: 'Alisha Rahman', handle: '@alisharahman', url: 'https://github.com/alisharahman' },
+              ].map((member) => (
+                <a
+                  key={member.handle}
+                  href={member.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-between py-1.5 px-1 rounded transition group hover:bg-white/5"
+                >
+                  <div className="flex items-center gap-2 min-w-0">
+                    <Github className="w-3.5 h-3.5 text-slate-400 group-hover:text-amber-300 transition shrink-0" />
+                    <span className="text-xs font-medium text-slate-200 group-hover:text-amber-300 transition truncate">
+                      {member.name}
                     </span>
-                    <span className="text-[10px] text-emerald-400 block font-medium">Team Leader</span>
                   </div>
-                </div>
-                <div className="flex items-center gap-1 text-[11px] text-slate-400 group-hover:text-white">
-                  <span>@ashutoshsingh8</span>
-                  <ExternalLink className="w-3 h-3" />
-                </div>
-              </a>
-
-              {/* Ayush Arya */}
-              <a
-                href="https://github.com/ayusharya"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-between p-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 hover:border-amber-400/40 transition group"
-              >
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full bg-blue-400/20 flex items-center justify-center text-[11px] font-bold text-blue-300">
-                    AA
+                  <div className="flex items-center gap-1 text-[11px] text-slate-400 group-hover:text-white transition shrink-0">
+                    <span>{member.handle}</span>
+                    <ExternalLink className="w-3 h-3 opacity-60 group-hover:opacity-100" />
                   </div>
-                  <div>
-                    <span className="text-xs font-semibold text-white group-hover:text-amber-300 block">
-                      Ayush Arya
-                    </span>
-                    <span className="text-[10px] text-slate-400 block">Developer</span>
-                  </div>
-                </div>
-                <div className="flex items-center gap-1 text-[11px] text-slate-400 group-hover:text-white">
-                  <span>@ayusharya</span>
-                  <ExternalLink className="w-3 h-3" />
-                </div>
-              </a>
-
-              {/* Amartya Singh */}
-              <a
-                href="https://github.com/AmartyaSingh"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-between p-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 hover:border-amber-400/40 transition group"
-              >
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full bg-purple-400/20 flex items-center justify-center text-[11px] font-bold text-purple-300">
-                    AS
-                  </div>
-                  <div>
-                    <span className="text-xs font-semibold text-white group-hover:text-amber-300 block">
-                      Amartya Singh
-                    </span>
-                    <span className="text-[10px] text-slate-400 block">Developer</span>
-                  </div>
-                </div>
-                <div className="flex items-center gap-1 text-[11px] text-slate-400 group-hover:text-white">
-                  <span>@AmartyaSingh</span>
-                  <ExternalLink className="w-3 h-3" />
-                </div>
-              </a>
-
-              {/* Md. Saklain Khan */}
-              <a
-                href="https://github.com/saklainkhan"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-between p-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 hover:border-amber-400/40 transition group"
-              >
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full bg-emerald-400/20 flex items-center justify-center text-[11px] font-bold text-emerald-300">
-                    SK
-                  </div>
-                  <div>
-                    <span className="text-xs font-semibold text-white group-hover:text-amber-300 block">
-                      Md. Saklain Khan
-                    </span>
-                    <span className="text-[10px] text-slate-400 block">Developer</span>
-                  </div>
-                </div>
-                <div className="flex items-center gap-1 text-[11px] text-slate-400 group-hover:text-white">
-                  <span>@saklainkhan</span>
-                  <ExternalLink className="w-3 h-3" />
-                </div>
-              </a>
-
-              {/* Akarsh Gupta */}
-              <a
-                href="https://github.com/Akarshxai"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-between p-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 hover:border-amber-400/40 transition group"
-              >
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full bg-rose-400/20 flex items-center justify-center text-[11px] font-bold text-rose-300">
-                    AG
-                  </div>
-                  <div>
-                    <span className="text-xs font-semibold text-white group-hover:text-amber-300 block">
-                      Akarsh Gupta
-                    </span>
-                    <span className="text-[10px] text-slate-400 block">Developer</span>
-                  </div>
-                </div>
-                <div className="flex items-center gap-1 text-[11px] text-slate-400 group-hover:text-white">
-                  <span>@Akarshxai</span>
-                  <ExternalLink className="w-3 h-3" />
-                </div>
-              </a>
-
-              {/* Alisha Rahman */}
-              <a
-                href="https://github.com/alisharahman"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-between p-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 hover:border-amber-400/40 transition group"
-              >
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full bg-pink-400/20 flex items-center justify-center text-[11px] font-bold text-pink-300">
-                    AR
-                  </div>
-                  <div>
-                    <span className="text-xs font-semibold text-white group-hover:text-amber-300 block">
-                      Alisha Rahman
-                    </span>
-                    <span className="text-[10px] text-slate-400 block">Developer</span>
-                  </div>
-                </div>
-                <div className="flex items-center gap-1 text-[11px] text-slate-400 group-hover:text-white">
-                  <span>@alisharahman</span>
-                  <ExternalLink className="w-3 h-3" />
-                </div>
-              </a>
+                </a>
+              ))}
             </div>
           </div>
         </div>
