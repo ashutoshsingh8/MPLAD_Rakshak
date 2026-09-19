@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   X,
   Camera,
@@ -52,6 +53,7 @@ const SAMPLE_CONSTRUCTION_PHOTO =
 
 export default function LiveEvidenceModal({ work, onClose, onSubmitEvidence }) {
   if (!work) return null;
+  const { t } = useTranslation();
 
   const [capturedPhoto, setCapturedPhoto] = useState(null);
   const [photoPreview, setPhotoPreview] = useState(null);
@@ -281,10 +283,10 @@ export default function LiveEvidenceModal({ work, onClose, onSubmitEvidence }) {
             </div>
             <div>
               <h3 className="text-base font-black uppercase tracking-wide">
-                LIVE ON-SITE EVIDENCE CAPTURE
+                {t('contractor_portal.evidence_modal_title', 'LIVE ON-SITE EVIDENCE CAPTURE')}
               </h3>
               <p className="text-xs text-amber-100/90 font-medium">
-                Live Camera & Real-time GPS Geo-Fencing
+                {t('contractor_portal.evidence_modal_subtitle', 'Live Camera & Real-time GPS Geo-Fencing')}
               </p>
             </div>
           </div>
@@ -300,11 +302,13 @@ export default function LiveEvidenceModal({ work, onClose, onSubmitEvidence }) {
         {/* Project Context Pill */}
         <div className="px-6 py-3 bg-amber-50 border-b border-amber-200/80 flex flex-wrap items-center justify-between gap-2 text-xs">
           <div>
-            <span className="text-amber-900 font-bold">{work.projectName}</span>
+            <span className="text-amber-900 font-bold">
+              {t(`contractor_portal.mock_works.${work.id}`, work.projectName)}
+            </span>
             <span className="text-amber-700 font-mono ml-2">({work.projectUid})</span>
           </div>
           <div className="text-[11px] text-amber-800 font-semibold">
-            Sanction: {work.sanctionedAmount}
+            {t('contractor_portal.sanction_label', 'Sanction:')} {work.sanctionedAmount}
           </div>
         </div>
 
@@ -313,7 +317,7 @@ export default function LiveEvidenceModal({ work, onClose, onSubmitEvidence }) {
           {/* Section 1: Live Camera Capture */}
           <div className="space-y-2">
             <label className="block text-xs font-black uppercase tracking-wider text-slate-800">
-              1. MANDATORY LIVE PHOTO CAPTURE
+              {t('contractor_portal.sec1_title', '1. MANDATORY LIVE PHOTO CAPTURE')}
             </label>
 
             {photoPreview ? (
@@ -329,7 +333,7 @@ export default function LiveEvidenceModal({ work, onClose, onSubmitEvidence }) {
                 />
                 <div className="absolute bottom-2 left-2 bg-black/75 backdrop-blur-xs text-white px-2.5 py-1 rounded text-[10px] font-mono flex items-center gap-1.5">
                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>EXIF Hash Generated • Live Shutter Timestamp</span>
+                  <span>{t('contractor_portal.exif_hash_badge', 'EXIF Hash Generated • Live Shutter Timestamp')}</span>
                 </div>
                 <button
                   type="button"
@@ -339,7 +343,7 @@ export default function LiveEvidenceModal({ work, onClose, onSubmitEvidence }) {
                   }}
                   className="absolute top-2 right-2 px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded-lg text-xs font-bold shadow-xs cursor-pointer transition"
                 >
-                  Retake Photo
+                  {t('contractor_portal.retake_photo', 'Retake Photo')}
                 </button>
               </div>
             ) : isCameraActive ? (
@@ -364,10 +368,12 @@ export default function LiveEvidenceModal({ work, onClose, onSubmitEvidence }) {
                     <div className="bg-black/75 backdrop-blur-xs text-white px-2.5 py-1 rounded-full text-[10px] font-bold flex items-center gap-1.5 border border-white/20">
                       <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
                       <span className="w-2 h-2 rounded-full bg-red-500 absolute" />
-                      <span className="ml-2">LIVE CAMERA FEED</span>
+                      <span className="ml-2">{t('contractor_portal.live_feed_badge', 'LIVE CAMERA FEED')}</span>
                     </div>
                     <div className="bg-black/75 backdrop-blur-xs text-amber-300 px-2 py-1 rounded text-[10px] font-mono border border-white/10">
-                      GPS: {isWithinTolerance ? 'LOCKED (≤50m)' : 'TOLERANCE EXCEEDED'}
+                      {isWithinTolerance
+                        ? t('contractor_portal.gps_locked_badge', 'GPS: LOCKED (≤50m)')
+                        : t('contractor_portal.gps_exceeded_badge', 'GPS: TOLERANCE EXCEEDED')}
                     </div>
                   </div>
 
@@ -375,7 +381,7 @@ export default function LiveEvidenceModal({ work, onClose, onSubmitEvidence }) {
                   <div className="self-center w-40 h-36 border-2 border-dashed border-white/70 rounded-xl relative pointer-events-none flex items-center justify-center">
                     <div className="w-2 h-2 rounded-full bg-white/60" />
                     <span className="absolute bottom-1 text-[9px] text-white/90 font-mono tracking-wider font-bold">
-                      FRAME WORK SITE
+                      {t('contractor_portal.frame_work_site', 'FRAME WORK SITE')}
                     </span>
                   </div>
 
@@ -385,7 +391,7 @@ export default function LiveEvidenceModal({ work, onClose, onSubmitEvidence }) {
                       {new Date().toLocaleTimeString('en-IN')} IST
                     </span>
                     <span className="bg-black/60 px-2 py-0.5 rounded">
-                      Camera: {facingMode === 'environment' ? 'Rear' : 'Front'}
+                      Camera: {facingMode === 'environment' ? t('contractor_portal.camera_rear', 'Rear') : t('contractor_portal.camera_front', 'Front')}
                     </span>
                   </div>
                 </div>
@@ -397,7 +403,7 @@ export default function LiveEvidenceModal({ work, onClose, onSubmitEvidence }) {
                     onClick={stopCamera}
                     className="px-3.5 py-2 bg-black/70 hover:bg-black/90 text-white rounded-xl text-xs font-semibold backdrop-blur-xs transition cursor-pointer border border-white/20"
                   >
-                    Cancel
+                    {t('rag_viewer.cancel_btn', 'Cancel')}
                   </button>
 
                   <button
@@ -406,7 +412,7 @@ export default function LiveEvidenceModal({ work, onClose, onSubmitEvidence }) {
                     className="px-5 py-2.5 bg-[#d96b1b] hover:bg-[#b8540d] text-white rounded-full font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg hover:scale-105 active:scale-95 transition cursor-pointer border-2 border-white"
                   >
                     <Camera className="w-4 h-4" />
-                    <span>Capture Photo</span>
+                    <span>{t('contractor_portal.capture_photo_btn', 'Capture Photo')}</span>
                   </button>
 
                   <button
@@ -425,7 +431,7 @@ export default function LiveEvidenceModal({ work, onClose, onSubmitEvidence }) {
                   <div className="w-full p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700 flex items-start gap-2 text-left mb-1">
                     <AlertTriangle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
                     <div className="flex-1">
-                      <p className="font-bold">Camera Access Error</p>
+                      <p className="font-bold">{t('contractor_portal.camera_error_title', 'Camera Access Error')}</p>
                       <p className="text-[11px] text-red-600 mt-0.5">{cameraError}</p>
                     </div>
                     <button
@@ -451,7 +457,7 @@ export default function LiveEvidenceModal({ work, onClose, onSubmitEvidence }) {
                     ) : (
                       <Camera className="w-4 h-4" />
                     )}
-                    <span>Open Live Camera</span>
+                    <span>{t('contractor_portal.open_live_camera', 'Open Live Camera')}</span>
                   </button>
 
                   <button
@@ -461,12 +467,12 @@ export default function LiveEvidenceModal({ work, onClose, onSubmitEvidence }) {
                     title="Test milestone capture with a simulated construction site photo without needing camera hardware"
                   >
                     <Sparkles className="w-4 h-4 text-amber-500" />
-                    <span>Simulate Shutter (Mock Photo)</span>
+                    <span>{t('contractor_portal.simulate_shutter', 'Simulate Shutter (Mock Photo)')}</span>
                   </button>
                 </div>
 
                 <p className="text-[11px] text-slate-500 max-w-sm">
-                  Mandatory live on-site camera capture. Gallery uploads are disabled to prevent fraud. Submissions are audited with live device timestamp and GPS tolerance checks (≤ 50m).
+                  {t('contractor_portal.camera_guidance', 'Mandatory live on-site camera capture. Gallery uploads are disabled to prevent fraud. Submissions are audited with live device timestamp and GPS tolerance checks (≤ 50m).')}
                 </p>
               </div>
             )}
@@ -477,32 +483,32 @@ export default function LiveEvidenceModal({ work, onClose, onSubmitEvidence }) {
             <div className="flex items-center justify-between">
               <span className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
                 <MapPin className="w-4 h-4 text-[#d96b1b]" />
-                <span>2. GPS Centroid Displacement Audit</span>
+                <span>{t('contractor_portal.sec2_title', '2. GPS Centroid Displacement Audit')}</span>
               </span>
 
               {isWithinTolerance ? (
                 <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold flex items-center gap-1">
                   <CheckCircle2 className="w-3 h-3 text-emerald-600" />
-                  <span>Within 50m Limit</span>
+                  <span>{t('contractor_portal.within_limit_badge', 'Within 50m Limit')}</span>
                 </span>
               ) : (
                 <span className="px-2 py-0.5 rounded-full bg-red-100 text-red-800 text-[10px] font-bold flex items-center gap-1">
                   <AlertTriangle className="w-3 h-3 text-red-600" />
-                  <span>Displacement Warning</span>
+                  <span>{t('contractor_portal.displacement_warning_badge', 'Displacement Warning')}</span>
                 </span>
               )}
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1 text-xs">
               <div className="p-2.5 bg-white rounded-lg border border-slate-200 font-mono">
-                <span className="text-[10px] text-slate-400 block">Sanctioned Site Centroid:</span>
+                <span className="text-[10px] text-slate-400 block">{t('contractor_portal.sanctioned_centroid', 'Sanctioned Site Centroid:')}</span>
                 <strong className="text-slate-800">
                   {work.centroidCoords ? `${work.centroidCoords[0].toFixed(4)}° N, ${work.centroidCoords[1].toFixed(4)}° E` : '18.4385° N, 73.6521° E'}
                 </strong>
               </div>
 
               <div className="p-2.5 bg-white rounded-lg border border-slate-200 font-mono">
-                <span className="text-[10px] text-slate-400 block">Current Device GPS:</span>
+                <span className="text-[10px] text-slate-400 block">{t('contractor_portal.device_gps', 'Current Device GPS:')}</span>
                 <strong className={isWithinTolerance ? 'text-emerald-700' : 'text-red-600'}>
                   {currentCoords ? `${currentCoords[0].toFixed(4)}° N, ${currentCoords[1].toFixed(4)}° E` : '18.4387° N, 73.6523° E'}
                 </strong>
@@ -510,9 +516,9 @@ export default function LiveEvidenceModal({ work, onClose, onSubmitEvidence }) {
             </div>
 
             <div className="flex items-center justify-between text-[11px] pt-1 text-slate-600">
-              <span>Calculated Haversine Displacement:</span>
+              <span>{t('contractor_portal.haversine_displacement', 'Calculated Haversine Displacement:')}</span>
               <span className={`font-mono font-bold ${isWithinTolerance ? 'text-emerald-700' : 'text-red-600'}`}>
-                {displacement} meters (Tolerance: 50m)
+                {t('contractor_portal.meters_tolerance', { dist: displacement, defaultValue: `${displacement} meters (Tolerance: 50m)` })}
               </span>
             </div>
           </div>
@@ -521,23 +527,23 @@ export default function LiveEvidenceModal({ work, onClose, onSubmitEvidence }) {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-bold text-slate-700 mb-1">
-                Active Execution Phase:
+                {t('contractor_portal.active_execution_phase', 'Active Execution Phase:')}
               </label>
               <select
                 value={selectedPhase}
                 onChange={(e) => setSelectedPhase(e.target.value)}
                 className="w-full p-2.5 bg-white border border-slate-200 rounded-lg text-xs text-slate-800 focus:ring-1 focus:ring-[#d96b1b] focus:outline-none"
               >
-                <option value="Earthwork">Earthwork & Subgrade</option>
-                <option value="Foundation">Plinth & Concrete Foundation</option>
-                <option value="Superstructure">Superstructure & Columns</option>
-                <option value="Finishing">Bituminous Carpet / Handover</option>
+                <option value="Earthwork">{t('contractor_portal.phases.earthwork', 'Earthwork & Subgrade')}</option>
+                <option value="Foundation">{t('contractor_portal.phases.foundation', 'Plinth & Concrete Foundation')}</option>
+                <option value="Superstructure">{t('contractor_portal.phases.superstructure', 'Superstructure & Columns')}</option>
+                <option value="Finishing">{t('contractor_portal.phases.finishing', 'Bituminous Carpet / Handover')}</option>
               </select>
             </div>
 
             <div>
               <label className="block text-xs font-bold text-slate-700 mb-1">
-                Milestone Claim Amount (₹ Lakh):
+                {t('contractor_portal.milestone_claim_amount', 'Milestone Claim Amount (₹ Lakh):')}
               </label>
               <div className="relative">
                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs">₹</span>
@@ -556,7 +562,7 @@ export default function LiveEvidenceModal({ work, onClose, onSubmitEvidence }) {
           {/* Progress Slider */}
           <div className="space-y-1">
             <div className="flex items-center justify-between text-xs font-bold text-slate-700">
-              <span>Overall Cumulative Physical Progress:</span>
+              <span>{t('contractor_portal.overall_progress', 'Overall Cumulative Physical Progress:')}</span>
               <span className="text-[#d96b1b] font-mono text-sm">{progressPercent}%</span>
             </div>
             <input
@@ -572,13 +578,13 @@ export default function LiveEvidenceModal({ work, onClose, onSubmitEvidence }) {
           {/* Description */}
           <div>
             <label className="block text-xs font-bold text-slate-700 mb-1">
-              Field Execution Notes:
+              {t('contractor_portal.field_notes_label', 'Field Execution Notes:')}
             </label>
             <textarea
               rows={2}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="e.g., Completed compaction of 2.4 km stretch. Ready for WMM layer inspection by District Engineer."
+              placeholder={t('contractor_portal.field_notes_placeholder', 'e.g., Completed compaction of 2.4 km stretch. Ready for WMM layer inspection by District Engineer.')}
               className="w-full p-2.5 bg-white border border-slate-200 rounded-lg text-xs text-slate-800 focus:ring-1 focus:ring-[#d96b1b] focus:outline-none"
             />
           </div>
@@ -590,7 +596,7 @@ export default function LiveEvidenceModal({ work, onClose, onSubmitEvidence }) {
               onClick={handleClose}
               className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold cursor-pointer"
             >
-              Cancel
+              {t('rag_viewer.cancel_btn', 'Cancel')}
             </button>
 
             <button
@@ -605,12 +611,12 @@ export default function LiveEvidenceModal({ work, onClose, onSubmitEvidence }) {
               {isSubmitting ? (
                 <>
                   <RefreshCw className="w-4 h-4 animate-spin" />
-                  <span>Uploading Evidence...</span>
+                  <span>{t('contractor_portal.uploading_evidence_btn', 'Uploading Evidence...')}</span>
                 </>
               ) : (
                 <>
                   <CheckCircle2 className="w-4 h-4" />
-                  <span>Submit Milestone Evidence</span>
+                  <span>{t('contractor_portal.submit_evidence_btn', 'Submit Milestone Evidence')}</span>
                 </>
               )}
             </button>

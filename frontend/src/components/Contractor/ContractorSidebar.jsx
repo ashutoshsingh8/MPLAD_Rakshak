@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import {
   User,
   CheckCircle2,
@@ -11,30 +12,31 @@ import {
 import { contractorProfile } from '../../mock/contractorDashboardData';
 
 export default function ContractorSidebar({ activeTab, setActiveTab, onLogout }) {
+  const { t } = useTranslation();
   const navItems = [
     {
       id: 'profile',
-      label: 'PROFILE',
+      label: t('contractor_portal.tab_profile', 'PROFILE'),
       icon: User,
     },
     {
       id: 'dashboard',
-      label: 'MY DASHBOARD',
+      label: t('contractor_portal.tab_dashboard', 'MY DASHBOARD'),
       icon: CheckCircle2,
     },
     {
       id: 'active-projects',
-      label: 'ACTIVE PROJECTS',
+      label: t('contractor_portal.tab_active_works', 'ACTIVE PROJECTS'),
       icon: FileText,
     },
     {
       id: 'payments',
-      label: 'PAYMENTS',
+      label: t('contractor_portal.tab_payments', 'PAYMENTS'),
       icon: CreditCard,
     },
     {
       id: 'notifications',
-      label: 'NOTIFICATIONS',
+      label: t('contractor_portal.tab_notifications', 'NOTIFICATIONS'),
       icon: Bell,
       badge: '2',
     },
@@ -59,7 +61,7 @@ export default function ContractorSidebar({ activeTab, setActiveTab, onLogout })
             {contractorProfile.companyName.split(' ')[0]} {contractorProfile.companyName.split(' ')[1]}
           </p>
           <span className="text-[10px] text-amber-100/75 text-center mt-0.5">
-            Empanelled Class-1
+            {t('contractor_portal.empanelled_class1', 'Empanelled Class-1')}
           </span>
         </div>
 
@@ -102,7 +104,7 @@ export default function ContractorSidebar({ activeTab, setActiveTab, onLogout })
           className="w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold text-amber-100 hover:bg-[#7c320a] hover:text-white transition cursor-pointer"
         >
           <LogOut className="w-4 h-4 text-amber-200" />
-          <span>LOGOUT</span>
+          <span>{t('nav.logout', 'LOGOUT')}</span>
         </button>
       </div>
     </aside>

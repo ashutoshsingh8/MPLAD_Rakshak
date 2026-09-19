@@ -7,6 +7,8 @@ import {
   Calendar, Building, HardHat, FileSpreadsheet, ShieldCheck, Award, Phone, ExternalLink
 } from 'lucide-react';
 import { getProjects } from '../services/api';
+import { getLocalizedState, getLocalizedDistrict } from '../utils/geoTranslations';
+import { getLocalizedProjectTitle, COMMON_PHRASE_TRANSLATIONS, getLocalizedContractorDivision } from '../utils/projectTranslations';
 
 const getContractorAndTenderDetails = (project) => {
   if (!project) return null;
@@ -102,7 +104,8 @@ export default function PublicPortalHome({
   onNavigateToLogin,
   onOpenFraudReport,
 }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const currentLang = i18n.language ? i18n.language.split('-')[0] : 'en';
   const [keyword, setKeyword] = useState('');
   const [selectedState, setSelectedState] = useState('ALL');
   const [selectedDistrict, setSelectedDistrict] = useState('ALL');
@@ -125,23 +128,23 @@ export default function PublicPortalHome({
   };
 
   const categories = [
-    { value: 'ALL', label: 'All Sectors' },
-    { value: 'COMMUNITY_CENTER', label: 'Community Centers' },
-    { value: 'ROADS', label: 'Roads & Bridges' },
-    { value: 'DRINKING_WATER', label: 'Drinking Water' },
-    { value: 'SANITATION', label: 'Sanitation' },
-    { value: 'EDUCATION', label: 'Education & Schools' },
-    { value: 'HEALTH', label: 'Public Health' },
-    { value: 'SPORTS', label: 'Sports & Parks' },
+    { value: 'ALL', label: t('categories.ALL', 'All Sectors') },
+    { value: 'COMMUNITY_CENTER', label: t('categories.COMMUNITY_CENTER', 'Community Centers') },
+    { value: 'ROADS', label: t('categories.ROADS', 'Roads & Bridges') },
+    { value: 'DRINKING_WATER', label: t('categories.DRINKING_WATER', 'Drinking Water') },
+    { value: 'SANITATION', label: t('categories.SANITATION', 'Sanitation') },
+    { value: 'EDUCATION', label: t('categories.EDUCATION', 'Education & Schools') },
+    { value: 'HEALTH', label: t('categories.HEALTH', 'Public Health & PHCs') },
+    { value: 'SPORTS', label: t('categories.SPORTS', 'Sports & Parks') },
   ];
 
   const statuses = [
-    { value: 'ALL', label: 'All Statuses' },
-    { value: 'IN_PROGRESS', label: 'In Progress' },
-    { value: 'SANCTIONED', label: 'Sanctioned' },
-    { value: 'COMPLETED', label: 'Completed' },
-    { value: 'FLAGGED_REVIEW', label: 'Flagged for Review' },
-    { value: 'RECOMMENDED', label: 'Recommended' },
+    { value: 'ALL', label: t('statuses.ALL', 'All Statuses') },
+    { value: 'IN_PROGRESS', label: t('status.in_progress', 'In Progress') },
+    { value: 'SANCTIONED', label: t('status.sanctioned', 'Sanctioned') },
+    { value: 'COMPLETED', label: t('status.completed', 'Completed') },
+    { value: 'FLAGGED_REVIEW', label: t('status.flagged', 'Flagged for Review') },
+    { value: 'RECOMMENDED', label: t('status.recommended', 'Recommended') },
   ];
 
   // Fetch projects on load
@@ -322,16 +325,16 @@ export default function PublicPortalHome({
                     <div>
                       <div className="flex items-center justify-between mb-1.5">
                         <span className="text-[9px] font-black tracking-wider uppercase px-1.5 py-0.5 rounded bg-teal-50 text-teal-800 border border-teal-200">
-                          Civic Asset Audit
+                          {t('portal.civic_asset_audit', 'Civic Asset Audit')}
                         </span>
                         <span className="text-[9px] font-bold text-amber-600 bg-amber-50 px-1 rounded">75%</span>
                       </div>
                       <div className="text-[11px] font-bold text-slate-900 line-clamp-1">
-                        Panchayat Community Hall
+                        {COMMON_PHRASE_TRANSLATIONS.panchayat_hall[currentLang] || 'Panchayat Community Hall'}
                       </div>
                       <div className="text-[10px] text-slate-500 flex items-center gap-1 mt-0.5">
                         <MapPin className="w-2.5 h-2.5 text-teal-600 shrink-0" />
-                        <span className="truncate">Wadgaon, Pune</span>
+                        <span className="truncate">{COMMON_PHRASE_TRANSLATIONS.wadgaon_pune[currentLang] || 'Wadgaon, Pune'}</span>
                       </div>
                     </div>
                     <div>
@@ -340,7 +343,7 @@ export default function PublicPortalHome({
                       </div>
                       <div className="flex items-center justify-between text-[10px] text-slate-600">
                         <span className="font-bold text-slate-800">₹32.00 Lakh</span>
-                        <span className="text-emerald-700 font-semibold">In Progress</span>
+                        <span className="text-emerald-700 font-semibold">{t('status.in_progress', 'In Progress')}</span>
                       </div>
                     </div>
                   </div>
@@ -350,7 +353,7 @@ export default function PublicPortalHome({
                     <div>
                       <div className="flex items-center justify-between mb-1.5">
                         <span className="text-[9px] font-black tracking-wider uppercase px-1.5 py-0.5 rounded bg-blue-50 text-blue-800 border border-blue-200">
-                          GIS GPS Centroid
+                          {t('portal.gps_centroid', 'GIS GPS Centroid')}
                         </span>
                         <MapPin className="w-3 h-3 text-teal-600" />
                       </div>
@@ -359,12 +362,12 @@ export default function PublicPortalHome({
                       </div>
                       <div className="text-[10px] text-emerald-700 font-semibold flex items-center gap-1 mt-0.5">
                         <ShieldCheck className="w-3 h-3 text-emerald-600 shrink-0" />
-                        <span>0m GPS Anomaly</span>
+                        <span>{t('portal.anomaly_0m', '0m GPS Anomaly')}</span>
                       </div>
                     </div>
                     <div className="p-1.5 bg-slate-50 rounded-lg border border-slate-100 flex items-center justify-between text-[10px]">
-                      <span className="text-slate-500 font-mono text-[9px]">STATUTORY CHECK</span>
-                      <span className="text-emerald-700 font-bold">50m Verified</span>
+                      <span className="text-slate-500 font-mono text-[9px]">{t('portal.statutory_check', 'STATUTORY CHECK')}</span>
+                      <span className="text-emerald-700 font-bold">{t('portal.verified_50m', '50m Verified')}</span>
                     </div>
                   </div>
                 </div>
@@ -373,23 +376,23 @@ export default function PublicPortalHome({
                 <div className="flex flex-col justify-center text-left space-y-2.5">
                   <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold uppercase tracking-wider w-fit border border-white/20">
                     <ShieldCheck className="w-3.5 h-3.5 text-amber-300" />
-                    <span>Citizen Transparency</span>
+                    <span>{t('portal.citizen_transparency', 'Citizen Transparency')}</span>
                   </div>
                   <h4 className="text-base sm:text-lg font-black text-white tracking-wide leading-snug">
-                    Direct Public Oversight for ₹5 Cr Annual MP Funds
+                    {t('portal.oversight_heading', 'Direct Public Oversight for ₹5 Cr Annual MP Funds')}
                   </h4>
                   <p className="text-xs text-teal-100 leading-relaxed">
-                    Search ₹5 Crore annual MP funds, geo-tagged civic infrastructure, and ground completion audits across India.
+                    {t('portal.oversight_desc', 'Search ₹5 Crore annual MP funds, geo-tagged civic infrastructure, and ground completion audits across India.')}
                   </p>
                   <div className="flex flex-wrap gap-2 pt-1 text-[11px] text-teal-50">
                     <span className="inline-flex items-center gap-1 bg-black/20 px-2.5 py-0.5 rounded-full border border-white/15">
-                      <Check className="w-3 h-3 text-emerald-300" /> 100% Geo-Tagged
+                      <Check className="w-3 h-3 text-emerald-300" /> {t('portal.geo_tagged_100', '100% Geo-Tagged')}
                     </span>
                     <span className="inline-flex items-center gap-1 bg-black/20 px-2.5 py-0.5 rounded-full border border-white/15">
-                      <Check className="w-3 h-3 text-emerald-300" /> PFMS Escrow Audited
+                      <Check className="w-3 h-3 text-emerald-300" /> {t('portal.pfms_audited', 'PFMS Escrow Audited')}
                     </span>
                     <span className="inline-flex items-center gap-1 bg-black/20 px-2.5 py-0.5 rounded-full border border-white/15">
-                      <Check className="w-3 h-3 text-emerald-300" /> Zero Login Needed
+                      <Check className="w-3 h-3 text-emerald-300" /> {t('portal.zero_login', 'Zero Login Needed')}
                     </span>
                   </div>
                 </div>
@@ -426,10 +429,11 @@ export default function PublicPortalHome({
                   className="w-full px-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-300 rounded-lg text-slate-800 focus:outline-none focus:ring-2 focus:ring-teal-600 transition"
                 >
                   <option value="ALL">{t('portal.all_states', 'All States / UTs')}</option>
-                  <option value="Maharashtra">Maharashtra</option>
-                  <option value="Gujarat">Gujarat</option>
-                  <option value="Uttar Pradesh">Uttar Pradesh</option>
-                  <option value="Delhi">Delhi</option>
+                  {Object.keys(stateDistricts).map((st) => (
+                    <option key={st} value={st}>
+                      {getLocalizedState(st, currentLang)}
+                    </option>
+                  ))}
                 </select>
               </div>
 
@@ -447,14 +451,14 @@ export default function PublicPortalHome({
                   {selectedState !== 'ALL' && stateDistricts[selectedState]
                     ? stateDistricts[selectedState].map((dist) => (
                         <option key={dist} value={dist}>
-                          {dist}
+                          {getLocalizedDistrict(dist, currentLang)}
                         </option>
                       ))
                     : Object.values(stateDistricts)
                         .flat()
                         .map((dist) => (
                           <option key={dist} value={dist}>
-                            {dist}
+                            {getLocalizedDistrict(dist, currentLang)}
                           </option>
                         ))}
                 </select>
@@ -463,7 +467,7 @@ export default function PublicPortalHome({
               {/* Sector / Category */}
               <div>
                 <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-1">
-                  Sector / Work Type
+                  {t('portal.sector_label', 'Sector / Work Type')}
                 </label>
                 <select
                   value={selectedCategory}
@@ -481,7 +485,7 @@ export default function PublicPortalHome({
               {/* Project Status */}
               <div>
                 <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-1">
-                  Execution Status
+                  {t('portal.status_label', 'Execution Status')}
                 </label>
                 <select
                   value={selectedStatus}
@@ -545,14 +549,14 @@ export default function PublicPortalHome({
 
                         {/* Title */}
                         <h4 className="text-xs sm:text-sm font-bold text-slate-800 line-clamp-2 mb-2 hover:text-teal-700 transition">
-                          {project.title}
+                          {getLocalizedProjectTitle(project, currentLang)}
                         </h4>
 
                         {/* Location */}
                         <div className="flex items-center gap-1 text-[11px] text-slate-500 mb-2">
                           <MapPin className="w-3.5 h-3.5 text-teal-600 shrink-0" />
                           <span>
-                            {project.district}, {project.state}
+                            {getLocalizedDistrict(project.district, currentLang)}, {getLocalizedState(project.state, currentLang)}
                           </span>
                         </div>
                       </div>
@@ -611,7 +615,7 @@ export default function PublicPortalHome({
                       onClick={onNavigateToProjects}
                       className="inline-flex items-center gap-1.5 px-6 py-2 rounded-lg bg-teal-50 hover:bg-teal-100 text-teal-800 text-xs font-bold transition border border-teal-200 shadow-xs cursor-pointer"
                     >
-                      <span>View All {filteredProjects.length} Projects in Directory</span>
+                      <span>{t('portal.view_all_directory', 'View All Projects in Directory')}</span>
                       <ChevronRight className="w-4 h-4" />
                     </button>
                   </div>
@@ -627,10 +631,10 @@ export default function PublicPortalHome({
               <div className="lg:col-span-2">
                 <div className="flex items-center justify-between mb-4">
                   <h4 className="text-sm font-black text-slate-800 uppercase tracking-wider">
-                    QUICK LINKS
+                    {t('portal.quick_links', 'QUICK LINKS')}
                   </h4>
                   <span className="text-[11px] text-teal-800 font-semibold bg-teal-50 px-2.5 py-0.5 rounded-full border border-teal-200">
-                    Citizen Transparency Services
+                    {t('portal.citizen_services', 'Citizen Transparency Services')}
                   </span>
                 </div>
 
@@ -638,7 +642,7 @@ export default function PublicPortalHome({
                   {/* Column 1: Citizen Search & Projects */}
                   <div>
                     <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-2">
-                      Search & Projects
+                      {t('portal.search_projects_col', 'Search & Projects')}
                     </span>
                     <ul className="space-y-2 text-slate-600">
                       <li>
@@ -652,7 +656,7 @@ export default function PublicPortalHome({
                           className="flex items-center gap-1.5 hover:text-teal-800 transition font-medium cursor-pointer text-left"
                         >
                           <Search className="w-3.5 h-3.5 text-teal-600 shrink-0" />
-                          <span>Public Project Search</span>
+                          <span>{t('portal.public_proj_search', 'Public Project Search')}</span>
                         </button>
                       </li>
                       <li>
@@ -661,7 +665,7 @@ export default function PublicPortalHome({
                           className="flex items-center gap-1.5 hover:text-teal-800 transition font-medium cursor-pointer text-left"
                         >
                           <FileText className="w-3.5 h-3.5 text-teal-600 shrink-0" />
-                          <span>Projects Directory</span>
+                          <span>{t('portal.projects_directory', 'Projects Directory')}</span>
                         </button>
                       </li>
                       <li>
@@ -670,7 +674,7 @@ export default function PublicPortalHome({
                           className="flex items-center gap-1.5 hover:text-teal-800 transition font-medium cursor-pointer text-left"
                         >
                           <MapPin className="w-3.5 h-3.5 text-teal-600 shrink-0" />
-                          <span>Interactive Analytics Map</span>
+                          <span>{t('portal.analytics_map_link', 'Interactive Analytics Map')}</span>
                         </button>
                       </li>
                       <li>
@@ -679,7 +683,7 @@ export default function PublicPortalHome({
                           className="flex items-center gap-1.5 hover:text-teal-800 transition font-medium cursor-pointer text-left"
                         >
                           <BookOpen className="w-3.5 h-3.5 text-teal-600 shrink-0" />
-                          <span>MPLADS Rules & AI Assistant</span>
+                          <span>{t('portal.rules_ai_link', 'MPLADS Rules & AI Assistant')}</span>
                         </button>
                       </li>
                     </ul>
@@ -688,7 +692,7 @@ export default function PublicPortalHome({
                   {/* Column 2: Vigilance & Integrity */}
                   <div>
                     <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-2">
-                      Vigilance & Quotas
+                      {t('portal.vigilance_quotas', 'Vigilance & Quotas')}
                     </span>
                     <ul className="space-y-2 text-slate-600">
                       <li>
@@ -697,7 +701,7 @@ export default function PublicPortalHome({
                           className="flex items-center gap-1.5 text-red-600 hover:text-red-800 font-bold transition cursor-pointer text-left"
                         >
                           <ShieldAlert className="w-3.5 h-3.5 text-red-500 shrink-0" />
-                          <span>Report Fraud / Anomaly</span>
+                          <span>{t('portal.report_fraud_menu', 'Report Fraud / Anomaly')}</span>
                         </button>
                       </li>
                       <li>
@@ -706,7 +710,7 @@ export default function PublicPortalHome({
                           className="flex items-center gap-1.5 hover:text-teal-800 transition font-medium cursor-pointer text-left"
                         >
                           <Clock className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-                          <span>Statutory 45-Day Sanction SLA</span>
+                          <span>{t('portal.sla_rule_menu', 'Statutory 45-Day Sanction SLA')}</span>
                         </button>
                       </li>
                       <li>
@@ -715,7 +719,7 @@ export default function PublicPortalHome({
                           className="flex items-center gap-1.5 hover:text-teal-800 transition font-medium cursor-pointer text-left"
                         >
                           <Award className="w-3.5 h-3.5 text-purple-600 shrink-0" />
-                          <span>SC / ST Welfare Quotas (15% & 7.5%)</span>
+                          <span>{t('portal.sc_st_quota_menu', 'SC / ST Welfare Quotas (15% & 7.5%)')}</span>
                         </button>
                       </li>
                       <li>
@@ -724,7 +728,7 @@ export default function PublicPortalHome({
                           className="flex items-center gap-1.5 hover:text-teal-800 transition font-medium cursor-pointer text-left"
                         >
                           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                          <span>CPWD Rate Benchmarks</span>
+                          <span>{t('portal.cpwd_rate_menu', 'CPWD Rate Benchmarks')}</span>
                         </button>
                       </li>
                     </ul>
@@ -733,7 +737,7 @@ export default function PublicPortalHome({
                   {/* Column 3: Portals & Governance */}
                   <div>
                     <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-2">
-                      Official Governance
+                      {t('portal.official_governance', 'Official Governance')}
                     </span>
                     <ul className="space-y-2 text-slate-600">
                       <li>
@@ -742,7 +746,7 @@ export default function PublicPortalHome({
                           className="flex items-center gap-1.5 hover:text-teal-800 transition font-medium cursor-pointer text-left"
                         >
                           <Landmark className="w-3.5 h-3.5 text-teal-700 shrink-0" />
-                          <span>Department Official Login</span>
+                          <span>{t('portal.dept_login_menu', 'Department Official Login')}</span>
                         </button>
                       </li>
                       <li>
@@ -751,7 +755,7 @@ export default function PublicPortalHome({
                           className="flex items-center gap-1.5 hover:text-teal-800 transition font-medium cursor-pointer text-left"
                         >
                           <Phone className="w-3.5 h-3.5 text-teal-700 shrink-0" />
-                          <span>MoSPI Grievance Cell</span>
+                          <span>{t('portal.mospi_cell_menu', 'MoSPI Grievance Cell')}</span>
                         </button>
                       </li>
                       <li>
@@ -760,7 +764,7 @@ export default function PublicPortalHome({
                           className="flex items-center gap-1.5 hover:text-teal-800 transition font-medium cursor-pointer text-left"
                         >
                           <Info className="w-3.5 h-3.5 text-teal-700 shrink-0" />
-                          <span>About MPLAD Rakshak</span>
+                          <span>{t('portal.about_menu', 'About MPLAD Rakshak')}</span>
                         </button>
                       </li>
                       <li>
@@ -771,7 +775,7 @@ export default function PublicPortalHome({
                           className="flex items-center gap-1.5 hover:text-teal-800 transition font-medium cursor-pointer text-left"
                         >
                           <ExternalLink className="w-3.5 h-3.5 text-teal-700 shrink-0" />
-                          <span>Official MoSPI Scheme Portal</span>
+                          <span>{t('portal.scheme_portal_link', 'Official MoSPI Scheme Portal')}</span>
                         </a>
                       </li>
                     </ul>
@@ -785,36 +789,36 @@ export default function PublicPortalHome({
                   <div className="flex items-center gap-1.5 mb-2">
                     <Landmark className="w-4 h-4 text-teal-800" />
                     <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider">
-                      ABOUT MPLAD RAKSHAK
+                      {t('about_page.title', 'ABOUT MPLAD RAKSHAK')}
                     </h4>
                   </div>
                   <p className="text-xs text-slate-600 leading-relaxed mb-3">
-                    AI-powered public vigilance and real-time anomaly detection engine for the Member of Parliament Local Area Development Scheme (MPLADS), MoSPI, Government of India.
+                    {t('portal.about_summary', 'AI-powered public vigilance and real-time anomaly detection engine for the Member of Parliament Local Area Development Scheme (MPLADS), MoSPI, Government of India.')}
                   </p>
                   <div className="flex flex-wrap gap-1.5 text-[10px]">
                     <button
                       onClick={onNavigateToProjects}
                       className="px-2 py-0.5 bg-white rounded border border-teal-300 text-teal-800 hover:bg-teal-50 transition cursor-pointer font-medium"
                     >
-                      Projects
+                      {t('nav.projects', 'Projects')}
                     </button>
                     <button
                       onClick={onNavigateToMap}
                       className="px-2 py-0.5 bg-white rounded border border-teal-300 text-teal-800 hover:bg-teal-50 transition cursor-pointer font-medium"
                     >
-                      Analytics Map
+                      {t('nav.map', 'Analytics Map')}
                     </button>
                     <button
                       onClick={onNavigateToGuidelines}
                       className="px-2 py-0.5 bg-white rounded border border-teal-300 text-teal-800 hover:bg-teal-50 transition cursor-pointer font-medium"
                     >
-                      AI Rules
+                      {t('nav.guidelines', 'AI Rules')}
                     </button>
                     <button
                       onClick={onNavigateToLogin}
                       className="px-2 py-0.5 bg-white rounded border border-teal-300 text-teal-800 hover:bg-teal-50 transition cursor-pointer font-medium"
                     >
-                      Login
+                      {t('nav.login', 'Login')}
                     </button>
                   </div>
                 </div>
@@ -825,7 +829,7 @@ export default function PublicPortalHome({
                     onClick={onNavigateToAbout}
                     className="text-xs font-bold text-teal-800 hover:underline flex items-center gap-1 cursor-pointer"
                   >
-                    <span>See more</span>
+                    <span>{t('project_details.see_more', 'See more')}</span>
                     <ChevronRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
@@ -842,7 +846,7 @@ export default function PublicPortalHome({
                 className="flex items-center gap-1.5 hover:text-teal-800 transition font-medium cursor-pointer"
               >
                 <Info className="w-4 h-4 text-teal-700" />
-                <span>See details</span>
+                <span>{t('project_details.see_details', 'See details')}</span>
               </button>
 
               {/* See more */}
@@ -851,7 +855,7 @@ export default function PublicPortalHome({
                 className="flex items-center gap-1.5 hover:text-teal-800 transition font-medium cursor-pointer"
               >
                 <MoreHorizontal className="w-4 h-4 text-teal-700" />
-                <span>See more</span>
+                <span>{t('project_details.see_more', 'See more')}</span>
               </button>
 
               {/* PUBLIC SEARCH */}
@@ -865,7 +869,7 @@ export default function PublicPortalHome({
                 className="flex items-center gap-1.5 text-teal-900 font-bold uppercase transition bg-teal-50 px-3 py-1 rounded border border-teal-200 cursor-pointer"
               >
                 <Search className="w-4 h-4 text-teal-700" />
-                <span>PUBLIC SEARCH</span>
+                <span>{t('portal.public_search', 'PUBLIC SEARCH')}</span>
               </button>
 
               {/* ANALYSIS MAP */}
@@ -874,7 +878,7 @@ export default function PublicPortalHome({
                 className="flex items-center gap-1.5 hover:text-teal-800 transition font-medium uppercase cursor-pointer"
               >
                 <BarChart3 className="w-4 h-4 text-teal-700" />
-                <span>ANALYSIS MAP</span>
+                <span>{t('nav.map', 'ANALYSIS MAP')}</span>
               </button>
 
               {/* USER GUIDE */}
@@ -883,7 +887,7 @@ export default function PublicPortalHome({
                 className="flex items-center gap-1.5 hover:text-teal-800 transition font-medium uppercase cursor-pointer"
               >
                 <BookOpen className="w-4 h-4 text-teal-700" />
-                <span>USER GUIDE</span>
+                <span>{t('project_details.user_guide', 'USER GUIDE')}</span>
               </button>
 
               {/* FAQ */}
@@ -892,7 +896,7 @@ export default function PublicPortalHome({
                 className="flex items-center gap-1.5 hover:text-teal-800 transition font-medium uppercase cursor-pointer"
               >
                 <HelpCircle className="w-4 h-4 text-teal-700" />
-                <span>FAQ</span>
+                <span>{t('project_details.faq', 'FAQ')}</span>
               </button>
             </div>
           </div>
@@ -907,11 +911,11 @@ export default function PublicPortalHome({
               <div className="flex items-center gap-2">
                 <ShieldCheck className="w-5 h-5 text-amber-300" />
                 <h3 className="text-sm font-black uppercase tracking-wider">
-                  {infoModal === 'SLA_RULES' && 'Statutory 45-Day Sanction SLA'}
-                  {infoModal === 'SC_ST_RULES' && 'SC / ST Welfare Quotas (15% & 7.5%)'}
-                  {infoModal === 'CPWD_RULES' && 'CPWD Rate Benchmarks'}
-                  {infoModal === 'DETAILS' && 'MPLADS Scheme Overview'}
-                  {infoModal === 'FAQ' && 'Frequently Asked Questions (FAQ)'}
+                  {infoModal === 'SLA_RULES' && t('project_details.sla_title', 'Statutory 45-Day Sanction SLA')}
+                  {infoModal === 'SC_ST_RULES' && t('project_details.sc_st_title', 'SC / ST Welfare Quotas (15% & 7.5%)')}
+                  {infoModal === 'CPWD_RULES' && t('project_details.cpwd_title', 'CPWD Rate Benchmarks')}
+                  {infoModal === 'DETAILS' && t('project_details.scheme_overview_title', 'MPLADS Scheme Overview')}
+                  {infoModal === 'FAQ' && t('project_details.faq', 'Frequently Asked Questions (FAQ)')}
                 </h3>
               </div>
               <button
@@ -986,12 +990,12 @@ export default function PublicPortalHome({
               {infoModal === 'FAQ' && (
                 <div className="space-y-3">
                   <div>
-                    <h5 className="font-bold text-slate-900">How can citizens track local projects?</h5>
-                    <p className="text-slate-600">Citizens can filter by State and District above or click "Analytics Map" to see geo-tagged assets and physical completion milestones.</p>
+                    <h5 className="font-bold text-slate-900">{t('project_details.faq_q1', 'How can citizens track local projects?')}</h5>
+                    <p className="text-slate-600">{t('project_details.faq_a1', 'Citizens can filter by State and District above or click "Analytics Map" to see geo-tagged assets and physical completion milestones.')}</p>
                   </div>
                   <div>
-                    <h5 className="font-bold text-slate-900">What if a sanctioned project is not built on ground?</h5>
-                    <p className="text-slate-600">Click "Report Fraud" on the project card to submit geo-tagged site photos and report ghost works or sub-standard execution directly to vigilance officers.</p>
+                    <h5 className="font-bold text-slate-900">{t('project_details.faq_q2', 'What if a sanctioned project is not built on ground?')}</h5>
+                    <p className="text-slate-600">{t('project_details.faq_a2', 'Click "Report Fraud" on the project card to submit geo-tagged site photos and report ghost works or sub-standard execution directly to vigilance officers.')}</p>
                   </div>
                 </div>
               )}
@@ -1002,7 +1006,7 @@ export default function PublicPortalHome({
                 onClick={() => setInfoModal(null)}
                 className="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-lg text-xs font-bold uppercase transition cursor-pointer"
               >
-                Close
+                {t('project_details.close_modal', 'Close')}
               </button>
             </div>
           </div>
@@ -1031,11 +1035,11 @@ export default function PublicPortalHome({
                         {selectedProjectModal.project_uid}
                       </span>
                       <span className="text-[10px] px-2 py-0.5 rounded bg-white/15 text-slate-200 font-semibold uppercase">
-                        {selectedProjectModal.category?.replace('_', ' ')}
+                        {t('categories.' + selectedProjectModal.category, selectedProjectModal.category?.replace(/_/g, ' '))}
                       </span>
                     </div>
                     <h3 className="text-sm sm:text-base font-black text-white line-clamp-1 mt-0.5">
-                      {selectedProjectModal.title}
+                      {getLocalizedProjectTitle(selectedProjectModal, currentLang)}
                     </h3>
                   </div>
                 </div>
@@ -1052,7 +1056,7 @@ export default function PublicPortalHome({
                     title="Report suspicious activity or anomaly on this project"
                   >
                     <ShieldAlert className="w-4 h-4 text-amber-300" />
-                    <span className="hidden sm:inline">Report Fraud</span>
+                    <span className="hidden sm:inline">{t('portal.report_fraud', 'Report Fraud')}</span>
                   </button>
 
                   <button
@@ -1069,31 +1073,31 @@ export default function PublicPortalHome({
                 {/* Top KPI Strip */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
-                    <span className="text-slate-500 block text-[10px] uppercase font-bold">Sanctioned Cost</span>
+                    <span className="text-slate-500 block text-[10px] uppercase font-bold">{t('project_details.sanctioned_cost', 'Sanctioned Cost')}</span>
                     <span className="text-sm font-black text-slate-900 mt-0.5 block">
                       {formatRupees(selectedProjectModal.sanctioned_amount)}
                     </span>
-                    <span className="text-[10px] text-slate-400">Approved by District Authority</span>
+                    <span className="text-[10px] text-slate-400">{t('project_details.approved_by_da', 'Approved by District Authority')}</span>
                   </div>
 
                   <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
-                    <span className="text-slate-500 block text-[10px] uppercase font-bold">Awarded Tender Value</span>
+                    <span className="text-slate-500 block text-[10px] uppercase font-bold">{t('project_details.awarded_tender_val', 'Awarded Tender Value')}</span>
                     <span className="text-sm font-black text-teal-800 mt-0.5 block">
                       {formatRupees(tender.awardedVal)}
                     </span>
-                    <span className="text-[10px] text-emerald-600 font-semibold">4% Saving to Public Fund</span>
+                    <span className="text-[10px] text-emerald-600 font-semibold">{t('project_details.savings_public', '4% Saving to Public Fund')}</span>
                   </div>
 
                   <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
-                    <span className="text-slate-500 block text-[10px] uppercase font-bold">Funds Disbursed to Date</span>
+                    <span className="text-slate-500 block text-[10px] uppercase font-bold">{t('project_details.funds_disbursed', 'Funds Disbursed to Date')}</span>
                     <span className="text-sm font-black text-slate-900 mt-0.5 block">
                       {formatRupees(tender.disbursedVal)}
                     </span>
-                    <span className="text-[10px] text-slate-400">Escrow Milestone Releases</span>
+                    <span className="text-[10px] text-slate-400">{t('project_details.escrow_releases', 'Escrow Milestone Releases')}</span>
                   </div>
 
                   <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
-                    <span className="text-slate-500 block text-[10px] uppercase font-bold">Physical Progress</span>
+                    <span className="text-slate-500 block text-[10px] uppercase font-bold">{t('project_details.physical_progress', 'Physical Progress')}</span>
                     <div className="flex items-center justify-between mt-0.5">
                       <span className="text-sm font-black text-slate-900">
                         {selectedProjectModal.physical_progress_percent || 35}%
@@ -1114,8 +1118,7 @@ export default function PublicPortalHome({
                   <div className="p-3 bg-purple-50 border border-purple-200 rounded-xl text-xs text-purple-900 flex items-center gap-2.5">
                     <Award className="w-4 h-4 text-purple-700 shrink-0" />
                     <div>
-                      <strong>Special Focus Statutory Quota:</strong> Designated exclusively for{' '}
-                      {selectedProjectModal.sc_st_category || 'SC/ST'} population upliftment under Revised MPLADS Guidelines 2023 (Mandatory 15% SC / 7.5% ST outlay).
+                      <strong>{t('project_details.sc_st_quota', 'Special Focus Statutory Quota:')}</strong> {t('project_details.sc_st_quota_desc', 'Designated exclusively for SC/ST population upliftment under Revised MPLADS Guidelines 2023 (Mandatory 15% SC / 7.5% ST outlay).')}
                     </div>
                   </div>
                 )}
@@ -1126,7 +1129,7 @@ export default function PublicPortalHome({
                     <div className="flex items-center gap-2">
                       <HardHat className="w-4 h-4 text-[#a85016]" />
                       <h4 className="text-xs font-black uppercase text-slate-800 tracking-wide">
-                        1. CONTRACTOR & EXECUTING AGENCY DETAILS
+                        {t('project_details.contractor_agency_details', '1. CONTRACTOR & EXECUTING AGENCY DETAILS')}
                       </h4>
                     </div>
                     <span className="px-2 py-0.5 rounded bg-amber-100 text-amber-900 text-[10px] font-black uppercase border border-amber-300">
@@ -1136,39 +1139,41 @@ export default function PublicPortalHome({
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                     <div className="p-2.5 bg-slate-50 rounded-lg">
-                      <span className="text-[10px] text-slate-500 font-bold uppercase block">Empanelled Contractor Firm</span>
+                      <span className="text-[10px] text-slate-500 font-bold uppercase block">{t('project_details.empanelled_contractor', 'Empanelled Contractor Firm')}</span>
                       <span className="font-bold text-slate-900 block mt-0.5">{contractor.name}</span>
                       <span className="text-[10px] text-slate-500">License: {contractor.license}</span>
                     </div>
 
                     <div className="p-2.5 bg-slate-50 rounded-lg">
-                      <span className="text-[10px] text-slate-500 font-bold uppercase block">Leadership & Engineer</span>
+                      <span className="text-[10px] text-slate-500 font-bold uppercase block">{t('project_details.leadership_engineer', 'Leadership & Engineer')}</span>
                       <span className="font-semibold text-slate-900 block mt-0.5">{contractor.director}</span>
                       <span className="text-[10px] text-slate-500">{contractor.engineer}</span>
                     </div>
 
                     <div className="p-2.5 bg-slate-50 rounded-lg">
-                      <span className="text-[10px] text-slate-500 font-bold uppercase block">Empanelled Division</span>
-                      <span className="font-semibold text-slate-800 block mt-0.5">{contractor.division}</span>
+                      <span className="text-[10px] text-slate-500 font-bold uppercase block">{t('project_details.empanelled_division', 'Empanelled Division')}</span>
+                      <span className="font-semibold text-slate-800 block mt-0.5">
+                        {getLocalizedContractorDivision(contractor.division, getLocalizedDistrict(selectedProjectModal.district, currentLang), currentLang)}
+                      </span>
                       <span className="text-[10px] text-emerald-600 font-semibold">{contractor.rating}</span>
                     </div>
 
                     <div className="p-2.5 bg-slate-50 rounded-lg">
-                      <span className="text-[10px] text-slate-500 font-bold uppercase block">PFMS Escrow Bank Account</span>
+                      <span className="text-[10px] text-slate-500 font-bold uppercase block">{t('project_details.pfms_escrow_bank', 'PFMS Escrow Bank Account')}</span>
                       <span className="font-semibold text-slate-800 block mt-0.5">{contractor.escrowBank}</span>
-                      <span className="text-[10px] text-slate-500">Direct PFMS Treasury Disbursal</span>
+                      <span className="text-[10px] text-slate-500">{t('project_details.direct_disbursal', 'Direct PFMS Treasury Disbursal')}</span>
                     </div>
 
                     <div className="p-2.5 bg-slate-50 rounded-lg">
-                      <span className="text-[10px] text-slate-500 font-bold uppercase block">GSTIN Identification</span>
+                      <span className="text-[10px] text-slate-500 font-bold uppercase block">{t('project_details.gstin_id', 'GSTIN Identification')}</span>
                       <span className="font-mono font-bold text-slate-800 block mt-0.5">{contractor.gstin}</span>
-                      <span className="text-[10px] text-slate-500">Active Taxpayer Verified</span>
+                      <span className="text-[10px] text-slate-500">{t('project_details.active_taxpayer', 'Active Taxpayer Verified')}</span>
                     </div>
 
                     <div className="p-2.5 bg-slate-50 rounded-lg">
-                      <span className="text-[10px] text-slate-500 font-bold uppercase block">Site Contact / Inquiries</span>
+                      <span className="text-[10px] text-slate-500 font-bold uppercase block">{t('project_details.site_contact', 'Site Contact / Inquiries')}</span>
                       <span className="font-semibold text-slate-800 block mt-0.5">{contractor.contact}</span>
-                      <span className="text-[10px] text-slate-500">Official Implementing Desk</span>
+                      <span className="text-[10px] text-slate-500">{t('project_details.official_implementing_desk', 'Official Implementing Desk')}</span>
                     </div>
                   </div>
                 </div>
@@ -1179,31 +1184,31 @@ export default function PublicPortalHome({
                     <div className="flex items-center gap-2">
                       <FileSpreadsheet className="w-4 h-4 text-teal-700" />
                       <h4 className="text-xs font-black uppercase text-slate-800 tracking-wide">
-                        2. TENDER & PROCUREMENT DETAILS
+                        {t('project_details.tender_procurement_details', '2. TENDER & PROCUREMENT DETAILS')}
                       </h4>
                     </div>
                     <span className="px-2 py-0.5 rounded bg-teal-100 text-teal-900 text-[10px] font-bold border border-teal-300">
-                      GeM / E-Procurement Verified
+                      {t('project_details.gem_verified', 'GeM / E-Procurement Verified')}
                     </span>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                     <div className="p-2.5 bg-slate-50 rounded-lg">
-                      <span className="text-[10px] text-slate-500 font-bold uppercase block">Tender Notice # (NIT)</span>
+                      <span className="text-[10px] text-slate-500 font-bold uppercase block">{t('project_details.tender_nit', 'Tender Notice # (NIT)')}</span>
                       <span className="font-mono font-bold text-slate-900 block mt-0.5">{tender.nitNo}</span>
-                      <span className="text-[10px] text-slate-500">{tender.biddingMethod}</span>
+                      <span className="text-[10px] text-slate-500">{t('project_details.open_tender_bidding', tender.biddingMethod)}</span>
                     </div>
 
                     <div className="p-2.5 bg-slate-50 rounded-lg">
-                      <span className="text-[10px] text-slate-500 font-bold uppercase block">Central e-Procurement Ref</span>
+                      <span className="text-[10px] text-slate-500 font-bold uppercase block">{t('project_details.central_gem_ref', 'Central e-Procurement Ref')}</span>
                       <span className="font-mono font-bold text-teal-800 block mt-0.5">{tender.gemRef}</span>
-                      <span className="text-[10px] text-slate-500">Technical Score: {tender.technicalScore}</span>
+                      <span className="text-[10px] text-slate-500">{t('project_details.technical_score', 'Technical Score')}: 94.5 / 100 ({t('project_details.technical_cleared', 'Technical Benchmark Cleared')})</span>
                     </div>
 
                     <div className="p-2.5 bg-slate-50 rounded-lg">
-                      <span className="text-[10px] text-slate-500 font-bold uppercase block">Formal Work Order Reference</span>
+                      <span className="text-[10px] text-slate-500 font-bold uppercase block">{t('project_details.work_order_no', 'Work Order / Contract Ref')}</span>
                       <span className="font-mono font-bold text-slate-900 block mt-0.5">{tender.workOrderRef}</span>
-                      <span className="text-[10px] text-slate-500">Executed on: {tender.agreementDate}</span>
+                      <span className="text-[10px] text-slate-500">{t('project_details.contract_agreement_date', 'Contract Agreement Date')}: {tender.agreementDate}</span>
                     </div>
                   </div>
                 </div>
@@ -1214,77 +1219,77 @@ export default function PublicPortalHome({
                     <div className="flex items-center gap-2">
                       <Calendar className="w-4 h-4 text-blue-700" />
                       <h4 className="text-xs font-black uppercase text-slate-800 tracking-wide">
-                        3. IMPORTANT LIFECYCLE DATES & STATUTORY TIMELINE
+                        {t('project_details.lifecycle_dates', '3. STATUTORY LIFECYCLE & MILESTONE DATES')}
                       </h4>
                     </div>
                     <span className="text-[10px] text-slate-500 font-medium">
-                      Statutory 45-Day SLA Compliant
+                      {t('project_details.sla_compliant_badge', 'Statutory 45-Day SLA Compliant')}
                     </span>
                   </div>
 
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                     <div className="p-2.5 bg-slate-50 rounded-lg border-l-3 border-blue-500">
-                      <span className="text-[10px] text-slate-500 font-bold uppercase block">MP Recommended</span>
+                      <span className="text-[10px] text-slate-500 font-bold uppercase block">{t('project_details.recommended_by_mp', 'Recommended by MP')}</span>
                       <span className="font-mono font-bold text-slate-800 text-xs block mt-0.5">
                         {dates.recommendedDate}
                       </span>
-                      <span className="text-[10px] text-slate-400">Formal Lok Sabha nomination</span>
+                      <span className="text-[10px] text-slate-400">{t('project_details.formal_ls_nomination', 'Formal Lok Sabha nomination')}</span>
                     </div>
 
                     <div className="p-2.5 bg-slate-50 rounded-lg border-l-3 border-teal-500">
-                      <span className="text-[10px] text-slate-500 font-bold uppercase block">Technical Sanction (TS)</span>
+                      <span className="text-[10px] text-slate-500 font-bold uppercase block">{t('project_details.ts_sanction', 'Technical Sanction (TS)')}</span>
                       <span className="font-mono font-bold text-slate-800 text-xs block mt-0.5">
                         {dates.technicalSanctionDate}
                       </span>
-                      <span className="text-[10px] text-slate-400">CPWD SoR Rate Cleared</span>
+                      <span className="text-[10px] text-slate-400">{t('project_details.cpwd_sor_cleared', 'CPWD SoR Rate Cleared')}</span>
                     </div>
 
                     <div className="p-2.5 bg-slate-50 rounded-lg border-l-3 border-emerald-500">
-                      <span className="text-[10px] text-slate-500 font-bold uppercase block">Admin Sanction (AS)</span>
+                      <span className="text-[10px] text-slate-500 font-bold uppercase block">{t('project_details.as_sanction_da', 'Admin Sanction (AS)')}</span>
                       <span className="font-mono font-bold text-slate-800 text-xs block mt-0.5">
                         {dates.administrativeSanctionDate}
                       </span>
-                      <span className="text-[10px] text-slate-400">District Magistrate Order</span>
+                      <span className="text-[10px] text-slate-400">{t('project_details.dm_order', 'District Magistrate Order')}</span>
                     </div>
 
                     <div className="p-2.5 bg-slate-50 rounded-lg border-l-3 border-amber-500">
-                      <span className="text-[10px] text-slate-500 font-bold uppercase block">Tender Published (NIT)</span>
+                      <span className="text-[10px] text-slate-500 font-bold uppercase block">{t('project_details.tender_published', 'Tender Published (NIT)')}</span>
                       <span className="font-mono font-bold text-slate-800 text-xs block mt-0.5">
                         {dates.tenderPublicationDate}
                       </span>
-                      <span className="text-[10px] text-slate-400">E-Procurement notice live</span>
+                      <span className="text-[10px] text-slate-400">{t('project_details.eprocure_notice_live', 'E-Procurement notice live')}</span>
                     </div>
 
                     <div className="p-2.5 bg-slate-50 rounded-lg border-l-3 border-indigo-500">
-                      <span className="text-[10px] text-slate-500 font-bold uppercase block">Work Order Executed</span>
+                      <span className="text-[10px] text-slate-500 font-bold uppercase block">{t('project_details.work_order_awarded', 'Work Order Executed')}</span>
                       <span className="font-mono font-bold text-slate-800 text-xs block mt-0.5">
                         {dates.workOrderAwardDate}
                       </span>
-                      <span className="text-[10px] text-slate-400">Agreement contract bound</span>
+                      <span className="text-[10px] text-slate-400">{t('project_details.contract_agreement_bound', 'Agreement contract bound')}</span>
                     </div>
 
                     <div className="p-2.5 bg-slate-50 rounded-lg border-l-3 border-purple-500">
-                      <span className="text-[10px] text-slate-500 font-bold uppercase block">Ground Work Begun</span>
+                      <span className="text-[10px] text-slate-500 font-bold uppercase block">{t('project_details.ground_commencement', 'Ground Work Begun')}</span>
                       <span className="font-mono font-bold text-slate-800 text-xs block mt-0.5">
                         {dates.workCommencedDate}
                       </span>
-                      <span className="text-[10px] text-slate-400">Site mobilization logged</span>
+                      <span className="text-[10px] text-slate-400">{t('project_details.site_mobilization_logged', 'Site mobilization logged')}</span>
                     </div>
 
                     <div className="p-2.5 bg-slate-50 rounded-lg border-l-3 border-rose-500">
-                      <span className="text-[10px] text-slate-500 font-bold uppercase block">Mandatory Deadline</span>
+                      <span className="text-[10px] text-slate-500 font-bold uppercase block">{t('project_details.statutory_deadline', 'Mandatory Deadline')}</span>
                       <span className="font-mono font-bold text-rose-700 text-xs block mt-0.5">
                         {dates.completionDeadline}
                       </span>
-                      <span className="text-[10px] text-slate-400">Statutory 1-Year Guideline</span>
+                      <span className="text-[10px] text-slate-400">{t('project_details.statutory_1year_guideline', 'Statutory 1-Year Guideline')}</span>
                     </div>
 
                     <div className="p-2.5 bg-slate-50 rounded-lg border-l-3 border-cyan-500">
-                      <span className="text-[10px] text-slate-500 font-bold uppercase block">Latest Geo-Audit</span>
+                      <span className="text-[10px] text-slate-500 font-bold uppercase block">{t('project_details.latest_inspection', 'Latest Geo-Audit')}</span>
                       <span className="font-mono font-bold text-cyan-800 text-xs block mt-0.5">
                         {dates.latestAuditDate}
                       </span>
-                      <span className="text-[10px] text-slate-400">Physical Milestone Inspected</span>
+                      <span className="text-[10px] text-slate-400">{t('project_details.milestone_inspected', 'Physical Milestone Inspected')}</span>
                     </div>
                   </div>
                 </div>
@@ -1293,14 +1298,14 @@ export default function PublicPortalHome({
                 <div className="bg-white rounded-xl border border-slate-200 shadow-xs p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                   <div className="space-y-1">
                     <span className="text-[10px] text-slate-500 font-bold uppercase block">
-                      Constituency & Centroid Verification
+                      {t('project_details.constituency_centroid_title', 'Constituency & Centroid Verification')}
                     </span>
                     <div className="flex items-center gap-1.5 font-bold text-slate-800">
                       <MapPin className="w-4 h-4 text-teal-600 shrink-0" />
-                      <span>{selectedProjectModal.district}, {selectedProjectModal.state} ({selectedProjectModal.district} Parliamentary Constituency)</span>
+                      <span>{getLocalizedDistrict(selectedProjectModal.district, currentLang)}, {getLocalizedState(selectedProjectModal.state, currentLang)} ({getLocalizedDistrict(selectedProjectModal.district, currentLang)} {t('project_details.parliamentary_constituency', 'Parliamentary Constituency')})</span>
                     </div>
                     <div className="text-[11px] text-slate-500 font-mono">
-                      GPS Centroid: {selectedProjectModal.latitude ? selectedProjectModal.latitude.toFixed(4) : '18.5204'}° N, {selectedProjectModal.longitude ? selectedProjectModal.longitude.toFixed(4) : '73.8567'}° E • <span className="text-emerald-700 font-semibold font-sans">Verified within 50m statutory radius (0m anomaly)</span>
+                      GPS Centroid: {selectedProjectModal.latitude ? selectedProjectModal.latitude.toFixed(4) : '18.5204'}° N, {selectedProjectModal.longitude ? selectedProjectModal.longitude.toFixed(4) : '73.8567'}° E • <span className="text-emerald-700 font-semibold font-sans">{t('project_details.verified_radius_text', 'Verified within 50m statutory radius (0m anomaly)')}</span>
                     </div>
                   </div>
 
@@ -1311,7 +1316,7 @@ export default function PublicPortalHome({
                     }}
                     className="px-3.5 py-1.5 bg-teal-50 hover:bg-teal-100 text-teal-800 rounded-lg text-xs font-bold transition border border-teal-200 flex items-center gap-1 shrink-0 cursor-pointer"
                   >
-                    <span>View on Analytics Map</span>
+                    <span>{t('project_details.view_on_analytics_map', 'View on Analytics Map')}</span>
                     <ExternalLink className="w-3.5 h-3.5" />
                   </button>
                 </div>
@@ -1329,14 +1334,14 @@ export default function PublicPortalHome({
                   className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-xs font-bold uppercase transition flex items-center gap-2 shadow-xs cursor-pointer"
                 >
                   <ShieldAlert className="w-4 h-4 text-amber-300" />
-                  <span>Report Fraud on this Project</span>
+                  <span>{t('project_details.report_fraud_on_project', 'Report Fraud on this Project')}</span>
                 </button>
 
                 <button
                   onClick={() => setSelectedProjectModal(null)}
                   className="px-5 py-2 bg-white hover:bg-slate-100 text-slate-700 rounded-lg text-xs font-bold uppercase transition border border-slate-300 shadow-2xs cursor-pointer"
                 >
-                  Close Dossier
+                  {t('project_details.close_dossier', 'Close Dossier')}
                 </button>
               </div>
             </div>

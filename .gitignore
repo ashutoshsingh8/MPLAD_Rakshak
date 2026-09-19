@@ -29,6 +29,8 @@ frontend/dist/
 # Environment & Secrets
 # ========================
 .env
+*.env
+backend/.env
 .env.local
 .env.production
 !.env.example
@@ -41,6 +43,7 @@ frontend/dist/
 *.swp
 *.swo
 *~
+~$*
 .DS_Store
 Thumbs.db
 desktop.ini

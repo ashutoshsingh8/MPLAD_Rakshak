@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MapContainer, TileLayer, CircleMarker, Popup, Tooltip, useMap } from 'react-leaflet';
+import { getLocalizedState, getLocalizedDistrict } from '../utils/geoTranslations';
+import { getLocalizedProjectTitle } from '../utils/projectTranslations';
 
 const STATUS_CONFIG = {
   COMPLETED: {
@@ -152,7 +154,8 @@ export default function GISMapViewer({
   focusState = null,
   userRole = null,
 }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const currentLang = i18n.language ? i18n.language.split('-')[0] : 'en';
   const [viewMode, setViewMode] = useState(() => (focusDistrict ? 'constituency' : 'national'));
   const [filterDistrictOnly, setFilterDistrictOnly] = useState(false);
   const [mapInstance, setMapInstance] = useState(null);
@@ -224,7 +227,7 @@ export default function GISMapViewer({
               {userRole === 'MP' ? t('map.elected_constituency', 'Elected Constituency') + ':' : t('map.assigned_jurisdiction', 'Assigned Jurisdiction') + ':'}
             </span>
             <span className="text-xs font-black text-slate-900 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
-              {focusDistrict}
+              {getLocalizedDistrict(focusDistrict, currentLang)}
             </span>
           </div>
 
@@ -239,7 +242,7 @@ export default function GISMapViewer({
               }`}
               title={`Zoom and focus map on ${focusDistrict}`}
             >
-              <span>🎯 {t('map.refocus', 'Refocus')} {focusDistrict}</span>
+              <span>🎯 {t('map.refocus', 'Refocus')} {getLocalizedDistrict(focusDistrict, currentLang)}</span>
             </button>
 
             <button
@@ -266,7 +269,7 @@ export default function GISMapViewer({
                 }`}
                 title="Filter markers to only constituency projects"
               >
-                {filterDistrictOnly ? `${t('map.showing_only', 'Showing')}: ${focusDistrict} (${districtProjectCount})` : t('map.show_all', 'Show All Works')}
+                {filterDistrictOnly ? `${t('map.showing_only', 'Showing')}: ${getLocalizedDistrict(focusDistrict, currentLang)} (${districtProjectCount})` : t('map.show_all', 'Show All Works')}
               </button>
             )}
           </div>
@@ -314,6 +317,7 @@ export default function GISMapViewer({
           onMapReady={setMapInstance}
         />
 
+
         {validProjects.map((project) => {
           const statusKey = project.status || 'RECOMMENDED';
           const statusInfo = STATUS_CONFIG[statusKey] || STATUS_CONFIG.RECOMMENDED;
@@ -353,7 +357,7 @@ export default function GISMapViewer({
                   </div>
                   {project.title && (
                     <div className="text-[11px] text-slate-300 font-medium max-w-[220px] truncate leading-tight mt-0.5">
-                      {project.title}
+                      {getLocalizedProjectTitle(project, currentLang)}
                     </div>
                   )}
                 </div>
@@ -379,7 +383,7 @@ export default function GISMapViewer({
 
                         {project.category && (
                           <span className="text-[10px] font-bold tracking-wider uppercase text-teal-700 bg-teal-50 px-2 py-0.5 rounded border border-teal-200 whitespace-nowrap">
-                            {project.category.replace(/_/g, ' ')}
+                            {t('categories.' + project.category, project.category.replace(/_/g, ' '))}
                           </span>
                         )}
 
@@ -407,7 +411,7 @@ export default function GISMapViewer({
                             {t('map.project_title', 'Project Title')}
                           </div>
                           <h4 className="text-sm font-bold text-slate-950 leading-snug tracking-tight line-clamp-3 mt-0.5">
-                            {project.title}
+                            {getLocalizedProjectTitle(project, currentLang)}
                           </h4>
                         </div>
 
@@ -439,12 +443,12 @@ export default function GISMapViewer({
                           </div>
                           <div
                             className="font-bold text-slate-900 text-xs truncate"
-                            title={`${project.district}, ${project.state}`}
+                            title={`${getLocalizedDistrict(project.district, currentLang)}, ${getLocalizedState(project.state, currentLang)}`}
                           >
-                            {project.district || 'District N/A'}
+                            {getLocalizedDistrict(project.district, currentLang) || 'District N/A'}
                           </div>
                           <div className="text-[10px] text-slate-500 truncate">
-                            {project.state || 'State N/A'}
+                            {getLocalizedState(project.state, currentLang) || 'State N/A'}
                           </div>
                         </div>
 

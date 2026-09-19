@@ -243,9 +243,15 @@ async def upload_project_photo(
     geo_verify = result.get("geo_verification", {})
     tamper_check = result.get("tampering_analysis", {})
 
+    # Upload to Supabase Cloud Storage (with fallback to local storage)
+    from services.storage import upload_photo_to_supabase
+    remote_path = f"{project_id}/{saved_filename}"
+    supabase_public_url = upload_photo_to_supabase(saved_path, remote_path)
+    final_image_url = supabase_public_url if supabase_public_url else f"/uploads/{project_id}/{saved_filename}"
+
     photo = SiteInspectionPhoto(
         project_id=project_id,
-        image_url=f"/uploads/{project_id}/{saved_filename}",
+        image_url=final_image_url,
         original_filename=file.filename,
         exif_latitude=exif_meta.get("latitude"),
         exif_longitude=exif_meta.get("longitude"),

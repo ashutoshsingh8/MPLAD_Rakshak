@@ -24,6 +24,8 @@ class Settings(BaseSettings):
     MYSQL_URL: str = "mysql+pymysql://user:password@mysql:3306/mplad_rakshak"
 
     # ── Qdrant Vector Database ───────────────────────────
+    QDRANT_URL: Optional[str] = None
+    QDRANT_API_KEY: Optional[str] = None
     QDRANT_HOST: str = "qdrant"
     QDRANT_PORT: int = 6333
     QDRANT_COLLECTION_NAME: str = "mplads_guidelines"
@@ -39,6 +41,11 @@ class Settings(BaseSettings):
 
     # ── data.gov.in API ──────────────────────────────────
     DATA_GOV_IN_API_KEY: Optional[str] = None
+
+    # ── Supabase Cloud Storage ───────────────────────────
+    SUPABASE_URL: Optional[str] = None
+    SUPABASE_KEY: Optional[str] = None
+    SUPABASE_BUCKET: str = "inspection-photos"
 
     # ── MPLADS Constants ─────────────────────────────────
     ANNUAL_ENTITLEMENT_PER_MP: float = 5_00_00_000  # ₹5 Crore

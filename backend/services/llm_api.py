@@ -36,11 +36,18 @@ def _get_qdrant_client():
     global _qdrant_client
     if _qdrant_client is None:
         from qdrant_client import QdrantClient
-        _qdrant_client = QdrantClient(
-            host=settings.QDRANT_HOST,
-            port=settings.QDRANT_PORT,
-        )
-        logger.info(f"Connected to Qdrant at {settings.QDRANT_HOST}:{settings.QDRANT_PORT}")
+        if settings.QDRANT_URL:
+            _qdrant_client = QdrantClient(
+                url=settings.QDRANT_URL,
+                api_key=settings.QDRANT_API_KEY,
+            )
+            logger.info(f"Connected to Qdrant Cloud at {settings.QDRANT_URL}")
+        else:
+            _qdrant_client = QdrantClient(
+                host=settings.QDRANT_HOST,
+                port=settings.QDRANT_PORT,
+            )
+            logger.info(f"Connected to local Qdrant at {settings.QDRANT_HOST}:{settings.QDRANT_PORT}")
     return _qdrant_client
 
 
@@ -158,7 +165,7 @@ def _seed_guidelines_text():
     QdrantVectorStore.from_documents(
         documents=docs,
         embedding=embeddings,
-        url=f"http://{settings.QDRANT_HOST}:{settings.QDRANT_PORT}",
+        client=client,
         collection_name=settings.QDRANT_COLLECTION_NAME,
     )
     logger.info("✅ Successfully seeded built-in MPLADS guidelines to Qdrant collection")
@@ -271,7 +278,7 @@ def ingest_guidelines(pdf_path: str | Path) -> dict:
         vector_store = QdrantVectorStore.from_documents(
             documents=chunks,
             embedding=embeddings,
-            url=f"http://{settings.QDRANT_HOST}:{settings.QDRANT_PORT}",
+            client=client,
             collection_name=settings.QDRANT_COLLECTION_NAME,
         )
 

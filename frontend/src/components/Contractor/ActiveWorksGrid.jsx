@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ChevronDown, MapPin, Calendar, Clock, ArrowRight } from 'lucide-react';
 import { mockActiveWorks } from '../../mock/contractorDashboardData';
 
 export default function ActiveWorksGrid({ onOpenEvidenceModal }) {
+  const { t } = useTranslation();
   const [statusFilter, setStatusFilter] = useState('ALL');
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -17,7 +19,7 @@ export default function ActiveWorksGrid({ onOpenEvidenceModal }) {
       {/* Subheader with Status Filter matching reference image */}
       <div className="flex items-center justify-between">
         <h3 className="text-sm sm:text-base font-black uppercase text-slate-800 tracking-wide">
-          ACTIVE WORKS
+          {t('contractor_portal.active_works_title', 'ACTIVE WORKS')}
         </h3>
 
         <div className="relative">
@@ -25,7 +27,7 @@ export default function ActiveWorksGrid({ onOpenEvidenceModal }) {
             onClick={() => setDropdownOpen(!dropdownOpen)}
             className="flex items-center gap-1 text-xs font-semibold text-slate-500 hover:text-slate-800 transition cursor-pointer"
           >
-            <span>Status</span>
+            <span>{t('contractor_portal.filter_status', 'Status')}</span>
             <ChevronDown className="w-3.5 h-3.5" />
           </button>
 
@@ -36,27 +38,27 @@ export default function ActiveWorksGrid({ onOpenEvidenceModal }) {
                   setStatusFilter('ALL');
                   setDropdownOpen(false);
                 }}
-                className="w-full text-left px-3 py-1.5 hover:bg-slate-50 text-slate-700"
+                className="w-full text-left px-3 py-1.5 hover:bg-slate-50 text-slate-700 cursor-pointer"
               >
-                All Works
+                {t('contractor_portal.filter_all', 'All Works')}
               </button>
               <button
                 onClick={() => {
                   setStatusFilter('IN_PROGRESS');
                   setDropdownOpen(false);
                 }}
-                className="w-full text-left px-3 py-1.5 hover:bg-slate-50 text-slate-700"
+                className="w-full text-left px-3 py-1.5 hover:bg-slate-50 text-slate-700 cursor-pointer"
               >
-                In Progress
+                {t('contractor_portal.filter_in_progress', 'In Progress')}
               </button>
               <button
                 onClick={() => {
                   setStatusFilter('NA');
                   setDropdownOpen(false);
                 }}
-                className="w-full text-left px-3 py-1.5 hover:bg-slate-50 text-slate-700"
+                className="w-full text-left px-3 py-1.5 hover:bg-slate-50 text-slate-700 cursor-pointer"
               >
-                Pending TS (N/A)
+                {t('contractor_portal.filter_pending_ts', 'Pending TS (N/A)')}
               </button>
             </div>
           )}
@@ -73,11 +75,14 @@ export default function ActiveWorksGrid({ onOpenEvidenceModal }) {
             {/* Left border accent on Card 1 & 2 matching image */}
             <div className="space-y-1 text-xs text-slate-700 font-sans">
               <div className="font-bold text-slate-900 text-sm">
-                Project Name: <span className="font-semibold text-slate-800">{work.projectName}</span>
+                {t('contractor_portal.project_name_label', 'Project Name:')}{' '}
+                <span className="font-semibold text-slate-800">
+                  {t(`contractor_portal.mock_works.${work.id}`, work.projectName)}
+                </span>
               </div>
 
               <div>
-                <span className="font-bold text-slate-900">Status: </span>
+                <span className="font-bold text-slate-900">{t('contractor_portal.status_label', 'Status:')} </span>
                 <span
                   className={
                     work.status === 'In Progress'
@@ -85,14 +90,18 @@ export default function ActiveWorksGrid({ onOpenEvidenceModal }) {
                       : 'text-slate-400 font-medium'
                   }
                 >
-                  {work.status}
+                  {work.status === 'In Progress'
+                    ? t('contractor_portal.statuses.in_progress', 'In Progress')
+                    : t('contractor_portal.statuses.na', 'Pending TS (N/A)')}
                 </span>
               </div>
 
               {work.phase && (
                 <div>
-                  <span className="font-bold text-slate-900">Phase: </span>
-                  <span className="text-slate-800 font-medium">{work.phase}</span>
+                  <span className="font-bold text-slate-900">{t('contractor_portal.phase_label', 'Phase:')} </span>
+                  <span className="text-slate-800 font-medium">
+                    {t(`contractor_portal.phases.${work.phase?.toLowerCase() || 'earthwork'}`, work.phase)}
+                  </span>
                 </div>
               )}
             </div>
@@ -103,7 +112,7 @@ export default function ActiveWorksGrid({ onOpenEvidenceModal }) {
                 onClick={() => onOpenEvidenceModal && onOpenEvidenceModal(work)}
                 className="px-6 py-1.5 bg-[#a85016] hover:bg-[#8c3b0d] text-white rounded-md text-xs font-bold uppercase tracking-wider transition shadow-xs cursor-pointer active:scale-95"
               >
-                VIEW
+                {t('contractor_portal.view_btn', 'VIEW')}
               </button>
             </div>
           </div>

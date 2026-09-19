@@ -1,8 +1,11 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { User, Users, Lock, ChevronDown, ArrowLeft, ShieldCheck, AlertCircle, Info, Check } from 'lucide-react';
 import { login } from '../services/api';
+import LanguageSelector from '../components/LanguageSelector';
 
 export default function LoginPage({ onBackToPublic, onLoginSuccess }) {
+  const { t } = useTranslation();
   const [username, setUsername] = useState('ministry_admin');
   const [department, setDepartment] = useState('MINISTRY_ADMIN');
   const [password, setPassword] = useState('admin123');
@@ -92,14 +95,17 @@ export default function LoginPage({ onBackToPublic, onLoginSuccess }) {
 
   return (
     <div className="min-h-screen bg-[#288188] flex flex-col items-center justify-center relative px-4 py-12 select-none">
-      {/* Top Left Navigation Link */}
-      <button
-        onClick={onBackToPublic}
-        className="absolute top-5 left-5 sm:top-8 sm:left-8 flex items-center gap-2 text-white/90 hover:text-white text-xs font-semibold bg-black/15 hover:bg-black/25 backdrop-blur-sm px-3.5 py-2 rounded-lg transition shadow-sm cursor-pointer"
-      >
-        <ArrowLeft className="w-4 h-4" />
-        <span>Back to Public Portal</span>
-      </button>
+      {/* Top Bar: Left Back Button & Right Language Selector */}
+      <div className="absolute top-5 left-5 right-5 sm:top-8 sm:left-8 sm:right-8 flex items-center justify-between">
+        <button
+          onClick={onBackToPublic}
+          className="flex items-center gap-2 text-white/90 hover:text-white text-xs font-semibold bg-black/15 hover:bg-black/25 backdrop-blur-sm px-3.5 py-2 rounded-lg transition shadow-sm cursor-pointer"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span>{t('login_page.back_to_portal', 'Back to Public Portal')}</span>
+        </button>
+        <LanguageSelector variant="dark" />
+      </div>
 
       {/* Main Login Card - Exactly matches user reference design */}
       <div className="w-full max-w-[390px] bg-white rounded-2xl shadow-2xl p-7 sm:p-9 relative z-10">
@@ -112,7 +118,7 @@ export default function LoginPage({ onBackToPublic, onLoginSuccess }) {
 
         {/* Title */}
         <h2 className="text-xl font-black text-slate-800 tracking-wider text-center mb-6 uppercase">
-          LOGIN
+          {t('login_page.login_title', 'LOGIN')}
         </h2>
 
         {/* Error Notification */}
@@ -130,7 +136,7 @@ export default function LoginPage({ onBackToPublic, onLoginSuccess }) {
             <input
               type="text"
               id="login-username"
-              placeholder="User name"
+              placeholder={t('login_page.username_placeholder', 'User name')}
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               className="w-full pl-10 pr-3.5 py-2.5 text-sm border border-slate-300 rounded-md outline-none focus:border-[#288188] focus:ring-1 focus:ring-[#288188] text-slate-800 placeholder-slate-400 bg-white transition"
@@ -146,11 +152,11 @@ export default function LoginPage({ onBackToPublic, onLoginSuccess }) {
               onChange={(e) => handleDepartmentChange(e.target.value)}
               className="w-full pl-10 pr-9 py-2.5 text-sm border border-slate-300 rounded-md outline-none focus:border-[#288188] focus:ring-1 focus:ring-[#288188] text-slate-800 bg-white appearance-none cursor-pointer transition"
             >
-              <option value="" disabled>Department</option>
-              <option value="MINISTRY_ADMIN">Ministry Admin</option>
-              <option value="MP">Member of Parliament</option>
-              <option value="DISTRICT_AUTHORITY">District Authority</option>
-              <option value="CONTRACTOR">Contractor</option>
+              <option value="" disabled>{t('login_page.department_placeholder', 'Department')}</option>
+              <option value="MINISTRY_ADMIN">{t('login_page.role_ministry', 'Ministry Admin')}</option>
+              <option value="MP">{t('login_page.role_mp', 'Member of Parliament')}</option>
+              <option value="DISTRICT_AUTHORITY">{t('login_page.role_da', 'District Authority')}</option>
+              <option value="CONTRACTOR">{t('login_page.role_contractor', 'Contractor')}</option>
             </select>
             <ChevronDown className="w-4 h-4 text-slate-400 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
           </div>
@@ -161,7 +167,7 @@ export default function LoginPage({ onBackToPublic, onLoginSuccess }) {
             <input
               type="password"
               id="login-password"
-              placeholder="Password"
+              placeholder={t('login_page.password_placeholder', 'Password')}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full pl-10 pr-3.5 py-2.5 text-sm border border-slate-300 rounded-md outline-none focus:border-[#288188] focus:ring-1 focus:ring-[#288188] text-slate-800 placeholder-slate-400 bg-white transition"
@@ -178,7 +184,7 @@ export default function LoginPage({ onBackToPublic, onLoginSuccess }) {
               className="w-3.5 h-3.5 rounded border-slate-300 text-[#387a42] focus:ring-[#387a42] cursor-pointer"
             />
             <label htmlFor="keep-logged-in" className="text-xs text-slate-600 cursor-pointer select-none">
-              Keep me logged in
+              {t('login_page.keep_logged_in', 'Keep me logged in')}
             </label>
           </div>
 
@@ -189,7 +195,7 @@ export default function LoginPage({ onBackToPublic, onLoginSuccess }) {
             disabled={loading}
             className="w-full py-2.5 px-4 bg-[#387a42] hover:bg-[#2d6436] active:bg-[#26552e] text-white font-medium text-sm rounded-md transition duration-150 shadow-sm disabled:opacity-50 cursor-pointer"
           >
-            {loading ? 'Logging in...' : 'Log in'}
+            {loading ? t('login_page.logging_in', 'Logging in...') : t('login_page.login_button', 'Log in')}
           </button>
 
           {/* Link: Forgot password? */}
@@ -199,7 +205,7 @@ export default function LoginPage({ onBackToPublic, onLoginSuccess }) {
               onClick={() => setShowForgotNotice(true)}
               className="text-xs text-[#227781] hover:underline font-normal cursor-pointer"
             >
-              Forgot password?
+              {t('login_page.forgot_password', 'Forgot password?')}
             </button>
           </div>
         </form>

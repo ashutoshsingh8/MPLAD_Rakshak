@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   X,
   FileText,
@@ -15,6 +16,7 @@ import {
 import { mockProposalsPipeline } from '../../mock/daDashboardData';
 
 export default function ProposalRAGViewer({ projectId, onClose, onSanction, onReject }) {
+  const { t } = useTranslation();
   if (!projectId) return null;
 
   const proposal = mockProposalsPipeline.find((p) => p.id === projectId) || mockProposalsPipeline[0];
@@ -34,14 +36,14 @@ export default function ProposalRAGViewer({ projectId, onClose, onSanction, onRe
             <div>
               <div className="flex items-center gap-2">
                 <h2 className="text-base font-black uppercase tracking-wide">
-                  AI GUIDELINE COPILOT & PROPOSAL SCRUTINY
+                  {t('da_portal.rag_viewer.title', 'AI GUIDELINE COPILOT & PROPOSAL SCRUTINY')}
                 </h2>
                 <span className="px-2 py-0.5 rounded bg-white/20 text-xs font-mono font-bold">
                   {proposal.id}
                 </span>
               </div>
               <p className="text-xs text-teal-100/80">
-                Statutory NLP Evaluation against MPLADS 2023 Guidelines & Land Title Verification
+                {t('da_portal.rag_viewer.subtitle', 'Statutory NLP Evaluation against MPLADS 2023 Guidelines & Land Title Verification')}
               </p>
             </div>
           </div>
@@ -63,12 +65,12 @@ export default function ProposalRAGViewer({ projectId, onClose, onSanction, onRe
             <div className="flex items-center justify-between border-b border-slate-200 pb-2">
               <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
                 <FileText className="w-4 h-4 text-slate-600" />
-                <span>Submitted MP Recommendation Letter (Form 1A)</span>
+                <span>{t('da_portal.rag_viewer.recommendation_letter', 'Submitted MP Recommendation Letter (Form 1A)')}</span>
               </span>
               <div className="flex items-center gap-2 text-[10px] text-slate-500">
                 <span className="font-mono">Ref: LOK/2026/PN/042</span>
                 <span>•</span>
-                <span>PDF (Digitally Signed)</span>
+                <span>{t('da_portal.rag_viewer.pdf_signed', 'PDF (Digitally Signed)')}</span>
               </div>
             </div>
 
@@ -76,48 +78,48 @@ export default function ProposalRAGViewer({ projectId, onClose, onSanction, onRe
             <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
               <div className="text-center border-b border-slate-100 pb-4 space-y-1">
                 <h3 className="text-sm font-black tracking-wide text-slate-900 uppercase">
-                  PARLIAMENT OF INDIA • LOK SABHA
+                  {t('da_portal.rag_viewer.parliament_heading', 'PARLIAMENT OF INDIA • LOK SABHA')}
                 </h3>
-                <p className="font-bold text-xs text-slate-800">OFFICE OF SHRI VIJAY PATIL, HON'BLE MP</p>
+                <p className="font-bold text-xs text-slate-800">{t('da_portal.rag_viewer.office_heading', "OFFICE OF SHRI VIJAY PATIL, HON'BLE MP")}</p>
                 <p className="text-[10px] text-slate-500">
-                  Pune Parliamentary Constituency • Khurshid Lal Bhawan Liaison
+                  {t('da_portal.rag_viewer.liaison_heading', 'Pune Parliamentary Constituency • Khurshid Lal Bhawan Liaison')}
                 </p>
               </div>
 
               <div className="flex justify-between text-[11px] text-slate-600">
                 <div>
-                  <strong>To:</strong> District Magistrate & Collector, Pune
+                  <strong>{t('da_portal.rag_viewer.to_label', 'To: District Magistrate & Collector, Pune')}</strong>
                 </div>
                 <div>
-                  <strong>Date:</strong> {proposal.recommendedDate}
+                  <strong>{t('da_portal.rag_viewer.date_label', 'Date:')}</strong> {proposal.recommendedDate}
                 </div>
               </div>
 
               <div className="p-3 bg-teal-50/50 rounded-lg border border-teal-100">
-                <span className="font-bold text-slate-900">Subject: </span>
-                <span className="text-slate-800 font-semibold">{proposal.assetTitle}</span>
+                <span className="font-bold text-slate-900">{t('da_portal.rag_viewer.subject_label', 'Subject: ')}</span>
+                <span className="text-slate-800 font-semibold">{t(`da_portal.mock_assets.${proposal.id}`, proposal.assetTitle)}</span>
               </div>
 
               <div className="space-y-2 text-slate-700 leading-relaxed text-xs">
                 <p>
-                  Sir / Madam, Under Clause 3.1 of the revised MPLADS 2023 Guidelines, I hereby formally recommend the execution of the following durable capital community asset:
+                  {t('da_portal.rag_viewer.letter_body_1', 'Sir / Madam, Under Clause 3.1 of the revised MPLADS 2023 Guidelines, I hereby formally recommend the execution of the following durable capital community asset:')}
                 </p>
 
                 <div className="p-3 bg-slate-50 rounded border border-slate-200 space-y-1 font-mono text-[11px]">
-                  <div>• Estimated Project Cost: <strong>{proposal.estCost}</strong></div>
-                  <div>• Proposed Implementing Agency: <strong>Executive Engineer, PWD Division Pune</strong></div>
-                  <div>• Location: <strong>Survey No. 142/B, Khed Taluka, Pune District</strong></div>
-                  <div>• Beneficiary Population: <strong>Approx. 14,500 Rural Residents</strong></div>
+                  <div>• {t('da_portal.rag_viewer.est_cost_label', 'Estimated Project Cost:')} <strong>{proposal.estCost}</strong></div>
+                  <div>• {t('da_portal.rag_viewer.agency_label', 'Proposed Implementing Agency:')} <strong>{t('da_portal.rag_viewer.agency_val', 'Executive Engineer, PWD Division Pune')}</strong></div>
+                  <div>• {t('da_portal.rag_viewer.location_label', 'Location:')} <strong>{t('da_portal.rag_viewer.location_val', 'Survey No. 142/B, Khed Taluka, Pune District')}</strong></div>
+                  <div>• {t('da_portal.rag_viewer.beneficiary_label', 'Beneficiary Population:')} <strong>{t('da_portal.rag_viewer.beneficiary_val', 'Approx. 14,500 Rural Residents')}</strong></div>
                 </div>
 
                 <p className="text-[11px] text-slate-600 italic">
-                  "The proposed work involves construction of clinic OPD wings, staff rest quarters, and a boundary wall enclosing the community medical campus adjacent to the Shree Khed Trust premises."
+                  {t('da_portal.rag_viewer.letter_quote', '"The proposed work involves construction of clinic OPD wings, staff rest quarters, and a boundary wall enclosing the community medical campus adjacent to the Shree Khed Trust premises."')}
                 </p>
               </div>
 
               <div className="pt-4 border-t border-slate-100 flex justify-between items-center text-[10px] text-slate-500">
-                <span>Digital Signature Verified • Aadhaar e-Sign</span>
-                <span className="font-mono text-emerald-700 font-bold">✓ Valid NIC Certificate</span>
+                <span>{t('da_portal.rag_viewer.digisign_verified', 'Digital Signature Verified • Aadhaar e-Sign')}</span>
+                <span className="font-mono text-emerald-700 font-bold">{t('da_portal.rag_viewer.valid_nic', '✓ Valid NIC Certificate')}</span>
               </div>
             </div>
           </div>
@@ -128,15 +130,15 @@ export default function ProposalRAGViewer({ projectId, onClose, onSanction, onRe
               <div>
                 <span className="text-xs font-black uppercase text-slate-900 tracking-wider flex items-center gap-1.5">
                   <ShieldAlert className="w-4 h-4 text-red-600" />
-                  <span>AI Scrutiny & Statutory Admissibility Report</span>
+                  <span>{t('da_portal.rag_viewer.report_title', 'AI Scrutiny & Statutory Admissibility Report')}</span>
                 </span>
                 <p className="text-[11px] text-slate-500">
-                  Google Gemini + Qdrant Guidelines RAG Engine output
+                  {t('da_portal.rag_viewer.report_engine', 'Google Gemini + Qdrant Guidelines RAG Engine output')}
                 </p>
               </div>
 
               <div className="flex items-center gap-2">
-                <span className="text-[11px] font-bold text-slate-500">Risk Score:</span>
+                <span className="text-[11px] font-bold text-slate-500">{t('da_portal.rag_viewer.risk_score_label', 'Risk Score:')}</span>
                 <span
                   className={`text-xs font-black px-2.5 py-0.5 rounded-full ${
                     proposal.riskLevel === 'HIGH'
@@ -144,7 +146,7 @@ export default function ProposalRAGViewer({ projectId, onClose, onSanction, onRe
                       : 'bg-emerald-100 text-emerald-700 border border-emerald-200'
                   }`}
                 >
-                  {proposal.riskScore}% {proposal.riskLevel}
+                  {proposal.riskScore}% {proposal.riskLevel === 'HIGH' ? t('da_portal.pipeline.high_risk', 'High') : t('da_portal.pipeline.low_risk', 'Low')}
                 </span>
               </div>
             </div>
@@ -159,9 +161,9 @@ export default function ProposalRAGViewer({ projectId, onClose, onSanction, onRe
                   >
                     <div className="flex items-center justify-between">
                       <span className="px-2 py-0.5 rounded bg-red-200 text-red-900 font-mono text-[10px] font-black">
-                        {violation.clause} • PROHIBITED
+                        {violation.clause} • {t('da_portal.rag_viewer.prohibited_badge', 'PROHIBITED')}
                       </span>
-                      <span className="text-[10px] font-bold text-red-700">High Confidence (94%)</span>
+                      <span className="text-[10px] font-bold text-red-700">{t('da_portal.rag_viewer.high_confidence', 'High Confidence (94%)')}</span>
                     </div>
 
                     <h4 className="text-xs font-bold text-red-900">{violation.title}</h4>
@@ -171,9 +173,9 @@ export default function ProposalRAGViewer({ projectId, onClose, onSanction, onRe
                     </p>
 
                     <div className="p-2.5 bg-white/80 rounded-lg border border-red-200/60 text-[10px] text-slate-700 font-mono space-y-1">
-                      <div className="font-bold text-red-700">Official 2023 Guideline Reference:</div>
+                      <div className="font-bold text-red-700">{t('da_portal.rag_viewer.guideline_ref_title', 'Official 2023 Guideline Reference:')}</div>
                       <div>
-                        "Works on land belonging to religious bodies, private trusts, or un-regularized private societies are strictly non-permissible under any circumstances." (Page 24, Clause 3.2.4)
+                        {t('da_portal.rag_viewer.guideline_ref_text', '"Works on land belonging to religious bodies, private trusts, or un-regularized private societies are strictly non-permissible under any circumstances." (Page 24, Clause 3.2.4)')}
                       </div>
                     </div>
                   </div>
@@ -182,10 +184,10 @@ export default function ProposalRAGViewer({ projectId, onClose, onSanction, onRe
                 <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 space-y-1">
                   <div className="font-bold text-xs flex items-center gap-1.5">
                     <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                    <span>No Statutory Guideline Violations Detected</span>
+                    <span>{t('da_portal.rag_viewer.no_violations_title', 'No Statutory Guideline Violations Detected')}</span>
                   </div>
                   <p className="text-[11px] text-emerald-800">
-                    The proposed asset complies with eligible sectors under MPLADS 2023 Annexure-II.
+                    {t('da_portal.rag_viewer.no_violations_desc', 'The proposed asset complies with eligible sectors under MPLADS 2023 Annexure-II.')}
                   </p>
                 </div>
               )}
@@ -194,9 +196,9 @@ export default function ProposalRAGViewer({ projectId, onClose, onSanction, onRe
             {/* SLA Status Card */}
             <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-1.5">
               <div className="flex items-center justify-between">
-                <span className="font-bold text-slate-800">45-Day Statutory Countdown:</span>
+                <span className="font-bold text-slate-800">{t('da_portal.rag_viewer.countdown_title', '45-Day Statutory Countdown:')}</span>
                 <span className="font-mono font-bold text-red-600">
-                  {proposal.daysElapsed} Days Elapsed ({proposal.daysRemaining < 0 ? `${Math.abs(proposal.daysRemaining)} Days Overdue` : `${proposal.daysRemaining} Days Left`})
+                  {t('da_portal.rag_viewer.days_elapsed', { elapsed: proposal.daysElapsed, defaultValue: `${proposal.daysElapsed} Days Elapsed` })} ({proposal.daysRemaining < 0 ? t('da_portal.rag_viewer.days_overdue', { days: Math.abs(proposal.daysRemaining), defaultValue: `${Math.abs(proposal.daysRemaining)} Days Overdue` }) : t('da_portal.pipeline.days_left', { days: proposal.daysRemaining, defaultValue: `${proposal.daysRemaining} Days Left` })})
                 </span>
               </div>
               <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
@@ -211,13 +213,13 @@ export default function ProposalRAGViewer({ projectId, onClose, onSanction, onRe
             {showRejectForm ? (
               <div className="p-4 rounded-xl bg-red-50 border border-red-200 space-y-3">
                 <div className="font-bold text-xs text-red-900">
-                  Issue Statutory Rejection Notice to Hon'ble MP:
+                  {t('da_portal.rag_viewer.issue_notice_title', "Issue Statutory Rejection Notice to Hon'ble MP:")}
                 </div>
                 <textarea
                   rows={3}
                   value={rejectReason}
                   onChange={(e) => setRejectReason(e.target.value)}
-                  placeholder="Enter rejection rationale citing MPLADS 2023 Guidelines Clause..."
+                  placeholder={t('da_portal.rag_viewer.reject_placeholder', 'Enter rejection rationale citing MPLADS 2023 Guidelines Clause...')}
                   className="w-full p-2 text-xs bg-white border border-red-200 rounded-lg text-slate-800 focus:outline-none focus:ring-1 focus:ring-red-500"
                 />
                 <div className="flex items-center justify-end gap-2">
@@ -225,7 +227,7 @@ export default function ProposalRAGViewer({ projectId, onClose, onSanction, onRe
                     onClick={() => setShowRejectForm(false)}
                     className="px-3 py-1.5 bg-white border border-slate-200 text-slate-700 rounded-lg text-xs font-semibold cursor-pointer"
                   >
-                    Cancel
+                    {t('da_portal.rag_viewer.cancel_btn', 'Cancel')}
                   </button>
                   <button
                     onClick={() => {
@@ -234,7 +236,7 @@ export default function ProposalRAGViewer({ projectId, onClose, onSanction, onRe
                     }}
                     className="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-lg text-xs font-bold transition cursor-pointer"
                   >
-                    Confirm Rejection
+                    {t('da_portal.rag_viewer.confirm_rejection_btn', 'Confirm Rejection')}
                   </button>
                 </div>
               </div>
@@ -250,7 +252,7 @@ export default function ProposalRAGViewer({ projectId, onClose, onSanction, onRe
                 className="flex-1 py-2.5 px-4 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-bold transition shadow-xs cursor-pointer flex items-center justify-center gap-2"
               >
                 <CheckCircle2 className="w-4 h-4" />
-                <span>Grant Technical Sanction (AS/TS)</span>
+                <span>{t('da_portal.rag_viewer.grant_ts_btn', 'Grant Technical Sanction (AS/TS)')}</span>
               </button>
 
               <button
@@ -265,7 +267,7 @@ export default function ProposalRAGViewer({ projectId, onClose, onSanction, onRe
                 className="py-2.5 px-4 bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-1.5"
               >
                 <AlertTriangle className="w-4 h-4 text-red-600" />
-                <span>Reject with Clause Citation</span>
+                <span>{t('da_portal.rag_viewer.reject_with_citation_btn', 'Reject with Clause Citation')}</span>
               </button>
             </div>
           </div>

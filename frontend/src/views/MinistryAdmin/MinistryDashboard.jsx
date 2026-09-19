@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Bell,
   User,
@@ -14,8 +15,10 @@ import FinancialsForecasting from './FinancialsForecasting';
 import PolicyComplianceEngine from './PolicyComplianceEngine';
 import { getDashboardSummary, getProjects, getAnomalies } from '../../services/api';
 import mpladLogo from '../../assets/mplad_rakshak_logo.jpeg';
+import LanguageSelector from '../../components/LanguageSelector';
 
 export default function MinistryDashboard({ onExitToPublic, onLogout, currentUser }) {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState(() => {
     if (typeof window !== 'undefined') {
       const hash = window.location.hash.replace('#', '');
@@ -78,11 +81,11 @@ export default function MinistryDashboard({ onExitToPublic, onLogout, currentUse
           <div>
             <div className="flex items-center gap-2">
               <h1 className="text-base sm:text-lg font-black tracking-tight text-white uppercase">
-                MINISTRY OF STATISTICS & PROGRAMME IMPLEMENTATION
+                {t('ministry_portal.portal_title', 'MINISTRY OF STATISTICS & PROGRAMME IMPLEMENTATION')}
               </h1>
             </div>
             <p className="text-[10px] text-blue-100 tracking-wider">
-              MPLAD Rakshak • National AI Anomaly Detection & Monitoring Command Portal
+              MPLAD Rakshak • {t('ministry_portal.portal_subtitle', 'National AI Anomaly Detection & Monitoring Command Portal')}
             </p>
           </div>
         </div>
@@ -94,18 +97,21 @@ export default function MinistryDashboard({ onExitToPublic, onLogout, currentUse
             <button
               onClick={onExitToPublic}
               className="flex items-center gap-1.5 px-3 py-1 bg-black/15 hover:bg-black/25 text-white text-xs font-semibold rounded-lg transition border border-white/20 cursor-pointer"
-              title="Return to citizen view"
+              title={t('login_page.back_to_portal', 'Exit to Public Portal')}
             >
               <ArrowLeft className="w-3.5 h-3.5" />
-              <span className="hidden md:inline">Exit to Public Portal</span>
+              <span className="hidden md:inline">{t('login_page.back_to_portal', 'Exit to Public Portal')}</span>
             </button>
           )}
+
+          {/* Multilingual Selector */}
+          <LanguageSelector variant="dark" />
 
           {/* Notification Bell with Badge (1) */}
           <button
             onClick={() => setActiveTab('fraud')}
             className="p-2 rounded-full hover:bg-white/15 text-blue-100 hover:text-white transition relative cursor-pointer"
-            title="1 Critical Fraud Alert Pending"
+            title={t('ministry_portal.critical_fraud_alert_pending', '1 Critical Fraud Alert Pending')}
           >
             <Bell className="w-4 h-4" />
             <span className="absolute top-1 right-1 w-4 h-4 bg-red-600 text-white rounded-full text-[9px] font-bold flex items-center justify-center border-2 border-[#2f6ea6]">
@@ -123,14 +129,14 @@ export default function MinistryDashboard({ onExitToPublic, onLogout, currentUse
               onClick={() => setActiveTab('overview')}
               className="px-3 py-1 bg-[#1b5c74] hover:bg-[#154b5f] text-white text-xs font-bold rounded-md shadow-xs border border-white/20 transition cursor-pointer"
             >
-              Admin User
+              {t('dashboard.role_ministry', 'Ministry Admin')}
             </button>
 
             {onLogout && (
               <button
                 onClick={onLogout}
                 className="p-1.5 text-blue-200 hover:text-white hover:bg-white/10 rounded-md transition cursor-pointer"
-                title="Sign Out"
+                title={t('nav.logout', 'Sign Out')}
               >
                 <LogOut className="w-4 h-4" />
               </button>

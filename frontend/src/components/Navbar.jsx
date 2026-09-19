@@ -1,22 +1,25 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Shield, Bell, Menu, X, Search, LogOut } from 'lucide-react';
-
-const NAV_ITEMS = [
-  { label: 'Dashboard', key: 'dashboard' },
-  { label: 'Projects', key: 'projects' },
-  { label: 'Anomalies', key: 'anomalies' },
-  { label: 'Reports', key: 'reports' },
-];
+import LanguageSelector from './LanguageSelector';
 
 export default function Navbar({ currentRole, onNavigate, activeView }) {
+  const { t } = useTranslation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
+  const navItems = [
+    { label: t('dashboard.dashboard_tab', 'Dashboard'), key: 'dashboard' },
+    { label: t('dashboard.projects_tab', 'Projects'), key: 'projects' },
+    { label: t('dashboard.anomalies_tab', 'Anomalies'), key: 'anomalies' },
+    { label: t('dashboard.reports_tab', 'Reports'), key: 'reports' },
+  ];
+
   const roleLabel = {
-    MINISTRY_ADMIN: 'Ministry Admin',
-    DISTRICT_AUTHORITY: 'District Authority',
-    MP: 'Member of Parliament',
-    CONTRACTOR: 'Contractor',
+    MINISTRY_ADMIN: t('dashboard.role_ministry', 'Ministry Admin'),
+    DISTRICT_AUTHORITY: t('dashboard.role_da', 'District Authority'),
+    MP: t('dashboard.role_mp', 'Member of Parliament'),
+    CONTRACTOR: t('dashboard.role_contractor', 'Contractor'),
   };
 
   const roleColor = {
@@ -37,13 +40,15 @@ export default function Navbar({ currentRole, onNavigate, activeView }) {
             </div>
             <div className="hidden sm:block">
               <h1 className="text-base font-bold text-white tracking-tight">MPLAD Rakshak</h1>
-              <p className="text-[10px] text-gray-500 -mt-0.5 tracking-wider uppercase">AI Monitoring Platform</p>
+              <p className="text-[10px] text-gray-500 -mt-0.5 tracking-wider uppercase">
+                {t('dashboard.title', 'AI Monitoring Platform')}
+              </p>
             </div>
           </div>
 
           {/* Desktop Nav Links */}
           <div className="hidden md:flex items-center gap-1">
-            {NAV_ITEMS.map((item) => (
+            {navItems.map((item) => (
               <button
                 key={item.key}
                 onClick={() => onNavigate?.(item.key)}
@@ -60,6 +65,9 @@ export default function Navbar({ currentRole, onNavigate, activeView }) {
 
           {/* Right Side */}
           <div className="flex items-center gap-3">
+            {/* Language Selector */}
+            <LanguageSelector variant="dark" />
+
             {/* Role Badge */}
             <div className={`hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r ${roleColor[currentRole] || roleColor.MINISTRY_ADMIN} bg-opacity-20`}>
               <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
@@ -73,7 +81,7 @@ export default function Navbar({ currentRole, onNavigate, activeView }) {
               <Search size={14} className="text-gray-500" />
               <input
                 type="text"
-                placeholder="Search..."
+                placeholder={t('dashboard.search_placeholder', 'Search...')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="bg-transparent text-sm text-white placeholder-gray-500 outline-none w-32 focus:w-48 transition-all duration-300"
@@ -101,7 +109,7 @@ export default function Navbar({ currentRole, onNavigate, activeView }) {
       {mobileOpen && (
         <div className="md:hidden border-t border-white/5 bg-surface-900/95 backdrop-blur-xl animate-slide-up">
           <div className="px-4 py-3 space-y-1">
-            {NAV_ITEMS.map((item) => (
+            {navItems.map((item) => (
               <button
                 key={item.key}
                 onClick={() => { onNavigate?.(item.key); setMobileOpen(false); }}

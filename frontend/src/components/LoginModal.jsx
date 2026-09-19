@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { X, Lock, User as UserIcon, Users, ChevronDown, AlertCircle, ShieldCheck, Check } from 'lucide-react';
 import { login } from '../services/api';
 
 export default function LoginModal({ isOpen, onClose, onLoginSuccess }) {
+  const { t } = useTranslation();
   const [username, setUsername] = useState('ministry_admin');
   const [department, setDepartment] = useState('MINISTRY_ADMIN');
   const [password, setPassword] = useState('admin123');
@@ -16,22 +18,22 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess }) {
   // Admin-provisioned credentials mapped to each Department
   const departmentCredentials = {
     MINISTRY_ADMIN: {
-      label: 'Ministry Admin',
+      label: t('login_page.role_ministry', 'Ministry Admin'),
       username: 'ministry_admin',
       password: 'admin123',
     },
     MP: {
-      label: 'Member of Parliament',
+      label: t('login_page.role_mp', 'Member of Parliament'),
       username: 'mp_pune',
       password: 'admin123',
     },
     DISTRICT_AUTHORITY: {
-      label: 'District Authority',
+      label: t('login_page.role_da', 'District Authority'),
       username: 'da_pune',
       password: 'admin123',
     },
     CONTRACTOR: {
-      label: 'Contractor',
+      label: t('login_page.role_contractor', 'Contractor'),
       username: 'contractor_abc',
       password: 'admin123',
     },
@@ -105,7 +107,7 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess }) {
 
         {/* Title */}
         <h2 className="text-xl font-black text-slate-800 tracking-wider text-center mb-5 uppercase">
-          LOGIN
+          {t('login_page.login_title', 'LOGIN')}
         </h2>
 
         {error && (
@@ -124,7 +126,7 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess }) {
               id="modal-username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder="User name"
+              placeholder={t('login_page.username_placeholder', 'User name')}
               className="w-full pl-10 pr-3.5 py-2.5 text-sm border border-slate-300 rounded-md outline-none focus:border-[#288188] focus:ring-1 focus:ring-[#288188] text-slate-800 placeholder-slate-400 bg-white transition"
               required
             />
@@ -139,11 +141,11 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess }) {
               onChange={(e) => handleDepartmentChange(e.target.value)}
               className="w-full pl-10 pr-9 py-2.5 text-sm border border-slate-300 rounded-md outline-none focus:border-[#288188] focus:ring-1 focus:ring-[#288188] text-slate-800 bg-white appearance-none cursor-pointer transition"
             >
-              <option value="" disabled>Department</option>
-              <option value="MINISTRY_ADMIN">Ministry Admin</option>
-              <option value="MP">Member of Parliament</option>
-              <option value="DISTRICT_AUTHORITY">District Authority</option>
-              <option value="CONTRACTOR">Contractor</option>
+              <option value="" disabled>{t('login_page.department_placeholder', 'Department')}</option>
+              <option value="MINISTRY_ADMIN">{t('login_page.role_ministry', 'Ministry Admin')}</option>
+              <option value="MP">{t('login_page.role_mp', 'Member of Parliament')}</option>
+              <option value="DISTRICT_AUTHORITY">{t('login_page.role_da', 'District Authority')}</option>
+              <option value="CONTRACTOR">{t('login_page.role_contractor', 'Contractor')}</option>
             </select>
             <ChevronDown className="w-4 h-4 text-slate-400 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
           </div>
@@ -156,7 +158,7 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess }) {
               id="modal-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
+              placeholder={t('login_page.password_placeholder', 'Password')}
               className="w-full pl-10 pr-3.5 py-2.5 text-sm border border-slate-300 rounded-md outline-none focus:border-[#288188] focus:ring-1 focus:ring-[#288188] text-slate-800 placeholder-slate-400 bg-white transition"
               required
             />
@@ -172,7 +174,7 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess }) {
               className="w-3.5 h-3.5 rounded border-slate-300 text-[#387a42] focus:ring-[#387a42] cursor-pointer"
             />
             <label htmlFor="modal-keep-logged-in" className="text-xs text-slate-600 cursor-pointer select-none">
-              Keep me logged in
+              {t('login_page.keep_logged_in', 'Keep me logged in')}
             </label>
           </div>
 
@@ -182,7 +184,7 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess }) {
             disabled={loading}
             className="w-full py-2.5 px-4 bg-[#387a42] hover:bg-[#2d6436] active:bg-[#26552e] text-white font-medium text-sm rounded-md transition duration-150 shadow-sm disabled:opacity-50 cursor-pointer"
           >
-            {loading ? 'Logging in...' : 'Log in'}
+            {loading ? t('login_page.logging_in', 'Logging in...') : t('login_page.login_button', 'Log in')}
           </button>
 
           {/* Forgot Password */}
@@ -192,7 +194,7 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess }) {
               onClick={() => setShowForgotNotice(!showForgotNotice)}
               className="text-xs text-[#227781] hover:underline font-normal cursor-pointer"
             >
-              Forgot password?
+              {t('login_page.forgot_password', 'Forgot password?')}
             </button>
           </div>
         </form>
@@ -200,8 +202,8 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess }) {
         {/* Forgot password notification */}
         {showForgotNotice && (
           <div className="mt-3 p-3 bg-slate-50 border border-slate-200 rounded-lg text-[11px] text-slate-600">
-            <p className="font-semibold text-slate-800 mb-1">Official Password Assistance</p>
-            <p>User credentials for official departments are issued by the MoSPI System Administrator. Please contact <strong>admin@mospi.gov.in</strong> for account resets.</p>
+            <p className="font-semibold text-slate-800 mb-1">{t('modals.official_pw_assistance', 'Official Password Assistance')}</p>
+            <p>{t('modals.official_pw_text', 'User credentials for official departments are issued by the MoSPI System Administrator. Please contact admin@mospi.gov.in for account resets.')}</p>
           </div>
         )}
 
@@ -209,7 +211,7 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess }) {
         <div className="mt-4 pt-3 border-t border-slate-100">
           <div className="flex items-center gap-1.5 text-[11px] font-semibold text-slate-500 mb-2">
             <ShieldCheck className="w-3.5 h-3.5 text-teal-700" />
-            <span>Admin-Issued Department Credentials</span>
+            <span>{t('modals.admin_credentials_title', 'Admin-Issued Department Credentials')}</span>
           </div>
           <div className="grid grid-cols-2 gap-1.5">
             {Object.entries(departmentCredentials).map(([key, cred]) => (

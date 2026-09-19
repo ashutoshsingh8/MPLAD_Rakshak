@@ -2,7 +2,7 @@
 
 **AI-Powered Monitoring & Anomaly Detection Platform for MPLADS**
 
-> Smart India Hackathon 2024 — Problem Statement 26102
+> Smart India Hackathon 2026 — Problem Statement 26102
 
 ---
 
@@ -153,4 +153,4 @@ This system enforces the following key rules from **MPLADS Guidelines 2023**:
 
 ---
 
-**Built with ❤️ for Smart India Hackathon 2024**
+**Built with ❤️ for Smart India Hackathon 2026**

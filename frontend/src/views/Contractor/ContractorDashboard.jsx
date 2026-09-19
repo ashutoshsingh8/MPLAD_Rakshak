@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   FileText,
   CreditCard,
@@ -29,6 +30,7 @@ import {
 } from '../../mock/contractorDashboardData';
 
 export default function ContractorDashboard({ onExitToPublic, onLogout, currentUser }) {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState(() => {
     if (typeof window !== 'undefined') {
       const hash = window.location.hash.replace('#', '');
@@ -80,7 +82,7 @@ export default function ContractorDashboard({ onExitToPublic, onLogout, currentU
     setIsRefreshing(true);
     setTimeout(() => {
       setIsRefreshing(false);
-      showToast('Synced with District Authority PFMS Gateway & Geofence Logs');
+      showToast(t('contractor_portal.synced_toast', 'Synced with District Authority PFMS Gateway & Geofence Logs'));
     }, 600);
   };
 
@@ -90,7 +92,7 @@ export default function ContractorDashboard({ onExitToPublic, onLogout, currentU
   };
 
   const handleEvidenceSubmitted = (submissionData) => {
-    showToast(`Geo-verified milestone evidence submitted for ${submissionData.projectUid}`);
+    showToast(t('contractor_portal.evidence_submitted_toast', { id: submissionData.projectUid, defaultValue: `Geo-verified milestone evidence submitted for ${submissionData.projectUid}` }));
     setSelectedWorkForEvidence(null);
   };
 
@@ -104,7 +106,7 @@ export default function ContractorDashboard({ onExitToPublic, onLogout, currentU
       daApprovalRef: 'DA/PN/APPR-NEW',
     };
     setInvoices([fullInvoice, ...invoices]);
-    showToast(`Form-IV Invoice ${newInvoice.invoiceNo} registered with District Authority`);
+    showToast(t('contractor_portal.invoice_registered_toast', { id: newInvoice.invoiceNo, defaultValue: `Form-IV Invoice ${newInvoice.invoiceNo} registered with District Authority` }));
   };
 
   return (
@@ -156,10 +158,10 @@ export default function ContractorDashboard({ onExitToPublic, onLogout, currentU
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 pb-3">
                 <div>
                   <h2 className="text-base sm:text-lg font-black uppercase text-slate-800 tracking-wider">
-                    ACTIVE PROJECTS & TENDERS
+                    {t('contractor_portal.tab_active_works_full', 'ACTIVE PROJECTS & TENDERS')}
                   </h2>
                   <p className="text-xs text-slate-500 font-medium">
-                    District Authority Sanctioned MPLADS Works • Real-Time Geo-Verification & Escrow Billing
+                    {t('contractor_portal.tab_active_works_desc', 'District Authority Sanctioned MPLADS Works • Real-Time Geo-Verification & Escrow Billing')}
                   </p>
                 </div>
 
@@ -169,7 +171,7 @@ export default function ContractorDashboard({ onExitToPublic, onLogout, currentU
                     className="flex items-center gap-1.5 px-4 py-2 bg-[#a85016] hover:bg-[#8c3b0d] text-white rounded-lg text-xs font-bold uppercase tracking-wider transition shadow-xs cursor-pointer"
                   >
                     <FileSpreadsheet className="w-4 h-4" />
-                    <span>Submit Form-IV Bill</span>
+                    <span>{t('contractor_portal.submit_boq', 'Submit Form-IV Bill')}</span>
                   </button>
                 </div>
               </div>
@@ -189,48 +191,50 @@ export default function ContractorDashboard({ onExitToPublic, onLogout, currentU
             <div className="space-y-6">
               <div className="border-b border-slate-200 pb-3">
                 <h2 className="text-base sm:text-lg font-black uppercase text-slate-800 tracking-wider">
-                  AGENCY COMPLIANCE & PERFORMANCE SCORECARD
+                  {t('contractor_portal.tab_dashboard_title', 'AGENCY COMPLIANCE & PERFORMANCE SCORECARD')}
                 </h2>
                 <p className="text-xs text-slate-500">
-                  {contractorProfile.companyName} • Empanelled Class-1 Contractor Rating
+                  {contractorProfile.companyName} • {t('contractor_portal.tab_profile_desc', 'Empanelled Class-1 Contractor Rating')}
                 </p>
               </div>
 
               {/* Metric Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
-                  <span className="text-xs font-bold text-slate-500 uppercase">Active Contracts</span>
+                  <span className="text-xs font-bold text-slate-500 uppercase">{t('contractor_portal.kpi_active_contracts', 'Active Contracts')}</span>
                   <div className="text-2xl font-black text-slate-800 mt-1">
-                    {contractorProfile.activeContractsCount} Works
+                    {t('contractor_portal.kpi_works_count', { count: contractorProfile.activeContractsCount, defaultValue: `${contractorProfile.activeContractsCount} Works` })}
                   </div>
                   <span className="text-[11px] text-emerald-600 font-semibold mt-1 inline-block">
-                    100% on-track schedule
+                    {t('contractor_portal.kpi_active_contracts_sub', '100% on-track schedule')}
                   </span>
                 </div>
 
                 <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
-                  <span className="text-xs font-bold text-slate-500 uppercase">Awarded Sanctions</span>
+                  <span className="text-xs font-bold text-slate-500 uppercase">{t('contractor_portal.kpi_awarded_sanctions', 'Awarded Sanctions')}</span>
                   <div className="text-2xl font-black text-slate-800 mt-1">
                     {contractorProfile.totalAwardedValue}
                   </div>
                   <span className="text-[11px] text-slate-500 font-semibold mt-1 inline-block">
-                    Under PWD Pune Division
+                    {t('contractor_portal.kpi_awarded_sub', 'Under PWD Pune Division')}
                   </span>
                 </div>
 
                 <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
-                  <span className="text-xs font-bold text-slate-500 uppercase">Geofence Compliance</span>
+                  <span className="text-xs font-bold text-slate-500 uppercase">{t('contractor_portal.kpi_geofence_compliance', 'Geofence Compliance')}</span>
                   <div className="text-2xl font-black text-emerald-600 mt-1">98.4%</div>
                   <span className="text-[11px] text-emerald-700 font-semibold mt-1 inline-block">
-                    Camera & GPS verified
+                    {t('contractor_portal.kpi_geofence_sub', 'Camera & GPS verified')}
                   </span>
                 </div>
 
                 <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
-                  <span className="text-xs font-bold text-slate-500 uppercase">Escrow Disbursal SLA</span>
-                  <div className="text-2xl font-black text-[#a85016] mt-1">4.2 Days</div>
+                  <span className="text-xs font-bold text-slate-500 uppercase">{t('contractor_portal.kpi_escrow_sla', 'Escrow Disbursal SLA')}</span>
+                  <div className="text-2xl font-black text-[#a85016] mt-1">
+                    {t('contractor_portal.kpi_escrow_sla_val', '4.2 Days')}
+                  </div>
                   <span className="text-[11px] text-slate-500 font-semibold mt-1 inline-block">
-                    Avg turnaround from DA approval
+                    {t('contractor_portal.kpi_escrow_sla_sub', 'Avg turnaround from DA approval')}
                   </span>
                 </div>
               </div>
@@ -238,7 +242,7 @@ export default function ContractorDashboard({ onExitToPublic, onLogout, currentU
               {/* Upcoming Milestones */}
               <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-xs space-y-4">
                 <h3 className="text-sm font-black uppercase text-slate-800 tracking-wide">
-                  UPCOMING MANDATORY MILESTONES & PHYSICAL AUDITS
+                  {t('contractor_portal.upcoming_milestones_title', 'UPCOMING MANDATORY MILESTONES & PHYSICAL AUDITS')}
                 </h3>
                 <div className="space-y-3">
                   {mockActiveWorks.map((w) => (
@@ -248,16 +252,23 @@ export default function ContractorDashboard({ onExitToPublic, onLogout, currentU
                     >
                       <div className="space-y-1">
                         <div className="font-bold text-xs text-slate-900">
-                          {w.projectName} <span className="font-mono text-slate-500">({w.projectUid})</span>
+                          {t(`contractor_portal.mock_works.${w.id}`, w.projectName)}{' '}
+                          <span className="font-mono text-slate-500">({w.projectUid})</span>
                         </div>
                         <div className="text-[11px] text-slate-600">
-                          Current Phase: <strong className="text-slate-800">{w.phase}</strong> • Target Deadline: {w.deadline}
+                          {t('contractor_portal.current_phase', 'Current Phase:')}{' '}
+                          <strong className="text-slate-800">
+                            {t(`contractor_portal.phases.${w.phase?.toLowerCase() || 'earthwork'}`, w.phase)}
+                          </strong>{' '}
+                          • {t('contractor_portal.target_deadline', 'Target Deadline:')} {w.deadline}
                         </div>
                       </div>
 
                       <div className="flex items-center gap-3">
                         <div className="text-right">
-                          <span className="text-[11px] font-bold text-slate-700">{w.progressPercent}% Completed</span>
+                          <span className="text-[11px] font-bold text-slate-700">
+                            {t('contractor_portal.percent_completed', { percent: w.progressPercent, defaultValue: `${w.progressPercent}% Completed` })}
+                          </span>
                           <div className="w-28 bg-slate-200 h-2 rounded-full overflow-hidden mt-0.5">
                             <div
                               className="bg-[#a85016] h-full rounded-full"
@@ -269,7 +280,7 @@ export default function ContractorDashboard({ onExitToPublic, onLogout, currentU
                           onClick={() => setSelectedWorkForEvidence(w)}
                           className="px-3 py-1.5 bg-[#a85016] hover:bg-[#8c3b0d] text-white rounded text-xs font-bold transition cursor-pointer"
                         >
-                          Capture
+                          {t('contractor_portal.capture_btn', 'Capture')}
                         </button>
                       </div>
                     </div>
@@ -285,10 +296,10 @@ export default function ContractorDashboard({ onExitToPublic, onLogout, currentU
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-3">
                 <div>
                   <h2 className="text-base sm:text-lg font-black uppercase text-slate-800 tracking-wider">
-                    PAYMENTS & BILLING LEDGER
+                    {t('contractor_portal.tab_payments_full', 'PAYMENTS & BILLING LEDGER')}
                   </h2>
                   <p className="text-xs text-slate-500">
-                    Form-IV Invoicing, Escrow Disbursements & District Authority Verifications
+                    {t('contractor_portal.tab_payments_desc', 'Form-IV Invoicing, Escrow Disbursements & District Authority Verifications')}
                   </p>
                 </div>
 
@@ -297,7 +308,7 @@ export default function ContractorDashboard({ onExitToPublic, onLogout, currentU
                   className="flex items-center gap-1.5 px-4 py-2 bg-[#a85016] hover:bg-[#8c3b0d] text-white rounded-lg text-xs font-bold uppercase tracking-wider transition shadow-xs cursor-pointer"
                 >
                   <PlusCircle className="w-4 h-4" />
-                  <span>Generate New Form-IV Bill</span>
+                  <span>{t('contractor_portal.generate_new_bill', 'Generate New Form-IV Bill')}</span>
                 </button>
               </div>
 
@@ -305,10 +316,10 @@ export default function ContractorDashboard({ onExitToPublic, onLogout, currentU
               <div className="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
                 <div className="p-4 border-b border-slate-200 flex items-center justify-between">
                   <h3 className="text-xs font-black uppercase text-slate-800 tracking-wide">
-                    INVOICE CLAIMS & ESCROW STATUS
+                    {t('contractor_portal.invoice_table_title', 'INVOICE CLAIMS & ESCROW STATUS')}
                   </h3>
                   <span className="text-xs text-slate-500 font-medium">
-                    Showing {invoices.length} invoices
+                    {t('contractor_portal.showing_invoices', { count: invoices.length, defaultValue: `Showing ${invoices.length} invoices` })}
                   </span>
                 </div>
 
@@ -316,12 +327,12 @@ export default function ContractorDashboard({ onExitToPublic, onLogout, currentU
                   <table className="w-full text-left text-xs">
                     <thead className="bg-slate-50 text-slate-600 uppercase text-[10px] tracking-wider border-b border-slate-200 font-bold">
                       <tr>
-                        <th className="py-3 px-4">Invoice #</th>
-                        <th className="py-3 px-4">Project & Milestone</th>
-                        <th className="py-3 px-4">Claimed Amount</th>
-                        <th className="py-3 px-4">Submission Date</th>
-                        <th className="py-3 px-4">Status</th>
-                        <th className="py-3 px-4">Escrow Release Ref</th>
+                        <th className="py-3 px-4">{t('contractor_portal.th_invoice_no', 'Invoice #')}</th>
+                        <th className="py-3 px-4">{t('contractor_portal.th_project_milestone', 'Project & Milestone')}</th>
+                        <th className="py-3 px-4">{t('contractor_portal.th_claimed_amount', 'Claimed Amount')}</th>
+                        <th className="py-3 px-4">{t('contractor_portal.th_submission_date', 'Submission Date')}</th>
+                        <th className="py-3 px-4">{t('contractor_portal.th_status', 'Status')}</th>
+                        <th className="py-3 px-4">{t('contractor_portal.th_escrow_ref', 'Escrow Release Ref')}</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
@@ -331,7 +342,9 @@ export default function ContractorDashboard({ onExitToPublic, onLogout, currentU
                             {inv.invoiceNo}
                           </td>
                           <td className="py-3.5 px-4">
-                            <div className="font-semibold text-slate-800">{inv.projectName}</div>
+                            <div className="font-semibold text-slate-800">
+                              {t(`contractor_portal.mock_works.${inv.projectUid}`, inv.projectName)}
+                            </div>
                             <div className="text-[11px] text-slate-500 mt-0.5">{inv.milestone}</div>
                           </td>
                           <td className="py-3.5 px-4 font-bold text-slate-900">
@@ -343,17 +356,17 @@ export default function ContractorDashboard({ onExitToPublic, onLogout, currentU
                           <td className="py-3.5 px-4">
                             {inv.status === 'PAID' && (
                               <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold border border-emerald-300">
-                                Disbursed
+                                {t('contractor_portal.status_disbursed', 'Disbursed')}
                               </span>
                             )}
                             {inv.status === 'APPROVED' && (
                               <span className="px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 text-[10px] font-bold border border-blue-300">
-                                DA Approved
+                                {t('contractor_portal.status_da_approved', 'DA Approved')}
                               </span>
                             )}
                             {inv.status === 'UNDER_SCRUTINY' && (
                               <span className="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold border border-amber-300">
-                                Scrutiny / Review
+                                {t('contractor_portal.status_under_scrutiny', 'Scrutiny / Review')}
                               </span>
                             )}
                           </td>
@@ -377,10 +390,10 @@ export default function ContractorDashboard({ onExitToPublic, onLogout, currentU
             <div className="space-y-6">
               <div className="border-b border-slate-200 pb-3">
                 <h2 className="text-base sm:text-lg font-black uppercase text-slate-800 tracking-wider">
-                  DISTRICT AUTHORITY NOTIFICATIONS & DIRECTIVES
+                  {t('contractor_portal.tab_notifications_full', 'DISTRICT AUTHORITY NOTIFICATIONS & DIRECTIVES')}
                 </h2>
                 <p className="text-xs text-slate-500">
-                  Real-time alerts, site inspection schedules, and audit queries
+                  {t('contractor_portal.tab_notifications_desc', 'Real-time alerts, site inspection schedules, and audit queries')}
                 </p>
               </div>
 
@@ -388,36 +401,36 @@ export default function ContractorDashboard({ onExitToPublic, onLogout, currentU
                 <div className="bg-white rounded-xl p-4 border-l-4 border-amber-500 shadow-xs space-y-1">
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-slate-900 text-xs">
-                      Flagged Physical Inspection — Shirur Link Road
+                      {t('contractor_portal.notif_1_title', 'Flagged Physical Inspection — Shirur Link Road')}
                     </span>
-                    <span className="text-[11px] text-slate-400 font-mono">Yesterday, 16:45</span>
+                    <span className="text-[11px] text-slate-400 font-mono">{t('contractor_portal.notif_1_time', 'Yesterday, 16:45')}</span>
                   </div>
                   <p className="text-xs text-slate-600">
-                    District Collector office requested high-resolution live camera re-capture for the embankment sub-base layer. Disbursal on hold until re-submitted.
+                    {t('contractor_portal.notif_1_desc', 'District Collector office requested high-resolution live camera re-capture for the embankment sub-base layer. Disbursal on hold until re-submitted.')}
                   </p>
                 </div>
 
                 <div className="bg-white rounded-xl p-4 border-l-4 border-emerald-500 shadow-xs space-y-1">
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-slate-900 text-xs">
-                      Escrow Release Authorized — Velhe Link Road
+                      {t('contractor_portal.notif_2_title', 'Escrow Release Authorized — Velhe Link Road')}
                     </span>
-                    <span className="text-[11px] text-slate-400 font-mono">08-Sep-2026</span>
+                    <span className="text-[11px] text-slate-400 font-mono">{t('contractor_portal.notif_2_time', '08-Sep-2026')}</span>
                   </div>
                   <p className="text-xs text-slate-600">
-                    ₹12.50 Lakh released to bank escrow account under sanction MPLAD-2026-PN-022. Transaction ref: PFMS-MH-2026-883921.
+                    {t('contractor_portal.notif_2_desc', '₹12.50 Lakh released to bank escrow account under sanction MPLAD-2026-PN-022.')}
                   </p>
                 </div>
 
                 <div className="bg-white rounded-xl p-4 border-l-4 border-blue-500 shadow-xs space-y-1">
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-slate-900 text-xs">
-                      New MPLADS Guideline Circular: AI Geo-Fencing Mandatory
+                      {t('contractor_portal.notif_3_title', 'New MPLADS Guideline Circular: AI Geo-Fencing Mandatory')}
                     </span>
-                    <span className="text-[11px] text-slate-400 font-mono">01-Sep-2026</span>
+                    <span className="text-[11px] text-slate-400 font-mono">{t('contractor_portal.notif_3_time', '01-Sep-2026')}</span>
                   </div>
                   <p className="text-xs text-slate-600">
-                    All contractors must submit live photos captured via device camera within 50m displacement tolerance from sanctioned project centroids.
+                    {t('contractor_portal.notif_3_desc', 'All contractors must submit live photos captured via device camera within 50m displacement tolerance from sanctioned project centroids.')}
                   </p>
                 </div>
               </div>
@@ -429,10 +442,10 @@ export default function ContractorDashboard({ onExitToPublic, onLogout, currentU
             <div className="space-y-6">
               <div className="border-b border-slate-200 pb-3">
                 <h2 className="text-base sm:text-lg font-black uppercase text-slate-800 tracking-wider">
-                  CONTRACTOR AGENCY PROFILE & ACCREDITATION
+                  {t('contractor_portal.profile_title', 'CONTRACTOR AGENCY PROFILE & ACCREDITATION')}
                 </h2>
                 <p className="text-xs text-slate-500">
-                  Empanelled Vendor Master Record under Maharashtra Public Works Department (PWD)
+                  {t('contractor_portal.profile_desc', 'Empanelled Vendor Master Record under Maharashtra Public Works Department (PWD)')}
                 </p>
               </div>
 
@@ -450,10 +463,10 @@ export default function ContractorDashboard({ onExitToPublic, onLogout, currentU
                       {contractorProfile.companyName}
                     </h3>
                     <p className="text-xs text-slate-600 font-medium">
-                      Managing Director: {contractorProfile.directorName}
+                      {t('contractor_portal.md_label', 'Managing Director:')} {contractorProfile.directorName}
                     </p>
                     <span className="inline-block mt-1 px-2.5 py-0.5 rounded bg-amber-100 text-amber-900 text-[10px] font-black uppercase tracking-wider border border-amber-300">
-                      Class-1 Empanelled (Limit ₹10 Cr)
+                      {t('contractor_portal.empanelled_class1_limit', 'Class-1 Empanelled (Limit ₹10 Cr)')}
                     </span>
                   </div>
                 </div>
@@ -461,30 +474,32 @@ export default function ContractorDashboard({ onExitToPublic, onLogout, currentU
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                   <div className="p-3.5 bg-slate-50 rounded-lg border border-slate-200">
                     <span className="font-bold text-slate-500 block mb-0.5 uppercase text-[10px]">
-                      License / Registration #
+                      {t('contractor_portal.license_no_label', 'License / Registration #')}
                     </span>
                     <span className="font-mono font-bold text-slate-900">{contractorProfile.licenseNo}</span>
                   </div>
 
                   <div className="p-3.5 bg-slate-50 rounded-lg border border-slate-200">
                     <span className="font-bold text-slate-500 block mb-0.5 uppercase text-[10px]">
-                      Empanelled Division
-                    </span>
-                    <span className="font-semibold text-slate-900">{contractorProfile.empanelledDivision}</span>
-                  </div>
-
-                  <div className="p-3.5 bg-slate-50 rounded-lg border border-slate-200">
-                    <span className="font-bold text-slate-500 block mb-0.5 uppercase text-[10px]">
-                      Designated PFMS Escrow Bank
+                      {t('contractor_portal.empanelled_div_label', 'Empanelled Division')}
                     </span>
                     <span className="font-semibold text-slate-900">
-                      State Bank of India • Shivaji Nagar Branch, Pune
+                      {t('contractor_portal.empanelled_division_val', contractorProfile.empanelledDivision)}
                     </span>
                   </div>
 
                   <div className="p-3.5 bg-slate-50 rounded-lg border border-slate-200">
                     <span className="font-bold text-slate-500 block mb-0.5 uppercase text-[10px]">
-                      GSTIN Identification
+                      {t('contractor_portal.escrow_bank_label', 'Designated PFMS Escrow Bank')}
+                    </span>
+                    <span className="font-semibold text-slate-900">
+                      {t('contractor_portal.escrow_bank_val', 'State Bank of India • Shivaji Nagar Branch, Pune')}
+                    </span>
+                  </div>
+
+                  <div className="p-3.5 bg-slate-50 rounded-lg border border-slate-200">
+                    <span className="font-bold text-slate-500 block mb-0.5 uppercase text-[10px]">
+                      {t('contractor_portal.gstin_label', 'GSTIN Identification')}
                     </span>
                     <span className="font-mono font-bold text-slate-900">27AABCA1234F1Z8</span>
                   </div>

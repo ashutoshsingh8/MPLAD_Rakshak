@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import {
   ResponsiveContainer,
   ComposedChart,
@@ -12,6 +13,8 @@ import {
 import { mockPaymentStatusesTimeline } from '../../mock/contractorDashboardData';
 
 export default function PaymentStatusChart() {
+  const { t } = useTranslation();
+
   const formatYAxis = (val) => {
     if (val === 0) return '0';
     return `₹ ${(val / 1000).toFixed(0)}k`;
@@ -22,17 +25,17 @@ export default function PaymentStatusChart() {
       {/* Header & Legend matching reference image */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <h3 className="text-sm sm:text-base font-black uppercase text-slate-800 tracking-wide">
-          PAYMENT STATUSES
+          {t('contractor_portal.payment_statuses_title', 'PAYMENT STATUSES')}
         </h3>
 
         <div className="flex items-center gap-5 text-xs font-semibold">
           <span className="flex items-center gap-1.5 text-slate-700">
             <span className="w-2.5 h-2.5 bg-[#2b7a82] rounded-xs" />
-            <span>In Progress</span>
+            <span>{t('contractor_portal.in_progress_legend', 'In Progress')}</span>
           </span>
           <span className="flex items-center gap-1.5 text-slate-700">
             <span className="w-2.5 h-2.5 bg-[#a85016] rounded-xs" />
-            <span>Phase</span>
+            <span>{t('contractor_portal.phase_legend', 'Phase')}</span>
           </span>
         </div>
       </div>
@@ -76,11 +79,11 @@ export default function PaymentStatusChart() {
                   <div className="bg-slate-900 text-white p-2.5 rounded-lg text-xs shadow-xl border border-slate-700 space-y-1">
                     <div className="font-bold text-amber-300">{label}</div>
                     <div className="flex items-center justify-between gap-3 text-teal-300">
-                      <span>In Progress:</span>
+                      <span>{t('contractor_portal.in_progress_tooltip', 'In Progress:')}</span>
                       <strong className="font-mono">₹{payload[0]?.value?.toLocaleString()}</strong>
                     </div>
                     <div className="flex items-center justify-between gap-3 text-orange-300">
-                      <span>Phase Expenditure:</span>
+                      <span>{t('contractor_portal.phase_expenditure_tooltip', 'Phase Expenditure:')}</span>
                       <strong className="font-mono">₹{payload[1]?.value?.toLocaleString()}</strong>
                     </div>
                   </div>

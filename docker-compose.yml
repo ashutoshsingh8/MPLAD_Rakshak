@@ -46,13 +46,18 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - MYSQL_URL=mysql+pymysql://${MYSQL_USER:-user}:${MYSQL_PASSWORD:-password}@mysql:3306/${MYSQL_DATABASE:-mplad_rakshak}
-      - QDRANT_HOST=qdrant
-      - QDRANT_PORT=6333
+      - MYSQL_URL=${MYSQL_URL}
+      - QDRANT_URL=${QDRANT_URL:-}
+      - QDRANT_API_KEY=${QDRANT_API_KEY:-}
+      - QDRANT_HOST=${QDRANT_HOST:-qdrant}
+      - QDRANT_PORT=${QDRANT_PORT:-6333}
       - GEMINI_API_KEY=${GEMINI_API_KEY:-}
       - JWT_SECRET_KEY=${JWT_SECRET_KEY:-mplad-rakshak-super-secret-key-change-in-production}
       - DATA_DIR=./data
       - UPLOAD_DIR=./uploads
+      - SUPABASE_URL=${SUPABASE_URL:-}
+      - SUPABASE_KEY=${SUPABASE_KEY:-}
+      - SUPABASE_BUCKET=${SUPABASE_BUCKET:-inspection-photos}
     depends_on:
       mysql:
         condition: service_healthy

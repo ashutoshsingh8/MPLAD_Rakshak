@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Users,
   CheckSquare,
@@ -13,49 +14,51 @@ import {
 } from 'lucide-react';
 
 export default function MPSidebar({ activeTab, onTabChange, pendingBreachCount = 1 }) {
+  const { t } = useTranslation();
+
   const menuItems = [
     {
       id: 'nominations',
-      label: 'MP NOMINATIONS',
+      label: t('mp_portal.tab_nominations', 'MP NOMINATIONS'),
       icon: Users,
-      desc: 'Track recommended works & letters',
+      desc: t('mp_portal.tab_nominations_desc', 'Track recommended works & letters'),
     },
     {
       id: 'approved',
-      label: 'APPROVED WORKS',
+      label: t('mp_portal.tab_approved', 'APPROVED WORKS'),
       icon: CheckSquare,
-      desc: 'AS & TS sanctioned infrastructure',
+      desc: t('mp_portal.tab_approved_desc', 'AS & TS sanctioned infrastructure'),
     },
     {
       id: 'funding',
-      label: 'FUNDING SUMMARY',
+      label: t('mp_portal.tab_funding', 'FUNDING SUMMARY'),
       icon: Wallet,
-      desc: '₹5 Crore allocation & disbursal',
+      desc: t('mp_portal.tab_funding_desc', '₹5 Crore allocation & disbursal'),
     },
     {
       id: 'prerequisites',
-      label: 'PRE-REQUISITES CHECKS',
+      label: t('mp_portal.tab_prerequisites', 'PRE-REQUISITES CHECKS'),
       icon: ShieldCheck,
-      badge: pendingBreachCount ? 'SLA Alert' : null,
-      desc: '45-day countdown & SC/ST quota',
+      badge: pendingBreachCount ? t('mp_portal.sla_alert_badge', 'SLA Alert') : null,
+      desc: t('mp_portal.tab_prerequisites_desc', '45-day countdown & SC/ST quota'),
     },
     {
       id: 'map',
-      label: 'CONSTITUENCY MAP',
+      label: t('mp_portal.tab_map', 'CONSTITUENCY MAP'),
       icon: MapPin,
-      desc: 'GIS spatial asset tracking',
+      desc: t('mp_portal.tab_map_desc', 'GIS spatial asset tracking'),
     },
     {
       id: 'photos',
-      label: 'SITE UPDATES (PHOTOS)',
+      label: t('mp_portal.tab_photos', 'SITE UPDATES (PHOTOS)'),
       icon: Camera,
-      desc: 'EXIF verified contractor photos',
+      desc: t('mp_portal.tab_photos_desc', 'EXIF verified contractor photos'),
     },
     {
       id: 'help',
-      label: 'HELP',
+      label: t('mp_portal.tab_help', 'HELP'),
       icon: HelpCircle,
-      desc: 'DM & MoSPI escalation desk',
+      desc: t('mp_portal.tab_help_desc', 'DM & MoSPI escalation desk'),
     },
   ];
 
@@ -63,7 +66,7 @@ export default function MPSidebar({ activeTab, onTabChange, pendingBreachCount =
     <aside className="w-64 bg-[#0d2f41] text-white flex flex-col justify-between shrink-0 shadow-xl select-none min-h-[calc(100vh-64px)] border-r border-[#144b61]/40">
       <div className="p-3.5 space-y-3">
         <div className="px-3 pt-1 text-[10px] font-bold uppercase tracking-wider text-teal-200/60">
-          Constituency Oversight
+          {t('mp_portal.constituency_oversight', 'Constituency Oversight')}
         </div>
 
         {/* Navigation Items */}
@@ -104,10 +107,10 @@ export default function MPSidebar({ activeTab, onTabChange, pendingBreachCount =
       <div className="p-4 m-3 rounded-xl bg-[#062432]/60 border border-white/10 text-[11px] text-teal-200 space-y-1">
         <div className="flex items-center gap-1.5 font-bold text-white">
           <Landmark className="w-4 h-4 text-cyan-300" />
-          <span>Lok Sabha Secretariat</span>
+          <span>{t('mp_portal.lok_sabha_secretariat', 'Lok Sabha Secretariat')}</span>
         </div>
         <p className="text-[10px] text-teal-300/80 leading-tight">
-          MPLADS 2023 Guidelines • 45-Day Statutory Approval Enforced.
+          {t('mp_portal.footer_guidelines', 'MPLADS 2023 Guidelines • 45-Day Statutory Approval Enforced.')}
         </p>
       </div>
     </aside>

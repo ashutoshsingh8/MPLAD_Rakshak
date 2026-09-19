@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import {
   LayoutGrid,
   Folder,
@@ -12,56 +13,59 @@ import {
 } from 'lucide-react';
 
 export default function DASidebar({ activeTab, setActiveTab }) {
+  const { t } = useTranslation();
+
   const navItems = [
     {
       id: 'dashboard',
-      label: 'Dashboard',
+      label: t('da_portal.tab_dashboard', 'Dashboard'),
       icon: LayoutGrid,
-      desc: 'District Management Overview',
+      desc: t('da_portal.tab_dashboard_desc', 'District Management Overview'),
     },
     {
       id: 'pipeline',
-      label: 'Project Portfolio',
-      secondaryLabel: 'Proposal Pipeline',
+      label: t('da_portal.tab_portfolio', 'Project Portfolio'),
+      secondaryLabel: t('da_portal.tab_pipeline_desc', 'Proposal Pipeline'),
       icon: Folder,
-      desc: '45-Day SLA Clearance Inbox',
-      badge: '3 Critical',
+      desc: t('da_portal.tab_sla_clearance', '45-Day SLA Clearance Inbox'),
+      badge: t('da_portal.urgent_badge', { count: 3, defaultValue: '3 Critical' }),
       badgeColor: 'bg-red-500 text-white',
     },
     {
       id: 'inspections',
-      label: 'Site Inspections',
-      secondaryLabel: 'Site Verifications',
+      label: t('da_portal.tab_inspections', 'Site Inspections'),
+      secondaryLabel: t('da_portal.tab_inspections_desc', 'Site Verifications'),
       icon: ClipboardCheck,
-      desc: 'Anti-Morphing EXIF Checks',
-      badge: '5 Flagged',
+      desc: t('da_portal.tab_exif_desc', 'Anti-Morphing EXIF Checks'),
+      badge: t('da_portal.flagged_badge', { count: 5, defaultValue: '5 Flagged' }),
       badgeColor: 'bg-amber-400 text-slate-900',
     },
     {
       id: 'work-orders',
-      label: 'Work Order Status',
-      secondaryLabel: 'AI Scrutiny & BOQ',
+      label: t('da_portal.tab_work_orders', 'Work Order Status'),
+      secondaryLabel: t('da_portal.tab_boq_desc', 'AI Scrutiny & BOQ'),
       icon: FileText,
-      desc: 'Technical Sanctions (TS)',
+      desc: t('da_portal.tab_work_orders_desc', 'Technical Sanctions (TS)'),
     },
     {
       id: 'utilization',
-      label: 'Utilization Certificate',
-      secondaryLabel: 'Fund Releases',
+      label: t('da_portal.tab_utilization', 'Utilization Certificate'),
+      secondaryLabel: t('da_portal.tab_utilization_desc', 'Fund Releases'),
       icon: FileCheck,
-      desc: 'Milestone Authorization',
+      desc: t('da_portal.tab_milestone_auth', 'Milestone Authorization'),
     },
     {
       id: 'maps',
-      label: 'Local Maps',
+      label: t('da_portal.tab_maps', 'Local Maps'),
+      secondaryLabel: t('da_portal.tab_maps_desc', 'GIS Radar'),
       icon: MapPin,
-      desc: 'GIS Duplicate Asset Radar',
+      desc: t('da_portal.tab_maps_full_desc', 'GIS Duplicate Asset Radar'),
     },
     {
       id: 'settings',
-      label: 'System Settings',
+      label: t('da_portal.tab_settings', 'System Settings'),
       icon: Settings,
-      desc: 'District Config & Quotas',
+      desc: t('da_portal.tab_settings_desc', 'District Config & Quotas'),
     },
   ];
 
@@ -70,7 +74,7 @@ export default function DASidebar({ activeTab, setActiveTab }) {
       {/* Navigation Links */}
       <div className="p-3 space-y-1">
         <div className="px-3 py-2 text-[10px] font-black uppercase tracking-widest text-teal-200/60">
-          OPERATIONAL WORKFLOW
+          {t('da_portal.operational_workflow', 'OPERATIONAL WORKFLOW')}
         </div>
 
         {navItems.map((item) => {
@@ -119,14 +123,13 @@ export default function DASidebar({ activeTab, setActiveTab }) {
       <div className="p-3 m-3 rounded-xl bg-[#0b3830] border border-teal-900/50 text-[11px] text-teal-100/80 space-y-2">
         <div className="flex items-center gap-1.5 font-bold text-white">
           <ShieldCheck className="w-3.5 h-3.5 text-[#34d399]" />
-          <span>Statutory Authority</span>
+          <span>{t('da_portal.statutory_authority_title', 'Statutory Authority')}</span>
         </div>
         <p className="text-[10px] text-teal-200/70 leading-relaxed">
-          Under MPLADS 2023 Guidelines Clause 4.2, the District Authority is mandated to sanction eligible works within 45 days.
+          {t('da_portal.statutory_authority_desc', 'Under MPLADS 2023 Guidelines Clause 4.2, the District Authority is mandated to sanction eligible works within 45 days.')}
         </p>
         <div className="pt-1 flex items-center justify-between text-[10px] text-teal-300 font-mono">
-          <span>Active Quota:</span>
-          <span className="font-bold text-emerald-400">16.2% SC / 8.1% ST</span>
+          <span>{t('da_portal.active_quota_label', 'Active Quota: 16.2% SC / 8.1% ST')}</span>
         </div>
       </div>
     </aside>

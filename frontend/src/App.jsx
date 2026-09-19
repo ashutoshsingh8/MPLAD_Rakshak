@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import PublicNavbar from './components/PublicNavbar';
+import LanguageSelector from './components/LanguageSelector';
 import LoginModal from './components/LoginModal';
 import ReportFraudModal from './components/ReportFraudModal';
 import PublicPortalHome from './views/PublicPortalHome';
@@ -13,6 +14,8 @@ import LoginPage from './views/LoginPage';
 import GISMapViewer from './components/GISMapViewer';
 
 import { getProjects, queryGuidelines } from './services/api';
+import { getLocalizedState, getLocalizedDistrict } from './utils/geoTranslations';
+import { getLocalizedProjectTitle } from './utils/projectTranslations';
 import {
   Search, MapPin, Building, FileText, Send, Sparkles, AlertCircle,
   Phone, Mail, Globe, CheckCircle2, Shield, ArrowLeft, LayoutDashboard,
@@ -27,7 +30,8 @@ const ROLE_VIEWS = {
 };
 
 export default function App() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const currentLang = i18n.language ? i18n.language.split('-')[0] : 'en';
   const [activeTab, setActiveTab] = useState(() => {
     if (typeof window !== 'undefined') {
       const hash = window.location.hash.replace('#', '');
@@ -63,7 +67,7 @@ export default function App() {
           access_token: 'demo-token',
         };
       }
-      if (['mp', 'mp-dashboard', 'mp-portal', 'nominations', 'mp-nominations', 'approved', 'approved-works', 'funding', 'prerequisites', 'map', 'photos', 'site-updates', 'help', 'new-proposal', 'pre-check'].includes(hash)) {
+      if (['mp', 'mp-dashboard', 'mp-portal', 'nominations', 'mp-nominations', 'approved', 'approved-works', 'funding', 'prerequisites', 'mp-map', 'photos', 'site-updates', 'help', 'new-proposal', 'pre-check'].includes(hash)) {
         return {
           username: 'mp_pune',
           role: 'MP',
@@ -105,7 +109,7 @@ export default function App() {
       const hash = window.location.hash.replace('#', '');
       if ([
         'ministry-admin', 'dashboard', 'fraud', 'policy', 'financials', 'health', 'users', 'settings',
-        'mp', 'mp-dashboard', 'mp-portal', 'nominations', 'mp-nominations', 'approved', 'approved-works', 'funding', 'prerequisites', 'map', 'photos', 'site-updates', 'help', 'new-proposal', 'pre-check',
+        'mp', 'mp-dashboard', 'mp-portal', 'nominations', 'mp-nominations', 'approved', 'approved-works', 'funding', 'prerequisites', 'mp-map', 'photos', 'site-updates', 'help', 'new-proposal', 'pre-check',
         'da', 'da-dashboard', 'district-authority', 'pipeline', 'scrutiny', 'inspections', 'work-orders', 'utilization', 'local-maps', 'boq', 'exif',
         'contractor', 'contractor-dashboard', 'contractor-portal', 'tenders', 'active-works', 'evidence', 'payments', 'billing', 'profile'
       ].includes(hash)) return true;
@@ -223,7 +227,7 @@ export default function App() {
               className="flex items-center gap-1.5 px-3 py-1 bg-white/10 hover:bg-white/20 text-white text-xs font-semibold rounded-lg transition cursor-pointer border border-white/15"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
-              <span>Exit to Public Portal</span>
+              <span>{t('nav.exit_to_public', 'Exit to Public Portal')}</span>
             </button>
             <div className="h-4 w-px bg-white/20 hidden sm:block" />
             <div className="hidden sm:flex items-center gap-2 text-xs text-slate-300">
@@ -236,11 +240,12 @@ export default function App() {
           </div>
 
           <div className="flex items-center gap-3">
+            <LanguageSelector variant="dark" />
             <button
               onClick={handleLogout}
               className="text-xs text-red-300 hover:text-red-100 hover:underline cursor-pointer"
             >
-              Sign Out
+              {t('nav.sign_out', 'Sign Out')}
             </button>
           </div>
         </div>
@@ -301,17 +306,17 @@ export default function App() {
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h2 className="text-2xl font-black text-slate-900 tracking-tight uppercase">
-                  PROJECT DIRECTORY & CITIZEN AUDIT
+                  {t('projects_page.title', 'PROJECT DIRECTORY & CITIZEN AUDIT')}
                 </h2>
                 <p className="text-xs text-slate-500">
-                  Searchable database of sanctioned, active, and completed infrastructure works across India
+                  {t('projects_page.subtitle', 'Searchable database of sanctioned, active, and completed infrastructure works across India')}
                 </p>
               </div>
               <button
                 onClick={() => setActiveTab('home')}
-                className="text-xs font-semibold text-teal-700 hover:underline flex items-center gap-1"
+                className="text-xs font-semibold text-teal-700 hover:underline flex items-center gap-1 cursor-pointer"
               >
-                <ArrowLeft className="w-3.5 h-3.5" /> Back to Home
+                <ArrowLeft className="w-3.5 h-3.5" /> {t('projects_page.back_home', 'Back to Home')}
               </button>
             </div>
 
@@ -326,22 +331,22 @@ export default function App() {
                       <span>{p.project_uid}</span>
                       <span className="font-semibold text-teal-700 uppercase">{p.status}</span>
                     </div>
-                    <h3 className="text-sm font-bold text-slate-900 mb-2">{p.title}</h3>
+                    <h3 className="text-sm font-bold text-slate-900 mb-2">{getLocalizedProjectTitle(p, currentLang)}</h3>
                     <div className="flex items-center gap-1.5 text-xs text-slate-500 mb-3">
                       <MapPin className="w-3.5 h-3.5 text-teal-600 shrink-0" />
-                      <span>{p.district}, {p.state}</span>
+                      <span>{getLocalizedDistrict(p.district, currentLang)}, {getLocalizedState(p.state, currentLang)}</span>
                     </div>
                   </div>
 
                   <div className="pt-3 border-t border-slate-100 text-xs flex items-center justify-between">
                     <div>
-                      <span className="text-slate-400 block text-[10px]">Sanctioned Cost</span>
+                      <span className="text-slate-400 block text-[10px]">{t('projects_page.sanctioned_cost', 'Sanctioned Cost')}</span>
                       <span className="font-bold text-slate-800">
-                        ₹{(p.sanctioned_amount / 100000).toFixed(2)} Lakh
+                        ₹{(p.sanctioned_amount / 100000).toFixed(2)} {t('common.lakh', 'Lakh')}
                       </span>
                     </div>
                     <div className="text-right">
-                      <span className="text-slate-400 block text-[10px]">Progress</span>
+                      <span className="text-slate-400 block text-[10px]">{t('projects_page.progress', 'Progress')}</span>
                       <span className="font-bold text-teal-700">{p.physical_progress_percent || 0}%</span>
                     </div>
                   </div>
@@ -401,14 +406,14 @@ export default function App() {
             <div className="portal-card p-6 bg-white">
               <form onSubmit={handleAskGuidelines} className="space-y-3">
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                  Ask Any Question About MPLADS Rules & Eligibility
+                  {t('guidelines_page.ask_title', 'Ask Any Question About MPLADS Rules & Eligibility')}
                 </label>
                 <div className="flex gap-2">
                   <input
                     type="text"
                     value={guidelineQuery}
                     onChange={(e) => setGuidelineQuery(e.target.value)}
-                    placeholder="e.g. Can MPLADS funds be used for solar street lights in villages?"
+                    placeholder={t('guidelines_page.input_placeholder', 'e.g. Can MPLADS funds be used for solar street lights in villages?')}
                     className="flex-1 px-4 py-2.5 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-600"
                   />
                   <button
@@ -417,34 +422,34 @@ export default function App() {
                     className="px-5 py-2.5 bg-[#1c6877] hover:bg-[#15505c] text-white rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition disabled:opacity-50 cursor-pointer"
                   >
                     <Sparkles className="w-4 h-4" />
-                    <span>{guidelineLoading ? 'Analyzing...' : 'Ask AI'}</span>
+                    <span>{guidelineLoading ? t('guidelines_page.analyzing', 'Analyzing...') : t('guidelines_page.ask_ai', 'Ask AI')}</span>
                   </button>
                 </div>
               </form>
 
               {/* Sample Prompts */}
               <div className="mt-3 flex flex-wrap gap-2 text-[11px] text-slate-500">
-                <span className="font-semibold">Quick questions:</span>
+                <span className="font-semibold">{t('guidelines_page.quick_questions', 'Quick questions:')}</span>
                 <button
                   type="button"
                   onClick={() => setGuidelineQuery('What are the rules for SC and ST quota allocations?')}
                   className="hover:text-teal-700 hover:underline cursor-pointer"
                 >
-                  • SC/ST Quotas
+                  • {t('guidelines_page.q_sc_st', 'SC/ST Quotas')}
                 </button>
                 <button
                   type="button"
                   onClick={() => setGuidelineQuery('What is the deadline for District Authority to sanction projects?')}
                   className="hover:text-teal-700 hover:underline cursor-pointer"
                 >
-                  • 45-Day Sanction Rule
+                  • {t('guidelines_page.q_sla', '45-Day Sanction Rule')}
                 </button>
                 <button
                   type="button"
                   onClick={() => setGuidelineQuery('Can MPLADS funds be used for religious or private buildings?')}
                   className="hover:text-teal-700 hover:underline cursor-pointer"
                 >
-                  • Inadmissible Works
+                  • {t('guidelines_page.q_inadmissible', 'Inadmissible Works')}
                 </button>
               </div>
 
@@ -453,14 +458,14 @@ export default function App() {
                 <div className="mt-6 p-4 bg-teal-50/70 border border-teal-200 rounded-xl space-y-3 animate-fade-in">
                   <div className="flex items-center gap-2 text-teal-900 font-bold text-xs uppercase tracking-wider">
                     <Sparkles className="w-4 h-4 text-teal-700" />
-                    <span>Gemini AI Verified Answer</span>
+                    <span>{t('guidelines_page.verified_answer', 'Gemini AI Verified Answer')}</span>
                   </div>
                   <div className="text-xs sm:text-sm text-slate-800 leading-relaxed whitespace-pre-line">
                     {guidelineAnswer.answer}
                   </div>
                   {guidelineAnswer.source_chunks?.length > 0 && (
                     <div className="pt-2 border-t border-teal-200 text-[11px] text-slate-500">
-                      <strong>Cited Clauses:</strong>
+                      <strong>{t('guidelines_page.cited_clauses', 'Cited Clauses:')}</strong>
                       <ul className="list-disc pl-4 mt-1 space-y-0.5">
                         {guidelineAnswer.source_chunks.map((c, i) => (
                           <li key={i} className="line-clamp-1">{c}</li>
@@ -475,22 +480,22 @@ export default function App() {
             {/* Official Key Rules Summary */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="portal-card p-5 bg-white space-y-2">
-                <h4 className="text-xs font-black text-slate-900 uppercase">Core Scheme Parameters</h4>
+                <h4 className="text-xs font-black text-slate-900 uppercase">{t('guidelines_page.core_params', 'Core Scheme Parameters')}</h4>
                 <ul className="text-xs text-slate-600 space-y-1.5 list-disc pl-4">
-                  <li><strong>Entitlement:</strong> ₹5 Crore per MP per annum.</li>
-                  <li><strong>Sanction Window:</strong> Strict 45 days for District Authority.</li>
-                  <li><strong>Completion Limit:</strong> 1 year from sanction date.</li>
-                  <li><strong>Social Welfare:</strong> Min 15% in SC areas & 7.5% in ST areas.</li>
+                  <li>{t('guidelines_page.entitlement_rule', 'Entitlement: ₹5 Crore per MP per annum.')}</li>
+                  <li>{t('guidelines_page.sanction_rule', 'Sanction Window: Strict 45 days for District Authority.')}</li>
+                  <li>{t('guidelines_page.completion_rule', 'Completion Limit: 1 year from sanction date.')}</li>
+                  <li>{t('guidelines_page.social_welfare_rule', 'Social Welfare: Min 15% in SC areas & 7.5% in ST areas.')}</li>
                 </ul>
               </div>
 
               <div className="portal-card p-5 bg-white space-y-2">
-                <h4 className="text-xs font-black text-slate-900 uppercase">Strictly Inadmissible Works</h4>
+                <h4 className="text-xs font-black text-slate-900 uppercase">{t('guidelines_page.inadmissible_title', 'Strictly Inadmissible Works')}</h4>
                 <ul className="text-xs text-slate-600 space-y-1.5 list-disc pl-4">
-                  <li>Private property, individual residential houses or walls.</li>
-                  <li>Places of religious worship or shrines of any faith.</li>
-                  <li>Recurring repairs and routine maintenance.</li>
-                  <li>Commercial assets owned by private entities.</li>
+                  <li>{t('guidelines_page.inadmissible_1', 'Private property, individual residential houses or walls.')}</li>
+                  <li>{t('guidelines_page.inadmissible_2', 'Places of religious worship or shrines of any faith.')}</li>
+                  <li>{t('guidelines_page.inadmissible_3', 'Recurring repairs and routine maintenance.')}</li>
+                  <li>{t('guidelines_page.inadmissible_4', 'Commercial assets owned by private entities.')}</li>
                 </ul>
               </div>
             </div>
@@ -503,41 +508,41 @@ export default function App() {
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-2xl font-black text-slate-900 tracking-tight uppercase">
-                  ABOUT MPLAD RAKSHAK
+                  {t('about_page.title', 'ABOUT MPLAD RAKSHAK')}
                 </h2>
                 <p className="text-xs text-slate-500">
-                  AI-Powered Monitoring & Anomaly Detection for MPLADS (Smart India Hackathon 2024 PS 26102)
+                  {t('about_page.subtitle', 'AI-Powered Monitoring & Anomaly Detection for MPLADS (Smart India Hackathon 2024 PS 26102)')}
                 </p>
               </div>
               <button
                 onClick={() => setActiveTab('home')}
-                className="text-xs font-semibold text-teal-700 hover:underline flex items-center gap-1"
+                className="text-xs font-semibold text-teal-700 hover:underline flex items-center gap-1 cursor-pointer"
               >
-                <ArrowLeft className="w-3.5 h-3.5" /> Back to Home
+                <ArrowLeft className="w-3.5 h-3.5" /> {t('projects_page.back_home', 'Back to Home')}
               </button>
             </div>
 
             <div className="portal-card p-6 sm:p-8 bg-white space-y-4 leading-relaxed text-xs sm:text-sm text-slate-700">
-              <h3 className="text-base font-bold text-slate-900">Platform Objective</h3>
+              <h3 className="text-base font-bold text-slate-900">{t('about_page.platform_objective', 'Platform Objective')}</h3>
               <p>
-                <strong>MPLAD Rakshak</strong> is a specialized decision-support and fraud detection platform built for the <strong>Member of Parliament Local Area Development Scheme (MPLADS)</strong>. Under the revised 2023 Guidelines, every MP is entitled to recommend durable community works worth ₹5 Crore annually.
+                {t('about_page.objective_p1', 'MPLAD Rakshak is a specialized decision-support and fraud detection platform built for the Member of Parliament Local Area Development Scheme (MPLADS). Under the revised 2023 Guidelines, every MP is entitled to recommend durable community works worth ₹5 Crore annually.')}
               </p>
               <p>
-                This portal combines modern data engineering, EXIF image tamper detection, Google Gemini RAG guidelines intelligence, and automated CPWD Schedule of Rates (SoR) audits to ensure that public funds create lasting social infrastructure with complete transparency.
+                {t('about_page.objective_p2', 'This portal combines modern data engineering, EXIF image tamper detection, Google Gemini RAG guidelines intelligence, and automated CPWD Schedule of Rates (SoR) audits to ensure that public funds create lasting social infrastructure with complete transparency.')}
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
                 <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
-                  <div className="text-teal-700 font-bold text-sm mb-1">Citizen Transparency</div>
-                  <p className="text-[11px] text-slate-500">Public search and geo-mapping of every recommended, sanctioned, and executed asset.</p>
+                  <div className="text-teal-700 font-bold text-sm mb-1">{t('about_page.pillar1_title', 'Citizen Transparency')}</div>
+                  <p className="text-[11px] text-slate-500">{t('about_page.pillar1_desc', 'Public search and geo-mapping of every recommended, sanctioned, and executed asset.')}</p>
                 </div>
                 <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
-                  <div className="text-teal-700 font-bold text-sm mb-1">AI Audit Engine</div>
-                  <p className="text-[11px] text-slate-500">Automatic detection of cost inflation, contractor cartelization, and duplicate assets.</p>
+                  <div className="text-teal-700 font-bold text-sm mb-1">{t('about_page.pillar2_title', 'AI Audit Engine')}</div>
+                  <p className="text-[11px] text-slate-500">{t('about_page.pillar2_desc', 'Automatic detection of cost inflation, contractor cartelization, and duplicate assets.')}</p>
                 </div>
                 <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
-                  <div className="text-teal-700 font-bold text-sm mb-1">45-Day SLA Tracking</div>
-                  <p className="text-[11px] text-slate-500">Automated countdown timer enforcing District Authority sanction decisions.</p>
+                  <div className="text-teal-700 font-bold text-sm mb-1">{t('about_page.pillar3_title', '45-Day SLA Tracking')}</div>
+                  <p className="text-[11px] text-slate-500">{t('about_page.pillar3_desc', 'Automated countdown timer enforcing District Authority sanction decisions.')}</p>
                 </div>
               </div>
             </div>
@@ -550,30 +555,30 @@ export default function App() {
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-2xl font-black text-slate-900 tracking-tight uppercase">
-                  OFFICIAL CONTACT & CITIZEN HELPDESK
+                  {t('contact_page.title', 'OFFICIAL CONTACT & CITIZEN HELPDESK')}
                 </h2>
                 <p className="text-xs text-slate-500">
-                  Ministry of Statistics and Programme Implementation (MoSPI) • Government of India
+                  {t('contact_page.subtitle', 'Ministry of Statistics and Programme Implementation (MoSPI) • Government of India')}
                 </p>
               </div>
               <button
                 onClick={() => setActiveTab('home')}
-                className="text-xs font-semibold text-teal-700 hover:underline flex items-center gap-1"
+                className="text-xs font-semibold text-teal-700 hover:underline flex items-center gap-1 cursor-pointer"
               >
-                <ArrowLeft className="w-3.5 h-3.5" /> Back to Home
+                <ArrowLeft className="w-3.5 h-3.5" /> {t('projects_page.back_home', 'Back to Home')}
               </button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="portal-card p-6 bg-white space-y-4">
-                <h3 className="text-sm font-bold text-slate-900 uppercase">National Nodal Ministry</h3>
+                <h3 className="text-sm font-bold text-slate-900 uppercase">{t('contact_page.nodal_ministry', 'National Nodal Ministry')}</h3>
                 <div className="space-y-2 text-xs text-slate-600">
-                  <p className="font-semibold text-slate-800">Ministry of Statistics and Programme Implementation</p>
-                  <p>Khurshid Lal Bhawan, Janpath, New Delhi - 110001</p>
+                  <p className="font-semibold text-slate-800">{t('contact_page.ministry_name', 'Ministry of Statistics and Programme Implementation')}</p>
+                  <p>{t('contact_page.address', 'Khurshid Lal Bhawan, Janpath, New Delhi - 110001')}</p>
                   <div className="pt-2 space-y-1.5">
                     <div className="flex items-center gap-2">
                       <Phone className="w-3.5 h-3.5 text-teal-700" />
-                      <span>Toll Free Citizen Helpline: 1800-11-8080</span>
+                      <span>{t('contact_page.helpline', 'Toll Free Citizen Helpline: 1800-11-8080')}</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <Mail className="w-3.5 h-3.5 text-teal-700" />
@@ -588,15 +593,15 @@ export default function App() {
               </div>
 
               <div className="portal-card p-6 bg-white space-y-4">
-                <h3 className="text-sm font-bold text-slate-900 uppercase">Grievances & Anomaly Reports</h3>
+                <h3 className="text-sm font-bold text-slate-900 uppercase">{t('contact_page.grievance_title', 'Grievances & Anomaly Reports')}</h3>
                 <p className="text-xs text-slate-600">
-                  Citizens may submit formal complaints regarding delayed projects, substandard construction, or private property violations directly through this portal.
+                  {t('contact_page.grievance_desc', 'Citizens may submit formal complaints regarding delayed projects, substandard construction, or private property violations directly through this portal.')}
                 </p>
                 <button
                   onClick={() => setIsFraudModalOpen(true)}
                   className="w-full py-2.5 px-4 bg-red-700 hover:bg-red-800 text-white rounded-lg text-xs font-bold uppercase tracking-wider transition shadow-sm cursor-pointer"
                 >
-                  Submit Citizen Grievance / Report Fraud
+                  {t('contact_page.submit_grievance', 'Submit Citizen Grievance / Report Fraud')}
                 </button>
               </div>
             </div>
@@ -610,20 +615,20 @@ export default function App() {
           <div className="flex items-center gap-2">
             <span className="font-bold text-white">MPLAD Rakshak</span>
             <span>•</span>
-            <span>Government of India</span>
+            <span>{t('common.national_portal', 'Government of India')}</span>
             <span>•</span>
             <span>Smart India Hackathon PS 26102</span>
           </div>
 
           <div className="flex items-center gap-4 text-[11px] text-slate-400">
-            <span>Designed for Public Transparency & Decision Support</span>
+            <span>{t('common.transparency_system', 'Designed for Public Transparency & Decision Support')}</span>
             <span>•</span>
             <button
               id="footer-login-button"
               onClick={() => setActiveTab('login')}
               className="text-amber-300 hover:underline font-semibold cursor-pointer"
             >
-              Login
+              {t('nav.login', 'Login')}
             </button>
           </div>
         </div>
@@ -644,6 +649,7 @@ export default function App() {
           setSelectedFraudProject(null);
         }}
         targetProject={selectedFraudProject}
+        allProjects={allProjects}
       />
     </div>
   );

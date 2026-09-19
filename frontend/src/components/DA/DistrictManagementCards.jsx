@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { MoreVertical, Calendar, Info, FileText, CheckCircle2, AlertCircle, MapPin, ExternalLink } from 'lucide-react';
 
 export default function DistrictManagementCards({
@@ -7,6 +8,8 @@ export default function DistrictManagementCards({
   onOpenExif,
   onOpenMap,
 }) {
+  const { t } = useTranslation();
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
       {/* ── CARD 1: PROJECT 01 (Project Confirmation - Pending) ── */}
@@ -14,24 +17,24 @@ export default function DistrictManagementCards({
         <div className="space-y-2.5">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-slate-500 tracking-wider uppercase">
-              PROJECT 01
+              {t('da_portal.cards.project_01', 'PROJECT 01')}
             </span>
             <span className="px-2.5 py-0.5 rounded-md bg-[#fef3c7] text-[#92400e] text-[11px] font-bold">
-              Pending
+              {t('da_portal.cards.pending', 'Pending')}
             </span>
           </div>
 
           <h3 className="text-base font-black text-slate-900 leading-tight">
-            Project Confirmation
+            {t('da_portal.cards.confirmation_title', 'Project Confirmation')}
           </h3>
 
           <p className="text-xs font-semibold text-slate-600">
-            Project Confirmation
+            {t('da_portal.cards.confirmation_title', 'Project Confirmation')}
           </p>
 
           <div className="text-[11px] text-slate-500 leading-relaxed font-normal">
-            <p>Project development project deneliopement</p>
-            <p>Project Domination: ovr poanment certificate...</p>
+            <p>{t('da_portal.cards.dev_desc', 'Project development project deneliopement')}</p>
+            <p>{t('da_portal.cards.nomination_cert', 'Project Domination: ovr poanment certificate...')}</p>
           </div>
         </div>
 
@@ -40,13 +43,13 @@ export default function DistrictManagementCards({
             onClick={() => onOpenProposal && onOpenProposal('MPLAD-2026-PN-014')}
             className="flex-1 py-1.5 px-3 bg-[#e6f4f1] text-[#1f7a6b] border border-[#a3ded2] rounded-md text-xs font-bold hover:bg-[#d7eee9] transition cursor-pointer text-center"
           >
-            Proposed
+            {t('da_portal.cards.proposed', 'Proposed')}
           </button>
           <button
             onClick={() => onOpenProposal && onOpenProposal('MPLAD-2026-PN-014')}
             className="flex-1 py-1.5 px-3 bg-[#fee2e2] text-[#dc2626] border border-[#fecaca] rounded-md text-xs font-bold hover:bg-[#fdd0d0] transition cursor-pointer text-center"
           >
-            Pending
+            {t('da_portal.cards.pending', 'Pending')}
           </button>
         </div>
       </div>
@@ -56,24 +59,24 @@ export default function DistrictManagementCards({
         <div className="space-y-2.5">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-slate-700 tracking-wider uppercase">
-              PROJECT 02
+              {t('da_portal.cards.project_02', 'PROJECT 02')}
             </span>
             <span className="px-2.5 py-0.5 rounded-md bg-[#dcfce7] text-[#166534] text-[11px] font-bold">
-              Approved
+              {t('da_portal.cards.approved', 'Approved')}
             </span>
           </div>
 
           <h3 className="text-base font-black text-slate-900 leading-tight">
-            Work Order Status
+            {t('da_portal.cards.work_order_title', 'Work Order Status')}
           </h3>
 
           <p className="text-xs font-semibold text-slate-700">
-            Project Development
+            {t('da_portal.cards.project_dev', 'Project Development')}
           </p>
 
           <div className="text-[11px] text-slate-600 leading-relaxed font-normal">
-            <p>Project development project trommmanagement</p>
-            <p>Project Domination: nu-womuralited:hutaez</p>
+            <p>{t('da_portal.cards.dev_desc', 'Project development project trommmanagement')}</p>
+            <p>{t('da_portal.cards.nomination_cert', 'Project Domination: nu-womuralited:hutaez')}</p>
           </div>
         </div>
 
@@ -82,13 +85,13 @@ export default function DistrictManagementCards({
             onClick={() => onOpenBoq && onOpenBoq('MPLAD-2026-PN-014')}
             className="flex-1 py-1.5 px-3 bg-[#1f7a6b] text-white rounded-md text-xs font-bold hover:bg-[#186054] transition cursor-pointer text-center shadow-xs"
           >
-            Approved
+            {t('da_portal.cards.approved', 'Approved')}
           </button>
           <button
             onClick={() => onOpenBoq && onOpenBoq('MPLAD-2026-PN-014')}
             className="flex-1 py-1.5 px-3 bg-[#16a34a] text-white rounded-md text-xs font-bold hover:bg-[#15803d] transition cursor-pointer text-center shadow-xs"
           >
-            Approved
+            {t('da_portal.cards.approved', 'Approved')}
           </button>
         </div>
       </div>
@@ -98,24 +101,24 @@ export default function DistrictManagementCards({
         <div className="space-y-2.5">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-slate-500 tracking-wider uppercase">
-              PROJECT 03
+              {t('da_portal.cards.project_03', 'PROJECT 03')}
             </span>
             <span className="px-2.5 py-0.5 rounded-md bg-[#fef3c7] text-[#92400e] text-[11px] font-bold">
-              Pending
+              {t('da_portal.cards.pending', 'Pending')}
             </span>
           </div>
 
           <h3 className="text-base font-black text-slate-900 leading-tight">
-            Site Visit
+            {t('da_portal.cards.site_visit_title', 'Site Visit')}
           </h3>
 
           <p className="text-xs font-semibold text-slate-600">
-            Project Management
+            {t('da_portal.cards.project_mgmt', 'Project Management')}
           </p>
 
           <div className="text-[11px] text-slate-500 leading-relaxed font-normal">
-            <p>Project development project aamlingement</p>
-            <p>Project Domination: ovr poanment certifiicate...</p>
+            <p>{t('da_portal.cards.dev_desc', 'Project development project aamlingement')}</p>
+            <p>{t('da_portal.cards.nomination_cert', 'Project Domination: ovr poanment certifiicate...')}</p>
           </div>
         </div>
 
@@ -124,13 +127,13 @@ export default function DistrictManagementCards({
             onClick={() => onOpenExif && onOpenExif('MPLAD-2026-PN-018')}
             className="flex-1 py-1.5 px-3 bg-[#e6f4f1] text-[#1f7a6b] border border-[#a3ded2] rounded-md text-xs font-bold hover:bg-[#d7eee9] transition cursor-pointer text-center"
           >
-            Proposed
+            {t('da_portal.cards.proposed', 'Proposed')}
           </button>
           <button
             onClick={() => onOpenExif && onOpenExif('MPLAD-2026-PN-018')}
             className="flex-1 py-1.5 px-3 bg-[#fee2e2] text-[#dc2626] border border-[#fecaca] rounded-md text-xs font-bold hover:bg-[#fdd0d0] transition cursor-pointer text-center"
           >
-            Pending
+            {t('da_portal.cards.pending', 'Pending')}
           </button>
         </div>
       </div>
@@ -140,24 +143,24 @@ export default function DistrictManagementCards({
         <div className="space-y-2.5">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-slate-500 tracking-wider uppercase">
-              PROJECT 01
+              {t('da_portal.cards.project_01', 'PROJECT 01')}
             </span>
             <span className="px-2.5 py-0.5 rounded-md bg-[#fef3c7] text-[#92400e] text-[11px] font-bold">
-              Pending
+              {t('da_portal.cards.pending', 'Pending')}
             </span>
           </div>
 
           <h3 className="text-base font-black text-slate-900 leading-tight">
-            Site Visit
+            {t('da_portal.cards.site_visit_title', 'Site Visit')}
           </h3>
 
           <p className="text-xs font-semibold text-slate-600">
-            Project Confirmation
+            {t('da_portal.cards.confirmation_title', 'Project Confirmation')}
           </p>
 
           <div className="text-[11px] text-slate-500 leading-relaxed font-normal">
-            <p>Project denfirmatiion project denaitmenoed</p>
-            <p>proinnarmmunifanvi ovr utilization certificate...</p>
+            <p>{t('da_portal.cards.dev_desc', 'Project denfirmatiion project denaitmenoed')}</p>
+            <p>{t('da_portal.cards.nomination_cert', 'proinnarmmunifanvi ovr utilization certificate...')}</p>
           </div>
         </div>
 
@@ -166,13 +169,13 @@ export default function DistrictManagementCards({
             onClick={() => onOpenProposal && onOpenProposal('MPLAD-2026-PN-022')}
             className="flex-1 py-1.5 px-3 bg-[#e6f4f1] text-[#1f7a6b] border border-[#a3ded2] rounded-md text-xs font-bold hover:bg-[#d7eee9] transition cursor-pointer text-center"
           >
-            Projected
+            {t('da_portal.cards.projected', 'Projected')}
           </button>
           <button
             onClick={() => onOpenProposal && onOpenProposal('MPLAD-2026-PN-022')}
             className="flex-1 py-1.5 px-3 bg-[#fee2e2] text-[#dc2626] border border-[#fecaca] rounded-md text-xs font-bold hover:bg-[#fdd0d0] transition cursor-pointer text-center"
           >
-            Pending
+            {t('da_portal.cards.pending', 'Pending')}
           </button>
         </div>
       </div>
@@ -182,29 +185,29 @@ export default function DistrictManagementCards({
         <div className="space-y-2.5">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-slate-500 tracking-wider uppercase">
-              PROJECT 03
+              {t('da_portal.cards.project_03', 'PROJECT 03')}
             </span>
             <span className="px-2.5 py-0.5 rounded-md bg-[#dcfce7] text-[#166534] text-[11px] font-bold">
-              Approved
+              {t('da_portal.cards.approved', 'Approved')}
             </span>
           </div>
 
           <h3 className="text-base font-black text-slate-900 leading-tight">
-            Site Inspections
+            {t('da_portal.cards.site_inspections_title', 'Site Inspections')}
           </h3>
 
           <p className="text-xs font-semibold text-slate-600">
-            Project Densineserment
+            {t('da_portal.cards.project_dev', 'Project Densineserment')}
           </p>
 
           <div className="flex items-center gap-4 text-[11px] text-slate-500 pt-1">
             <span className="flex items-center gap-1.5">
               <Calendar className="w-3.5 h-3.5 text-slate-400" />
-              <span>Uittzir pean</span>
+              <span>{t('da_portal.cards.dev_desc', 'Uittzir pean')}</span>
             </span>
             <span className="flex items-center gap-1.5">
               <Info className="w-3.5 h-3.5 text-slate-400" />
-              <span>Project status</span>
+              <span>{t('da_portal.cards.nomination_cert', 'Project status')}</span>
             </span>
           </div>
         </div>
@@ -214,13 +217,13 @@ export default function DistrictManagementCards({
             onClick={() => onOpenExif && onOpenExif('MPLAD-2026-PN-018')}
             className="flex-1 py-1.5 px-3 bg-white text-[#1f7a6b] border border-[#1f7a6b] rounded-md text-xs font-bold hover:bg-[#e6f4f1] transition cursor-pointer text-center"
           >
-            Approved
+            {t('da_portal.cards.approved', 'Approved')}
           </button>
           <button
             onClick={() => onOpenExif && onOpenExif('MPLAD-2026-PN-018')}
             className="flex-1 py-1.5 px-3 bg-[#16a34a] text-white rounded-md text-xs font-bold hover:bg-[#15803d] transition cursor-pointer text-center shadow-xs"
           >
-            Approved
+            {t('da_portal.cards.approved', 'Approved')}
           </button>
         </div>
       </div>
@@ -230,13 +233,13 @@ export default function DistrictManagementCards({
         <div className="flex items-center justify-between pb-2">
           <h3 className="text-sm font-black text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
             <MapPin className="w-4 h-4 text-[#1f7a6b]" />
-            <span>LOCAL MAPS</span>
+            <span>{t('da_portal.cards.local_maps', 'LOCAL MAPS')}</span>
           </h3>
           <button
             onClick={onOpenMap}
             className="text-[11px] font-bold text-[#1f7a6b] hover:underline flex items-center gap-1 cursor-pointer"
           >
-            <span>Expand</span>
+            <span>{t('da_portal.cards.expand_map', 'Expand')}</span>
             <ExternalLink className="w-3 h-3" />
           </button>
         </div>
@@ -346,7 +349,7 @@ export default function DistrictManagementCards({
           {/* Hover hint */}
           <div className="absolute inset-0 bg-teal-900/10 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
             <span className="px-3 py-1 bg-slate-900/80 backdrop-blur-xs text-white text-[11px] font-bold rounded-lg shadow-sm">
-              Click to Open Full GIS Proximity Radar
+              {t('da_portal.cards.click_open_gis', 'Click to Open Full GIS Proximity Radar')}
             </span>
           </div>
         </div>
@@ -357,7 +360,7 @@ export default function DistrictManagementCards({
         <div className="space-y-2.5">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-slate-500 tracking-wider uppercase">
-              PROJECT 017
+              {t('da_portal.cards.project_017', 'PROJECT 017')}
             </span>
             <button className="text-slate-400 hover:text-slate-600 p-1 rounded hover:bg-slate-100 transition cursor-pointer">
               <MoreVertical className="w-4 h-4" />
@@ -365,21 +368,21 @@ export default function DistrictManagementCards({
           </div>
 
           <h3 className="text-base font-black text-slate-900 leading-tight">
-            Project Contract Management
+            {t('da_portal.cards.contract_mgmt_title', 'Project Contract Management')}
           </h3>
 
           <p className="text-xs font-semibold text-slate-600">
-            Project Domintion
+            {t('da_portal.cards.project_dev', 'Project Domintion')}
           </p>
 
           <div className="flex items-center gap-4 text-[11px] text-slate-500 pt-1">
             <span className="flex items-center gap-1.5">
               <Calendar className="w-3.5 h-3.5 text-slate-400" />
-              <span>Project plate</span>
+              <span>{t('da_portal.cards.dev_desc', 'Project plate')}</span>
             </span>
             <span className="flex items-center gap-1.5">
               <FileText className="w-3.5 h-3.5 text-slate-400" />
-              <span>Approvement</span>
+              <span>{t('da_portal.cards.nomination_cert', 'Approvement')}</span>
             </span>
           </div>
         </div>
@@ -389,7 +392,7 @@ export default function DistrictManagementCards({
             onClick={() => onOpenBoq && onOpenBoq('MPLAD-2026-PN-014')}
             className="w-full py-1.5 px-3 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 rounded-md text-xs font-bold transition cursor-pointer text-center"
           >
-            Review Tender Contracts
+            {t('da_portal.cards.review_contracts_btn', 'Review Tender Contracts')}
           </button>
         </div>
       </div>
@@ -399,7 +402,7 @@ export default function DistrictManagementCards({
         <div className="space-y-2.5">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-slate-500 tracking-wider uppercase">
-              LOCAL MAPS
+              {t('da_portal.cards.local_maps', 'LOCAL MAPS')}
             </span>
             <button className="text-slate-400 hover:text-slate-600 p-1 rounded hover:bg-slate-100 transition cursor-pointer">
               <MoreVertical className="w-4 h-4" />
@@ -407,21 +410,21 @@ export default function DistrictManagementCards({
           </div>
 
           <h3 className="text-base font-black text-slate-900 leading-tight">
-            Utilization Certificate
+            {t('da_portal.cards.utilization_cert_title', 'Utilization Certificate')}
           </h3>
 
           <p className="text-xs font-semibold text-slate-600">
-            Project Project Imnet / Project
+            {t('da_portal.cards.project_dev', 'Project Project Imnet / Project')}
           </p>
 
           <div className="flex items-center gap-4 text-[11px] text-slate-500 pt-1">
             <span className="flex items-center gap-1.5">
               <Calendar className="w-3.5 h-3.5 text-slate-400" />
-              <span>Project plate</span>
+              <span>{t('da_portal.cards.dev_desc', 'Project plate')}</span>
             </span>
             <span className="flex items-center gap-1.5">
               <Info className="w-3.5 h-3.5 text-slate-400" />
-              <span>Approved next</span>
+              <span>{t('da_portal.cards.nomination_cert', 'Approved next')}</span>
             </span>
           </div>
         </div>
@@ -431,7 +434,7 @@ export default function DistrictManagementCards({
             onClick={() => onOpenProposal && onOpenProposal('MPLAD-2026-PN-014')}
             className="w-full py-1.5 px-3 bg-[#e6f4f1] hover:bg-[#d5eee8] border border-[#a3ded2] text-[#1f7a6b] rounded-md text-xs font-bold transition cursor-pointer text-center"
           >
-            Inspect Milestone UC (Form III)
+            {t('da_portal.cards.inspect_uc_btn', 'Inspect Milestone UC (Form III)')}
           </button>
         </div>
       </div>

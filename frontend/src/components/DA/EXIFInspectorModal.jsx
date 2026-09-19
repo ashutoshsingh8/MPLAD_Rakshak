@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   X,
   Camera,
@@ -54,6 +55,7 @@ const redPhotoPin = new L.DivIcon({
 });
 
 export default function EXIFInspectorModal({ projectId, onClose, onAuthorize, onRejectMilestone }) {
+  const { t } = useTranslation();
   const data = mockExifInspectionData;
   const [photoError, setPhotoError] = useState(false);
 
@@ -69,14 +71,14 @@ export default function EXIFInspectorModal({ projectId, onClose, onAuthorize, on
             <div>
               <div className="flex items-center gap-2">
                 <h3 className="text-base font-black uppercase tracking-wide">
-                  ANTI-MORPHING PHOTO INSPECTOR & GEO-VERIFICATION
+                  {t('da_portal.exif.title', 'ANTI-MORPHING PHOTO INSPECTOR & GEO-VERIFICATION')}
                 </h3>
                 <span className="px-2 py-0.5 rounded bg-red-500 text-white text-xs font-mono font-bold">
-                  {data.aiTamperScore}% TAMPER RISK
+                  {t('da_portal.exif.tamper_risk', { score: data.aiTamperScore, defaultValue: `${data.aiTamperScore}% TAMPER RISK` })}
                 </span>
               </div>
               <p className="text-xs text-teal-100/80">
-                EXIF Metadata Extraction • GPS Coordinate Tolerance Audit • Milestone Release Scrutiny
+                {t('da_portal.exif.subtitle', 'EXIF Metadata Extraction • GPS Coordinate Tolerance Audit • Milestone Release Scrutiny')}
               </p>
             </div>
           </div>
@@ -94,15 +96,15 @@ export default function EXIFInspectorModal({ projectId, onClose, onAuthorize, on
           <div className="flex items-center gap-2">
             <AlertTriangle className="w-4 h-4 text-red-600 flex-shrink-0" />
             <span>
-              <strong>Milestone Claim Flagged:</strong> {data.milestone} ({data.claimedAmount}) by {data.contractor}
+              <strong>{t('da_portal.exif.claim_flagged', 'Milestone Claim Flagged:')}</strong> {data.milestone} ({data.claimedAmount}) {t('da_portal.exif.by_contractor', { contractor: data.contractor, defaultValue: `by ${data.contractor}` })}
             </span>
           </div>
           <div className="flex items-center gap-3 text-[11px]">
             <span className="font-bold text-red-700">
-              Displacement: {(data.displacementMeters / 1000).toFixed(1)} km (Limit: {data.maxToleranceMeters}m)
+              {t('da_portal.exif.displacement', { km: (data.displacementMeters / 1000).toFixed(1), limit: data.maxToleranceMeters, defaultValue: `Displacement: ${(data.displacementMeters / 1000).toFixed(1)} km (Limit: ${data.maxToleranceMeters}m)` })}
             </span>
             <span className="bg-red-200 text-red-900 px-2 py-0.5 rounded font-bold">
-              VIOLATION DETECTED
+              {t('da_portal.exif.violation_detected', 'VIOLATION DETECTED')}
             </span>
           </div>
         </div>
@@ -122,7 +124,7 @@ export default function EXIFInspectorModal({ projectId, onClose, onAuthorize, on
             <div className="absolute top-3 right-3 bg-red-900/90 backdrop-blur-md text-white p-3 rounded-xl border border-red-500/50 max-w-sm space-y-1 shadow-lg">
               <div className="flex items-center gap-1.5 text-xs font-bold text-red-300">
                 <ShieldAlert className="w-4 h-4 text-red-400" />
-                <span>Forensic Tamper Findings</span>
+                <span>{t('da_portal.exif.tamper_findings', 'Forensic Tamper Findings')}</span>
               </div>
               <ul className="text-[10px] text-white/90 space-y-0.5 list-disc list-inside">
                 {data.tamperFlags.map((flag, idx) => (
@@ -133,9 +135,9 @@ export default function EXIFInspectorModal({ projectId, onClose, onAuthorize, on
 
             {/* Photo Metadata Watermark in Bottom Left */}
             <div className="absolute bottom-3 left-3 bg-black/75 backdrop-blur-md text-white px-3 py-1.5 rounded-lg text-[10px] font-mono border border-white/20">
-              <span>Photo Hash: {data.exifTags[8]?.value}</span>
+              <span>{t('da_portal.exif.photo_hash', 'Photo Hash:')} {data.exifTags[8]?.value}</span>
               <span className="mx-2">•</span>
-              <span>Submitted: {data.submittedAt}</span>
+              <span>{t('da_portal.exif.submitted', 'Submitted:')} {data.submittedAt}</span>
             </div>
           </div>
 
@@ -146,9 +148,9 @@ export default function EXIFInspectorModal({ projectId, onClose, onAuthorize, on
               <div className="flex items-center justify-between border-b border-slate-200 pb-2">
                 <h4 className="text-xs font-bold uppercase text-slate-800 tracking-wider flex items-center gap-1.5">
                   <Camera className="w-3.5 h-3.5 text-[#1f7a6b]" />
-                  <span>Extracted Image EXIF Tags</span>
+                  <span>{t('da_portal.exif.extracted_tags', 'Extracted Image EXIF Tags')}</span>
                 </h4>
-                <span className="text-[10px] font-mono text-slate-500">EXIF v2.32 / IPTC</span>
+                <span className="text-[10px] font-mono text-slate-500">{t('da_portal.exif.exif_standard', 'EXIF v2.32 / IPTC')}</span>
               </div>
 
               <div className="space-y-1.5 text-xs">
@@ -173,10 +175,10 @@ export default function EXIFInspectorModal({ projectId, onClose, onAuthorize, on
               <div className="flex items-center justify-between border-b border-slate-200 pb-2">
                 <h4 className="text-xs font-bold uppercase text-slate-800 tracking-wider flex items-center gap-1.5">
                   <Compass className="w-3.5 h-3.5 text-[#1f7a6b]" />
-                  <span>Geo-Displacement Map</span>
+                  <span>{t('da_portal.exif.geo_displacement_map', 'Geo-Displacement Map')}</span>
                 </h4>
                 <span className="text-[10px] font-bold text-red-600 bg-red-100 px-2 py-0.5 rounded">
-                  Δ 3.4 km Displaced
+                  {t('da_portal.exif.displaced_delta', { km: '3.4', defaultValue: 'Δ 3.4 km Displaced' })}
                 </span>
               </div>
 
@@ -206,7 +208,7 @@ export default function EXIFInspectorModal({ projectId, onClose, onAuthorize, on
                   >
                     <Popup>
                       <div className="text-xs p-1">
-                        <strong className="text-emerald-700">Official Sanctioned Site</strong>
+                        <strong className="text-emerald-700">{t('da_portal.exif.official_site', 'Official Sanctioned Site')}</strong>
                         <p className="text-[10px] text-slate-600">{data.sanctionedSite.name}</p>
                       </div>
                     </Popup>
@@ -219,7 +221,7 @@ export default function EXIFInspectorModal({ projectId, onClose, onAuthorize, on
                   >
                     <Popup>
                       <div className="text-xs p-1">
-                        <strong className="text-red-700">Photo EXIF Coordinates</strong>
+                        <strong className="text-red-700">{t('da_portal.exif.photo_location', 'Photo EXIF Coordinates')}</strong>
                         <p className="text-[10px] text-slate-600">{data.photoLocation.name}</p>
                       </div>
                     </Popup>
@@ -240,17 +242,17 @@ export default function EXIFInspectorModal({ projectId, onClose, onAuthorize, on
                 <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-xs p-2 rounded-lg text-[10px] space-y-1 shadow-sm border border-slate-200 z-10">
                   <div className="flex items-center gap-1.5">
                     <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 inline-block" />
-                    <span>Official Sanctioned Site</span>
+                    <span>{t('da_portal.exif.official_site', 'Official Sanctioned Site')}</span>
                   </div>
                   <div className="flex items-center gap-1.5">
                     <span className="w-2.5 h-2.5 rounded-full bg-red-600 inline-block" />
-                    <span>Photo EXIF Location (Tampered)</span>
+                    <span>{t('da_portal.exif.photo_location', 'Photo EXIF Coordinates (Tampered)')}</span>
                   </div>
                 </div>
               </div>
 
               <div className="text-[11px] text-slate-600 leading-tight">
-                <strong>Ground Verification Rule:</strong> Photos taken outside a 50m radius of the official GPS centroid cannot be used to authorize milestone disbursements.
+                {t('da_portal.exif.verification_rule', 'Ground Verification Rule: Photos taken outside a 50m radius of the official GPS centroid cannot be used to authorize milestone disbursements.')}
               </div>
             </div>
           </div>
@@ -259,7 +261,7 @@ export default function EXIFInspectorModal({ projectId, onClose, onAuthorize, on
         {/* Footer Actions */}
         <div className="px-6 py-4 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="text-xs text-slate-500">
-            Action will be logged in National MoSPI Vigilance Audit Trail.
+            {t('da_portal.exif.audit_trail_note', 'Action will be logged in National MoSPI Vigilance Audit Trail.')}
           </div>
 
           <div className="flex items-center gap-3 w-full sm:w-auto">
@@ -271,7 +273,7 @@ export default function EXIFInspectorModal({ projectId, onClose, onAuthorize, on
               className="flex-1 sm:flex-none px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-bold transition shadow-xs cursor-pointer flex items-center justify-center gap-1.5"
             >
               <AlertTriangle className="w-4 h-4" />
-              <span>Reject Milestone & Issue Show-Cause</span>
+              <span>{t('da_portal.exif.reject_milestone_btn', 'Reject Milestone & Issue Show-Cause')}</span>
             </button>
 
             <button
@@ -282,7 +284,7 @@ export default function EXIFInspectorModal({ projectId, onClose, onAuthorize, on
               className="flex-1 sm:flex-none px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-bold transition shadow-xs cursor-pointer flex items-center justify-center gap-1.5"
             >
               <CheckCircle2 className="w-4 h-4" />
-              <span>Authorize Release ({data.claimedAmount})</span>
+              <span>{t('da_portal.exif.authorize_release_btn', { amount: data.claimedAmount, defaultValue: `Authorize Release (${data.claimedAmount})` })}</span>
             </button>
           </div>
         </div>

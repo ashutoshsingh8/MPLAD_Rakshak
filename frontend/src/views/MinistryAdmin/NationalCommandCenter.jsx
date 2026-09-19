@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Users,
   IndianRupee,
@@ -36,8 +37,10 @@ import {
   mockStateUtilization,
   mockAgencyPerformance
 } from './mockMinistryData';
+import { getLocalizedState } from '../../utils/geoTranslations';
 
 export default function NationalCommandCenter({ projects = [], summary }) {
+  const { t, i18n } = useTranslation();
   const [subView, setSubView] = useState('heatmap'); // 'heatmap' is default per user request
   const [selectedState, setSelectedState] = useState(mockStateUtilization[0]);
 
@@ -72,15 +75,15 @@ export default function NationalCommandCenter({ projects = [], summary }) {
         <div>
           <div className="flex items-center gap-2">
             <h1 className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 uppercase">
-              MINISTRY DASHBOARD
+              {t('ministry_portal.portal_title', 'MINISTRY DASHBOARD')}
             </h1>
             <span className="hidden md:inline-flex items-center gap-1 text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse" />
-              LIVE DATASTREAM
+              {t('ministry_portal.live_datastream', 'LIVE DATASTREAM')}
             </span>
           </div>
           <p className="text-xs text-slate-500">
-            National MPLADS Infrastructure & Fund Oversight • MoSPI Executive Dashboard
+            {t('ministry_portal.portal_subtitle', 'National MPLADS Infrastructure & Fund Oversight • MoSPI Executive Dashboard')}
           </p>
         </div>
 
@@ -95,7 +98,7 @@ export default function NationalCommandCenter({ projects = [], summary }) {
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              Fund Heatmap
+              {t('ministry_portal.fund_heatmap', 'Fund Heatmap')}
             </button>
             <button
               onClick={() => setSubView('executive')}
@@ -105,7 +108,7 @@ export default function NationalCommandCenter({ projects = [], summary }) {
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              Performance Indicators
+              {t('ministry_portal.performance_indicators', 'Performance Indicators')}
             </button>
             <button
               onClick={() => setSubView('agencies')}
@@ -115,7 +118,7 @@ export default function NationalCommandCenter({ projects = [], summary }) {
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              Agencies Matrix
+              {t('ministry_portal.agencies_matrix', 'Agencies Matrix')}
             </button>
           </div>
 
@@ -135,7 +138,7 @@ export default function NationalCommandCenter({ projects = [], summary }) {
         <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-xs flex items-center justify-between">
           <div>
             <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-              Works Recommended (FY26)
+              {t('ministry_portal.works_recommended', 'Works Recommended (FY26)')}
             </p>
             <h3 className="text-2xl font-black text-slate-900 mt-1">2,480</h3>
             <span className="text-[11px] text-emerald-600 font-semibold flex items-center gap-1 mt-0.5">
@@ -151,7 +154,7 @@ export default function NationalCommandCenter({ projects = [], summary }) {
         <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-xs flex items-center justify-between">
           <div>
             <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-              Works Sanctioned (45d SLA)
+              {t('mp_portal.sanctioned_works', 'Works Sanctioned (45d SLA)')}
             </p>
             <h3 className="text-2xl font-black text-slate-900 mt-1">1,942</h3>
             <span className="text-[11px] text-teal-600 font-semibold flex items-center gap-1 mt-0.5">
@@ -167,7 +170,7 @@ export default function NationalCommandCenter({ projects = [], summary }) {
         <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-xs flex items-center justify-between">
           <div>
             <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-              Works Completed & Geo-Tagged
+              {t('ministry_portal.completion_velocity', 'Works Completed & Geo-Tagged')}
             </p>
             <h3 className="text-2xl font-black text-slate-900 mt-1">1,234</h3>
             <span className="text-[11px] text-emerald-600 font-semibold flex items-center gap-1 mt-0.5">
@@ -396,9 +399,9 @@ export default function NationalCommandCenter({ projects = [], summary }) {
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-sm font-bold text-slate-900 uppercase">
-                    National Fund Utilization Heatmap
+                    {t('ministry_portal.fund_heatmap', 'National Fund Utilization Heatmap')}
                   </h3>
-                  <p className="text-xs text-slate-500">Expenditure efficiency by state & district geo-boundary</p>
+                  <p className="text-xs text-slate-500">{t('ministry_portal.state_utilization_title', 'Expenditure efficiency by state & district geo-boundary')}</p>
                 </div>
                 <div className="flex items-center gap-2 text-xs">
                   <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-emerald-500" /> &gt;85% Optimal</span>
@@ -415,7 +418,7 @@ export default function NationalCommandCenter({ projects = [], summary }) {
 
             {/* State Ranking Table */}
             <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs space-y-3">
-              <h3 className="text-xs font-bold text-slate-900 uppercase">State Utilization Ranking</h3>
+              <h3 className="text-xs font-bold text-slate-900 uppercase">{t('ministry_portal.state_utilization_title', 'State Utilization Ranking')}</h3>
               <div className="space-y-2 max-h-96 overflow-y-auto pr-1">
                 {mockStateUtilization.map((st) => (
                   <div
@@ -428,7 +431,7 @@ export default function NationalCommandCenter({ projects = [], summary }) {
                     }`}
                   >
                     <div>
-                      <div className="font-bold text-slate-800">{st.state}</div>
+                      <div className="font-bold text-slate-800">{getLocalizedState(st.state, i18n.language)}</div>
                       <div className="text-[10px] text-slate-500">₹{st.spent} Cr spent / ₹{st.allocated} Cr</div>
                     </div>
                     <div className="text-right">

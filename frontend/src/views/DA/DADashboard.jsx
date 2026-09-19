@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   ChevronDown,
   Clock,
@@ -26,10 +27,14 @@ import GISMapViewer from '../../components/GISMapViewer';
 
 import { daUrgentKPIs, daOfficerProfile } from '../../mock/daDashboardData';
 import { getProjects } from '../../services/api';
+import { getLocalizedDistrict, getLocalizedState } from '../../utils/geoTranslations';
 
 export default function DADashboard({ onExitToPublic, onLogout, currentUser }) {
-  const userDistrict = currentUser?.district || (currentUser?.username?.includes('lucknow') ? 'Lucknow' : 'Pune');
-  const userState = currentUser?.state || (currentUser?.username?.includes('lucknow') ? 'Uttar Pradesh' : 'Maharashtra');
+  const { t, i18n } = useTranslation();
+  const rawDistrict = currentUser?.district || (currentUser?.username?.includes('lucknow') ? 'Lucknow' : 'Pune');
+  const rawState = currentUser?.state || (currentUser?.username?.includes('lucknow') ? 'Uttar Pradesh' : 'Maharashtra');
+  const userDistrict = getLocalizedDistrict(rawDistrict, i18n.language);
+  const userState = getLocalizedState(rawState, i18n.language);
 
   const [mapSubTab, setMapSubTab] = useState('gis');
   const [daProjects, setDaProjects] = useState([]);
@@ -99,7 +104,7 @@ export default function DADashboard({ onExitToPublic, onLogout, currentUser }) {
     setIsRefreshing(true);
     setTimeout(() => {
       setIsRefreshing(false);
-      showNotice('Pipeline data refreshed from MoSPI Central Database.');
+      showNotice(t('da_portal.refresh_success', 'Pipeline data refreshed from MoSPI Central Database.'));
     }, 600);
   };
 
@@ -109,22 +114,22 @@ export default function DADashboard({ onExitToPublic, onLogout, currentUser }) {
   };
 
   const handleSanction = (id) => {
-    showNotice(`✓ Technical Sanction (AS/TS) granted for ${id}. Dispatched to Implementing Agency.`);
+    showNotice(t('da_portal.technical_sanction_granted', { id, defaultValue: `✓ Technical Sanction (AS/TS) granted for ${id}. Dispatched to Implementing Agency.` }));
     setSelectedProposalId(null);
   };
 
   const handleReject = (id, reason) => {
-    showNotice(`Statutory Rejection issued for ${id} citing MPLADS 2023 Guidelines.`);
+    showNotice(t('da_portal.statutory_rejection_issued', { id, defaultValue: `Statutory Rejection issued for ${id} citing MPLADS 2023 Guidelines.` }));
     setSelectedProposalId(null);
   };
 
   const handleAuthorizeMilestone = (id) => {
-    showNotice(`✓ Milestone payment released for ${id}. Funds credited to escrow.`);
+    showNotice(t('da_portal.milestone_released', { id, defaultValue: `✓ Milestone payment released for ${id}. Funds credited to escrow.` }));
     setSelectedExifId(null);
   };
 
   const handleRejectMilestone = (id) => {
-    showNotice(`Milestone payment withheld for ${id}. Show-cause issued for GPS/EXIF discrepancy.`);
+    showNotice(t('da_portal.milestone_withheld', { id, defaultValue: `Milestone payment withheld for ${id}. Show-cause issued for GPS/EXIF discrepancy.` }));
     setSelectedExifId(null);
   };
 
@@ -157,10 +162,10 @@ export default function DADashboard({ onExitToPublic, onLogout, currentUser }) {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight uppercase">
-                DISTRICT MANAGEMENT
+                {t('da_portal.district_management', 'DISTRICT MANAGEMENT')}
               </h2>
               <p className="text-xs text-slate-500 font-medium">
-                Pune District Collectorate • Executive Approval & Forensic Verification Portal
+                {userDistrict} {t('da_portal.portal_subtitle', 'District Collectorate • Executive Approval & Forensic Verification Portal')}
               </p>
             </div>
 
@@ -170,7 +175,7 @@ export default function DADashboard({ onExitToPublic, onLogout, currentUser }) {
                 onClick={() => setDropdownOpen(!dropdownOpen)}
                 className="flex items-center gap-2 px-4 py-2 bg-[#1f7a6b] hover:bg-[#186054] text-white rounded-xl text-xs font-bold transition shadow-xs cursor-pointer"
               >
-                <span>{viewMode === 'grid' ? 'District Management' : 'Operational Workbench'}</span>
+                <span>{viewMode === 'grid' ? t('da_portal.district_management', 'District Management') : t('da_portal.operational_workbench', 'Operational Workbench')}</span>
                 <ChevronDown className="w-4 h-4 text-white/80" />
               </button>
 
@@ -186,7 +191,7 @@ export default function DADashboard({ onExitToPublic, onLogout, currentUser }) {
                       viewMode === 'grid' ? 'font-bold text-[#1f7a6b] bg-teal-50/50' : ''
                     }`}
                   >
-                    <span>District Management (Grid)</span>
+                    <span>{t('da_portal.district_management_grid', 'District Management (Grid)')}</span>
                     {viewMode === 'grid' && <CheckCircle2 className="w-3.5 h-3.5 text-[#1f7a6b]" />}
                   </button>
                   <button
@@ -199,7 +204,7 @@ export default function DADashboard({ onExitToPublic, onLogout, currentUser }) {
                       viewMode === 'workbench' ? 'font-bold text-[#1f7a6b] bg-teal-50/50' : ''
                     }`}
                   >
-                    <span>Operational Workbench</span>
+                    <span>{t('da_portal.operational_workbench', 'Operational Workbench')}</span>
                     {viewMode === 'workbench' && <CheckCircle2 className="w-3.5 h-3.5 text-[#1f7a6b]" />}
                   </button>
                 </div>
@@ -219,18 +224,18 @@ export default function DADashboard({ onExitToPublic, onLogout, currentUser }) {
             >
               <div className="space-y-1">
                 <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                  45-DAY SLA BREACHES
+                  {t('da_portal.sla_critical', '45-DAY SLA BREACHES')}
                 </span>
                 <div className="flex items-baseline gap-2">
                   <span className="text-2xl font-black text-red-600 font-mono">
                     {daUrgentKPIs.slaBreaches.count}
                   </span>
                   <span className="text-[10px] text-red-600 font-bold bg-red-100 px-1.5 py-0.5 rounded">
-                    CRITICAL
+                    {t('da_portal.sla_critical_badge', 'CRITICAL')}
                   </span>
                 </div>
                 <p className="text-[10px] text-slate-400">
-                  {daUrgentKPIs.slaBreaches.subtext}
+                  {t('da_portal.sla_critical_subtext', daUrgentKPIs.slaBreaches.subtext)}
                 </p>
               </div>
               <div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center text-red-600">
@@ -248,18 +253,18 @@ export default function DADashboard({ onExitToPublic, onLogout, currentUser }) {
             >
               <div className="space-y-1">
                 <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                  PENDING AS / TS
+                  {t('da_portal.pending_sanctions', 'PENDING AS / TS')}
                 </span>
                 <div className="flex items-baseline gap-2">
                   <span className="text-2xl font-black text-amber-600 font-mono">
                     {daUrgentKPIs.pendingSanctions.count}
                   </span>
                   <span className="text-[10px] text-amber-700 font-bold bg-amber-100 px-1.5 py-0.5 rounded">
-                    ACTION NEEDED
+                    {t('da_portal.pending_sanctions_badge', 'ACTION NEEDED')}
                   </span>
                 </div>
                 <p className="text-[10px] text-slate-400">
-                  {daUrgentKPIs.pendingSanctions.subtext}
+                  {t('da_portal.pending_sanctions_subtext', daUrgentKPIs.pendingSanctions.subtext)}
                 </p>
               </div>
               <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600">
@@ -274,18 +279,18 @@ export default function DADashboard({ onExitToPublic, onLogout, currentUser }) {
             >
               <div className="space-y-1">
                 <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                  FAILED IMAGE EXIF
+                  {t('da_portal.tab_exif', 'FAILED IMAGE EXIF')}
                 </span>
                 <div className="flex items-baseline gap-2">
                   <span className="text-2xl font-black text-purple-700 font-mono">
                     {daUrgentKPIs.failedImageVerifications.count}
                   </span>
                   <span className="text-[10px] text-purple-700 font-bold bg-purple-100 px-1.5 py-0.5 rounded">
-                    GPS MISMATCH
+                    {t('da_portal.exif_badge', 'GPS MISMATCH')}
                   </span>
                 </div>
                 <p className="text-[10px] text-slate-400">
-                  {daUrgentKPIs.failedImageVerifications.subtext}
+                  {t('da_portal.exif_subtext', daUrgentKPIs.failedImageVerifications.subtext)}
                 </p>
               </div>
               <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center text-purple-700">
@@ -298,15 +303,15 @@ export default function DADashboard({ onExitToPublic, onLogout, currentUser }) {
               <div className="space-y-1">
                 <div className="flex items-center justify-between">
                   <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                    SC / ST QUOTA STATUS
+                    {t('da_portal.sc_st_quota_status', 'SC / ST QUOTA STATUS')}
                   </span>
                   <span className="text-[10px] text-emerald-700 font-bold bg-emerald-100 px-1.5 py-0.5 rounded">
-                    LEGAL PASS
+                    {t('da_portal.legal_pass', 'LEGAL PASS')}
                   </span>
                 </div>
                 <div className="flex items-center justify-between text-xs pt-1">
-                  <span>SC (15.0% Min): <strong className="text-emerald-700">{daUrgentKPIs.scStQuota.scPercent}%</strong></span>
-                  <span>ST (7.5% Min): <strong className="text-emerald-700">{daUrgentKPIs.scStQuota.stPercent}%</strong></span>
+                  <span>{t('da_portal.sc_quota_label', 'SC (15.0% Min):')} <strong className="text-emerald-700">{daUrgentKPIs.scStQuota.scPercent}%</strong></span>
+                  <span>{t('da_portal.st_quota_label', 'ST (7.5% Min):')} <strong className="text-emerald-700">{daUrgentKPIs.scStQuota.stPercent}%</strong></span>
                 </div>
               </div>
 
@@ -341,16 +346,16 @@ export default function DADashboard({ onExitToPublic, onLogout, currentUser }) {
                   <div>
                     <h3 className="text-base font-black uppercase text-slate-900 flex items-center gap-2">
                       <MapPin className="w-5 h-5 text-teal-600" />
-                      <span>{userDistrict} District Geo-Spatial & Proximity Radar</span>
+                      <span>{t('da_portal.local_maps.heading', { district: userDistrict, defaultValue: `${userDistrict} District Geo-Spatial & Proximity Radar` })}</span>
                     </h3>
                     <p className="text-xs text-slate-500">
-                      Auto-zoomed to assigned jurisdiction ({userDistrict}, {userState}) with ground works & 50m statutory buffer check
+                      {t('da_portal.local_maps.subheading', { district: userDistrict, state: userState, defaultValue: `Auto-zoomed to assigned jurisdiction (${userDistrict}, ${userState}) with ground works & 50m statutory buffer check` })}
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="px-3 py-1 rounded-full bg-teal-50 text-teal-800 border border-teal-200 text-xs font-bold shadow-2xs flex items-center gap-1.5">
                       <span className="w-2 h-2 rounded-full bg-teal-500" />
-                      Assigned District: {userDistrict}
+                      {t('da_portal.local_maps.assigned_tag', { district: userDistrict, defaultValue: `Assigned District: ${userDistrict}` })}
                     </span>
                   </div>
                 </div>
@@ -366,7 +371,7 @@ export default function DADashboard({ onExitToPublic, onLogout, currentUser }) {
                     }`}
                   >
                     <Layers className="w-3.5 h-3.5" />
-                    <span>District GIS Infrastructure Map</span>
+                    <span>{t('da_portal.local_maps.subtab_gis', 'District GIS Infrastructure Map')}</span>
                   </button>
                   <button
                     onClick={() => setMapSubTab('radar')}
@@ -377,7 +382,7 @@ export default function DADashboard({ onExitToPublic, onLogout, currentUser }) {
                     }`}
                   >
                     <AlertTriangle className="w-3.5 h-3.5 text-red-500" />
-                    <span>Duplicate Asset Proximity Radar</span>
+                    <span>{t('da_portal.local_maps.subtab_radar', 'Duplicate Asset Proximity Radar')}</span>
                   </button>
                 </div>
 
@@ -403,14 +408,14 @@ export default function DADashboard({ onExitToPublic, onLogout, currentUser }) {
                 <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                   <div>
                     <h3 className="text-base font-black uppercase text-slate-900">
-                      CONTRACTOR SITE INSPECTIONS & MILESTONE QUEUE
+                      {t('da_portal.inspections_queue.title', 'CONTRACTOR SITE INSPECTIONS & MILESTONE QUEUE')}
                     </h3>
                     <p className="text-xs text-slate-500">
-                      Click any inspection to launch the Anti-Morphing EXIF & GPS Verification tool
+                      {t('da_portal.inspections_queue.subtitle', 'Click any inspection to launch the Anti-Morphing EXIF & GPS Verification tool')}
                     </p>
                   </div>
                   <span className="px-3 py-1 rounded-full bg-purple-100 text-purple-800 text-xs font-bold">
-                    5 Photos Flagged
+                    {t('da_portal.inspections_queue.photos_flagged', { count: 5, defaultValue: '5 Photos Flagged' })}
                   </span>
                 </div>
 
@@ -422,18 +427,18 @@ export default function DADashboard({ onExitToPublic, onLogout, currentUser }) {
                     <div className="flex items-center justify-between">
                       <span className="font-mono text-xs font-bold text-red-900">MPLAD-2026-PN-018</span>
                       <span className="px-2 py-0.5 rounded bg-red-200 text-red-900 font-bold text-[10px]">
-                        3.4 km Displaced
+                        {t('da_portal.inspections_queue.displaced_tag', { dist: '3.4', defaultValue: '3.4 km Displaced' })}
                       </span>
                     </div>
                     <p className="font-bold text-xs text-slate-900">
-                      Installation of High-Capacity Solar Micro-Grid in Shirur
+                      {t('da_portal.mock_assets.MPLAD-2026-PN-018', 'Installation of High-Capacity Solar Micro-Grid in Shirur')}
                     </p>
                     <div className="text-[11px] text-slate-600 space-y-0.5">
-                      <p>Claimed: <strong>₹15.00 Lakh</strong> (Plinth / Superstructure)</p>
-                      <p>Agency: <strong>M/s Apex Rural Builders</strong></p>
+                      <p>{t('da_portal.inspections_queue.claimed_label', 'Claimed:')} <strong>₹15.00 Lakh</strong> {t('da_portal.inspections_queue.stage_label', '(Plinth / Superstructure)')}</p>
+                      <p>{t('da_portal.inspections_queue.agency_label', 'Agency:')} <strong>M/s Apex Rural Builders</strong></p>
                     </div>
                     <button className="w-full py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-lg text-xs font-bold transition">
-                      Inspect EXIF Metadata & Map
+                      {t('da_portal.inspections_queue.inspect_btn', 'Inspect EXIF Metadata & Map')}
                     </button>
                   </div>
                 </div>
