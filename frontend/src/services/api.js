@@ -11,7 +11,7 @@ const API_BASE = '/api/v1';
 const api = axios.create({
   baseURL: API_BASE,
   headers: { 'Content-Type': 'application/json' },
-  timeout: 30000,
+  timeout: 60000,
 });
 
 // ── Request Interceptor (Auth Token) ─────────────────────

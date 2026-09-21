@@ -60,13 +60,14 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess }) {
 
     setLoading(true);
     try {
-      const data = await login(username.trim(), password.trim());
+      const cleanUsername = username.trim().toLowerCase();
+      const data = await login(cleanUsername, password.trim());
       if (data && data.access_token) {
         const enrichedData = {
           ...data,
-          district: data.district || (username.includes('lucknow') ? 'Lucknow' : 'Pune'),
-          state: data.state || (username.includes('lucknow') ? 'Uttar Pradesh' : 'Maharashtra'),
-          constituency: data.constituency || `${data.district || (username.includes('lucknow') ? 'Lucknow' : 'Pune')} Lok Sabha`,
+          district: data.district || (cleanUsername.includes('lucknow') ? 'Lucknow' : 'Pune'),
+          state: data.state || (cleanUsername.includes('lucknow') ? 'Uttar Pradesh' : 'Maharashtra'),
+          constituency: data.constituency || `${data.district || (cleanUsername.includes('lucknow') ? 'Lucknow' : 'Pune')} Lok Sabha`,
         };
         onLoginSuccess && onLoginSuccess(enrichedData);
         onClose();
@@ -75,8 +76,15 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess }) {
       }
     } catch (err) {
       console.error('Login error:', err);
-      const msg = err.response?.data?.detail || 'Invalid username or password.';
-      setError(msg);
+      if (err.code === 'ECONNABORTED' || (!err.response && !err.status)) {
+        setError('Server is connecting or waking up from sleep. Please wait a moment and try again.');
+      } else if (err.response?.status === 401) {
+        setError(err.response?.data?.detail || 'Invalid username or password.');
+      } else if (err.response?.status >= 500) {
+        setError('Server temporarily unavailable. Please retry shortly.');
+      } else {
+        setError(err.response?.data?.detail || 'Authentication failed. Please check your credentials.');
+      }
     } finally {
       setLoading(false);
     }

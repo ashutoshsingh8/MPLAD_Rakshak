@@ -71,23 +71,29 @@ export default function LoginPage({ onBackToPublic, onLoginSuccess }) {
 
     setLoading(true);
     try {
-      const data = await login(username.trim(), password.trim());
+      const cleanUsername = username.trim().toLowerCase();
+      const data = await login(cleanUsername, password.trim());
       const selectedCred = departmentCredentials[department] || {};
       const enrichedData = {
         ...data,
-        district: data.district || selectedCred.district || (username.includes('lucknow') ? 'Lucknow' : 'Pune'),
-        state: data.state || selectedCred.state || (username.includes('lucknow') ? 'Uttar Pradesh' : 'Maharashtra'),
-        constituency: data.constituency || selectedCred.constituency || `${data.district || selectedCred.district || (username.includes('lucknow') ? 'Lucknow' : 'Pune')} Lok Sabha`,
+        district: data.district || selectedCred.district || (cleanUsername.includes('lucknow') ? 'Lucknow' : 'Pune'),
+        state: data.state || selectedCred.state || (cleanUsername.includes('lucknow') ? 'Uttar Pradesh' : 'Maharashtra'),
+        constituency: data.constituency || selectedCred.constituency || `${data.district || selectedCred.district || (cleanUsername.includes('lucknow') ? 'Lucknow' : 'Pune')} Lok Sabha`,
       };
       if (onLoginSuccess) {
         onLoginSuccess(enrichedData);
       }
     } catch (err) {
       console.error('Login error:', err);
-      setError(
-        err.response?.data?.detail ||
-        'Invalid credentials. Please verify your admin-issued user name and password.'
-      );
+      if (err.code === 'ECONNABORTED' || (!err.response && !err.status)) {
+        setError('Server is connecting or waking up from sleep. Please wait a moment and try again.');
+      } else if (err.response?.status === 401) {
+        setError(err.response?.data?.detail || 'Invalid credentials. Please verify your admin-issued user name and password.');
+      } else if (err.response?.status >= 500) {
+        setError('Server temporarily unavailable. Please retry shortly.');
+      } else {
+        setError(err.response?.data?.detail || 'Authentication failed. Please check your credentials.');
+      }
     } finally {
       setLoading(false);
     }
