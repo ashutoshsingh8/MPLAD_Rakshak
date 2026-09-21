@@ -2,13 +2,19 @@
 
 **AI-Powered Monitoring, Compliance Audit & Anomaly Detection Platform for MPLADS**
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-mplad--rakshak.vercel.app-22c55e?style=for-the-badge&logo=vercel&logoColor=white)](https://mplad-rakshak.vercel.app/)
+[![API Docs](https://img.shields.io/badge/Swagger%20Docs-FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://mplad-rakshak.onrender.com/docs)
+
 [![Smart India Hackathon 2026](https://img.shields.io/badge/SIH-2026-orange.svg)](https://www.sih.gov.in/)
 [![Problem Statement ID](https://img.shields.io/badge/Problem%20Statement-26102%20(MoSPI)-blue.svg)](https://www.sih.gov.in/)
 [![Backend](https://img.shields.io/badge/Backend-FastAPI%20%7C%20Render-46a2f1.svg)](https://mplad-rakshak.onrender.com)
-[![Frontend](https://img.shields.io/badge/Frontend-React%20%7C%20Vite%20%7C%20Vercel-black.svg)](https://vercel.com)
+[![Frontend](https://img.shields.io/badge/Frontend-React%20%7C%20Vite%20%7C%20Vercel-black.svg)](https://mplad-rakshak.vercel.app/)
 [![Database](https://img.shields.io/badge/Database-Aiven%20MySQL%208.0-red.svg)](https://aiven.io)
 [![Cloud Storage](https://img.shields.io/badge/Storage-Supabase%20S3-3ecf8e.svg)](https://supabase.com)
 [![Vector DB](https://img.shields.io/badge/Vector%20DB-Qdrant%20Cloud-dc2626.svg)](https://qdrant.tech)
+
+> 🚀 **Live Production Demo:** [https://mplad-rakshak.vercel.app/](https://mplad-rakshak.vercel.app/)  
+> ⚡ **Interactive API Swagger Docs:** [https://mplad-rakshak.onrender.com/docs](https://mplad-rakshak.onrender.com/docs)
 
 ---
 
@@ -38,9 +44,9 @@ The Member of Parliament Local Area Development Scheme (MPLADS) enables MPs to r
 
 | Component | Provider / Infrastructure | Live Link / Status |
 |---|---|---|
-| **Frontend Web Portal** | **Vercel** (Global CDN Edge Network) | Auto-deployed from `main` |
+| **Frontend Web Portal (Live Demo)** | **Vercel** (Global CDN Edge Network) | [**`https://mplad-rakshak.vercel.app/`**](https://mplad-rakshak.vercel.app/) |
 | **Backend API Engine** | **Render Cloud** (Docker Container) | [`https://mplad-rakshak.onrender.com`](https://mplad-rakshak.onrender.com) |
-| **Interactive API Docs** | FastAPI Swagger UI | [`/docs`](https://mplad-rakshak.onrender.com/docs) |
+| **Interactive API Docs** | FastAPI Swagger UI | [`https://mplad-rakshak.onrender.com/docs`](https://mplad-rakshak.onrender.com/docs) |
 | **Relational Database** | **Aiven MySQL 8.0 Cloud** (SSL Encrypted) | Connected (`mplad_rakshak`) |
 | **Vector Database (RAG)** | **Qdrant Cloud** (Managed Cluster AWS us-east-1) | Connected (`mplads_guidelines_2023`) |
 | **Cloud Object Storage** | **Supabase Cloud Storage** (S3-compatible) | Bucket: `inspection-photos` |
