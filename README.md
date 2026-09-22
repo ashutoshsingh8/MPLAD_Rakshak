@@ -152,7 +152,7 @@ graph TB
 | Member | Role / Focus | GitHub Profile |
 |---|---|---|
 | **Ashutosh Singh** | Team Leader • Full-Stack & System Architecture | [@ashutoshsingh8](https://github.com/ashutoshsingh8) |
-| **Ayush Arya** | Backend Engineering & Cloud Infrastructure | [@ayusharya](https://github.com/ayusharya) |
+| **Ayush Arya** | Backend Engineering & Cloud Infrastructure | [@Ayush-Arya06](https://github.com/Ayush-Arya06) |
 | **Amartya Singh** | AI / RAG Pipeline & Prompt Engineering | [@AmartyaSingh](https://github.com/AmartyaSingh) |
 | **Md. Saklain Khan** | Machine Learning & Anomaly Algorithms | [@saklainkhan](https://github.com/saklainkhan) |
 | **Akarsh Gupta** | Frontend Engineering & GIS Leaflet Maps | [@Akarshxai](https://github.com/Akarshxai) |

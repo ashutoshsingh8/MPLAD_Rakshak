@@ -757,7 +757,7 @@ export default function App() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 pt-1">
               {[
                 { name: 'Ashutosh Singh', handle: '@ashutoshsingh8', url: 'https://github.com/ashutoshsingh8' },
-                { name: 'Ayush Arya', handle: '@ayusharya', url: 'https://github.com/ayusharya' },
+                { name: 'Ayush Arya', handle: '@Ayush-Arya06', url: 'https://github.com/Ayush-Arya06' },
                 { name: 'Amartya Singh', handle: '@AmartyaSingh', url: 'https://github.com/AmartyaSingh' },
                 { name: 'Md. Saklain Khan', handle: '@saklainkhan', url: 'https://github.com/saklainkhan' },
                 { name: 'Akarsh Gupta', handle: '@Akarshxai', url: 'https://github.com/Akarshxai' },
