@@ -758,10 +758,10 @@ export default function App() {
               {[
                 { name: 'Ashutosh Singh', handle: '@ashutoshsingh8', url: 'https://github.com/ashutoshsingh8' },
                 { name: 'Ayush Arya', handle: '@Ayush-Arya06', url: 'https://github.com/Ayush-Arya06' },
-                { name: 'Amartya Singh', handle: '@AmartyaSingh', url: 'https://github.com/AmartyaSingh' },
-                { name: 'Md. Saklain Khan', handle: '@saklainkhan', url: 'https://github.com/saklainkhan' },
+                { name: 'Amartya Singh', handle: '@amartyasingh2769', url: 'https://github.com/amartyasingh2769' },
+                { name: 'Md. Saklain Khan', handle: '@saklain-uxt', url: 'https://github.com/saklain-uxt' },
                 { name: 'Akarsh Gupta', handle: '@Akarshxai', url: 'https://github.com/Akarshxai' },
-                { name: 'Alisha Rahman', handle: '@alisharahman', url: 'https://github.com/alisharahman' },
+                { name: 'Alisha Rahman', handle: '@Alisha-Rahman', url: 'https://github.com/Alisha-Rahman' },
               ].map((member) => (
                 <a
                   key={member.handle}

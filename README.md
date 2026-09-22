@@ -153,10 +153,10 @@ graph TB
 |---|---|---|
 | **Ashutosh Singh** | Team Leader • Full-Stack & System Architecture | [@ashutoshsingh8](https://github.com/ashutoshsingh8) |
 | **Ayush Arya** | Backend Engineering & Cloud Infrastructure | [@Ayush-Arya06](https://github.com/Ayush-Arya06) |
-| **Amartya Singh** | AI / RAG Pipeline & Prompt Engineering | [@AmartyaSingh](https://github.com/AmartyaSingh) |
-| **Md. Saklain Khan** | Machine Learning & Anomaly Algorithms | [@saklainkhan](https://github.com/saklainkhan) |
+| **Amartya Singh** | AI / RAG Pipeline & Prompt Engineering | [@amartyasingh2769](https://github.com/amartyasingh2769) |
+| **Md. Saklain Khan** | Machine Learning & Anomaly Algorithms | [@saklain-uxt](https://github.com/saklain-uxt) |
 | **Akarsh Gupta** | Frontend Engineering & GIS Leaflet Maps | [@Akarshxai](https://github.com/Akarshxai) |
-| **Alisha Rahman** | UI/UX Design, Research & Testing | [@alisharahman](https://github.com/alisharahman) |
+| **Alisha Rahman** | UI/UX Design, Research & Testing | [@Alisha-Rahman](https://github.com/Alisha-Rahman) |
 
 ---
 
