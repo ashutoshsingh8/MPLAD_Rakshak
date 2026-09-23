@@ -27,6 +27,10 @@ Watch the project walkthrough and feature overview here:
 
 ---
 
+## Project Report
+[View/Download Project Report]
+(./MPLADS_Rakshak_Report.pdf)
+
 ## 🏛️ Smart India Hackathon (SIH 2026) Overview
 
 * **Problem Statement ID:** `PS ID 26102`
