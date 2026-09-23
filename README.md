@@ -16,6 +16,15 @@
 > 🚀 **Live Production Demo:** [https://mplad-rakshak.vercel.app/](https://mplad-rakshak.vercel.app/)  
 > ⚡ **Interactive API Swagger Docs:** [https://mplad-rakshak.onrender.com/docs](https://mplad-rakshak.onrender.com/docs)
 
+[![Watch Demo Video](https://img.shields.io/badge/YouTube-Watch%20Demo%20Video-red?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/lezeW8JsqlA)
+
+---
+
+## 🎥 Project Demo Video
+
+Watch the project walkthrough and feature overview here:  
+[YouTube Demo Video](https://youtu.be/lezeW8JsqlA)
+
 ---
 
 ## 🏛️ Smart India Hackathon (SIH 2026) Overview
