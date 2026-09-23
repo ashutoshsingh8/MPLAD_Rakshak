@@ -117,10 +117,15 @@ Runs automated algorithmic auditing without requiring human intervention:
 
 #### 1. SC / ST Quota Allocation Audit (Statutory Clause 2.3)
 - **Rule**: MPs must allocate at least **15%** of MPLADS funds to Scheduled Caste (SC) inhabited areas and **7.5%** to Scheduled Tribe (ST) areas annually.
-- **Mathematical Check**:
-  $$\text{SC Ratio} = \frac{\sum \text{Expenditure}_{\text{SC}}}{\text{Total Expenditure}} \quad (\text{Threshold: } < 0.15)$$
-  $$\text{ST Ratio} = \frac{\sum \text{Expenditure}_{\text{ST}}}{\text{Total Expenditure}} \quad (\text{Threshold: } < 0.075)$$
-- Generates `HIGH` severity compliance alerts if shortfalls are detected.
+* **Mathematical Compliance Check**:
+  \(\text{SC Expenditure Ratio} = \frac{\sum \text{Expenditure}_{\text{SC}}}{\text{Total Expenditure}}\)
+
+  \(\text{ST Expenditure Ratio} = \frac{\sum \text{Expenditure}_{\text{ST}}}{\text{Total Expenditure}}\)
+
+  The calculated ratios are compared against the **applicable statutory/policy allocation thresholds** for SC and ST expenditure. A compliance exception is raised when the observed ratio falls below the applicable threshold, subject to the relevant scheme rules and data period.
+
+* Generates **HIGH-severity compliance alerts** when a verified shortfall is detected against the applicable threshold.
+
 
 #### 2. Cartelization & Contractor Monopoly Analysis
 - **Monopoly Check**: Computes market share of awarded contracts per constituency. If a single contractor captures $> 30\%$ of total awarded value, a cartelization warning is raised.
