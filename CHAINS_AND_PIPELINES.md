@@ -323,7 +323,8 @@ flowchart TD
 3. **Stage 3 (Tender Splitting Evasion):** Identifies works broken down just below the **₹5,00,000 mandatory e-tendering threshold** within a 5 km radius.
 4. **Stage 4 (Geospatial Duplicate Work Detection):** Employs Haversine calculation to detect overlapping projects within **50 meters** in identical categories.
 5. **Stage 5 (45-Day Statutory SLA Delay Detector):** Identifies proposals un-sanctioned after the 45-day statutory deadline (Para 3.1 breach).
-6. **Stage 6 (Deduplication & Persistence):** Aggregates findings, prevents duplicate alert entries, and commits them to MySQL with severity rankings (`CRITICAL`, `HIGH`, `MEDIUM`).
+6. **Stage 6 (Progress-expenditure mismatch):** flags a project where financial progress outruns physical progress by more than 25% (MEDIUM), escalating to HIGH once that gap passes 40%.
+7. **Stage 7 (Deduplication & Persistence):** Aggregates findings, prevents duplicate alert entries, and commits them to MySQL with severity rankings (`CRITICAL`, `HIGH`, `MEDIUM`).
 
 ---
 
