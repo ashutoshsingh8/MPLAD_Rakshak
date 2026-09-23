@@ -26,10 +26,9 @@ Watch the project walkthrough and feature overview here:
 [YouTube Demo Video](https://youtu.be/lezeW8JsqlA)
 
 ---
+## 📄 Project Report
 
-## Project Report
-[View/Download Project Report]
-(./MPLADS_Rakshak_Report.pdf)
+[📄 View/Download Project Report](./MPLADS_Rakshak_Report.pdf)
 
 ## 🏛️ Smart India Hackathon (SIH 2026) Overview
 
